@@ -7,440 +7,1220 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>NEXT</title>
   <style>
-    :root {
-      --hintergrund: #f5f7fa;
-      --karte: #ffffff;
-      --text: #1b1f24;
-      --text-leicht: #5b6472;
-      --rand: #e2e7ee;
-      --akzent: #2f6fde;
-      --akzent-hell: #e6efff;
-      --schatten: 0 2px 8px rgba(0, 0, 0, 0.05);
-      --erfolg: #2e8b57;
-      --warnung: #b43c8c;
-      --radius: 18px;
-    }
+/* NEXT Design: Hochglanz-Auftritt für Jugendliche */
+/* Basis: dunkle Welten, Glas, Verläufe, sanfte Bewegung */
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+:root {
+  --akzent: #38bdf8;
+  --akzent2: #6366f1;
+  --akzent-hell: rgba(56,189,248,0.16);
+  --grund: #0b1026;
+  --text: #f4f6ff;
+  --text-leicht: rgba(244,246,255,0.68);
+  --karte-bg: rgba(255,255,255,0.07);
+  --karte-rand: rgba(255,255,255,0.10);
+  --karte-blur: blur(16px);
+  --leiste-bg: rgba(15,20,40,0.66);
+  --toast-bg: rgba(30,35,60,0.85);
+  --dialog-bg: rgba(20,25,50,0.85);
+  --schatten: 0 8px 22px rgba(0,0,0,0.3);
+  --radius: 22px;
+}
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: var(--hintergrund);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 17px;
-      line-height: 1.45;
-      overflow-x: hidden;
-    }
+body.thema-hell {
+  --text: #1d1b3a;
+  --text-leicht: rgba(29,27,58,0.68);
+  --karte-bg: rgba(255,255,255,0.85);
+  --karte-rand: rgba(255,255,255,0.25);
+  --karte-blur: blur(16px);
+  --leiste-bg: rgba(255,255,255,0.75);
+  --toast-bg: rgba(255,255,255,0.9);
+  --dialog-bg: rgba(255,255,255,0.95);
+  --schatten: 0 8px 18px rgba(0,0,0,0.08);
+}
 
-    body.thema-nacht {
-      --hintergrund: #14161c;
-      --karte: #1f232c;
-      --text: #eef0f4;
-      --text-leicht: #aab2c0;
-      --rand: #303642;
-      --akzent: #8fa8ff;
-      --akzent-hell: #262c3d;
-      --schatten: 0 2px 8px rgba(0, 0, 0, 0.4);
-      --erfolg: #7bc79a;
-      --warnung: #e78cc4;
-    }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-    #app {
-      max-width: 520px;
-      margin: 0 auto;
-      padding: 16px 16px 100px;
-      overflow-wrap: anywhere;
-    }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--grund);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.45;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
 
-    h1, h2, h3 {
-      margin: 0 0 8px;
-      line-height: 1.2;
-      font-weight: 700;
-    }
-    h1 { font-size: 1.7rem; }
-    h2 { font-size: 1.35rem; }
-    h3 { font-size: 1.1rem; }
-    p { margin: 8px 0; }
+/* Hintergrund-Ebenen: Sterne, Farbwäsche, Aurora */
 
-    .kopf {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .kopf-titel { flex: 1; }
-    .kopf-klein { color: var(--text-leicht); font-size: 0.95rem; margin-top: 2px; }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -3;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.1) 0, transparent 50%),
+    radial-gradient(1px 1px at 75% 65%, rgba(255,255,255,0.07) 0, transparent 50%),
+    radial-gradient(2px 2px at 40% 80%, rgba(255,255,255,0.05) 0, transparent 50%);
+  background-size: 220px 220px, 170px 170px, 300px 300px;
+  opacity: 0.5;
+}
 
-    .karte {
-      background: var(--karte);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 14px;
-      box-shadow: var(--schatten);
-      border: 1px solid var(--rand);
-    }
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.1) 100%);
+}
 
-    .kachel-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    @media (max-width: 360px) {
-      .kachel-grid { grid-template-columns: 1fr; }
-    }
+.aurora {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
 
-    .kachel {
-      background: var(--karte);
-      border-radius: var(--radius);
-      padding: 18px 12px;
-      text-align: center;
-      box-shadow: var(--schatten);
-      border: 1px solid var(--rand);
-      cursor: pointer;
-      user-select: none;
-      min-height: 48px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-weight: 600;
-      transition: transform 0.1s ease, background 0.2s;
-    }
-    .kachel:active { transform: scale(0.99); background: var(--akzent-hell); }
-    .kachel-emoji { font-size: 2rem; line-height: 1; }
+.aurora span {
+  position: absolute;
+  width: 80vw;
+  height: 80vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--akzent) 0%, transparent 62%);
+  opacity: 0.30;
+  animation: aurora-wandern 24s ease-in-out infinite alternate;
+}
 
-    button {
-      font-family: inherit;
-      font-size: 1rem;
-      cursor: pointer;
-      border: none;
-      background: none;
-      color: inherit;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 10px 18px;
-      border-radius: 999px;
-      font-weight: 600;
-      background: var(--akzent);
-      color: #fff;
-      width: 100%;
-      text-align: center;
-      border: 1px solid transparent;
-      transition: background 0.2s, opacity 0.2s;
-    }
-    .btn:active { opacity: 0.85; }
-    .btn-zweit {
-      background: var(--akzent-hell);
-      color: var(--akzent);
-    }
-    .btn-ghost {
-      background: transparent;
-      color: var(--akzent);
-      border: 1px solid var(--rand);
-    }
-    .btn-gefahr {
-      background: var(--warnung);
-      color: #fff;
-    }
-    .btn-klein {
-      width: auto;
-      min-height: 40px;
-      padding: 8px 14px;
-      font-size: 0.9rem;
-    }
+.aurora span:nth-child(1) {
+  top: -15%;
+  left: -10%;
+  width: 85vw;
+  height: 85vw;
+  animation-duration: 28s;
+}
 
-    input[type="text"], input[type="tel"], input[type="number"], textarea, select {
-      width: 100%;
-      min-height: 48px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--rand);
-      background: var(--karte);
-      color: var(--text);
-      font-size: 1rem;
-      font-family: inherit;
-    }
-    textarea { min-height: 90px; resize: vertical; }
-    label { display: block; margin-bottom: 4px; font-weight: 600; }
-    .feld { margin-bottom: 14px; }
+.aurora span:nth-child(2) {
+  bottom: -20%;
+  right: -10%;
+  width: 75vw;
+  height: 75vw;
+  background: radial-gradient(circle, var(--akzent2) 0%, transparent 62%);
+  animation-duration: 22s;
+  animation-delay: -8s;
+}
 
-    input[type="range"] {
-      width: 100%;
-      min-height: 44px;
-      accent-color: var(--akzent);
-    }
-    .regler-wert {
-      font-size: 2.2rem;
-      font-weight: 800;
-      text-align: center;
-      margin: 6px 0;
-      transition: color 0.3s;
-    }
+.aurora span:nth-child(3) {
+  top: 40%;
+  left: 50%;
+  width: 90vw;
+  height: 90vw;
+  background:
+    radial-gradient(circle, var(--akzent) 0%, transparent 62%),
+    radial-gradient(circle, var(--akzent2) 0%, transparent 62%);
+  background-blend-mode: screen;
+  animation-duration: 30s;
+  animation-delay: -14s;
+}
 
-    .farb-zeile { display: flex; gap: 12px; flex-wrap: wrap; }
-    .farb-knopf {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 3px solid transparent;
-      box-shadow: 0 0 0 2px var(--rand);
-      cursor: pointer;
-      flex: 0 0 auto;
-    }
-    .farb-knopf.aktiv { border-color: #fff; box-shadow: 0 0 0 2px var(--akzent); }
+body.thema-hell .aurora span {
+  opacity: 0.22;
+}
 
-    .chip-zeile {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 10px 0;
-      white-space: nowrap;
-      -webkit-overflow-scrolling: touch;
-    }
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      min-height: 40px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: var(--karte);
-      border: 1px solid var(--rand);
-      font-weight: 500;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-    .chip.aktiv {
-      background: var(--akzent);
-      color: #fff;
-      border-color: var(--akzent);
-    }
+@keyframes aurora-wandern {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(8vw, -6vh) scale(1.15); }
+}
 
-    .liste { list-style: none; padding: 0; margin: 0; }
-    .liste-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px;
-      background: var(--karte);
-      border: 1px solid var(--rand);
-      border-radius: 14px;
-      margin-bottom: 8px;
-      box-shadow: var(--schatten);
-      cursor: pointer;
-    }
-    .liste-item.graut { opacity: 0.5; pointer-events: none; }
+/* App-Container */
+#app {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 16px 16px calc(96px + env(safe-area-inset-bottom));
+  overflow-wrap: anywhere;
+}
 
-    .klein { font-size: 0.85rem; color: var(--text-leicht); }
-    .block { margin-top: 12px; }
-    .fuss { text-align: center; color: var(--text-leicht); font-size: 0.9rem; margin-top: 20px; }
+/* Typografie */
+h1, h2, h3, .kachel, .btn, .chip, .leiste-knopf, .regler-wert, .timer-anzeige,
+#timer-anzeige, .atem-text, .abzeichen-pop {
+  font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
 
-    .toast {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: calc(84px + env(safe-area-inset-bottom));
-      background: #1f232c;
-      color: #fff;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      z-index: 120;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      max-width: 90vw;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-      /* Die Meldung liegt über den Knöpfen; Tipps sollen durchgehen, nur „Rückgängig“ bleibt antippbar. */
-      pointer-events: none;
-    }
-    .toast button {
-      pointer-events: auto;
-      color: #8fa8ff;
-      font-weight: 700;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
+h1, h2, h3 {
+  margin: 0 0 8px;
+  line-height: 1.2;
+  font-weight: 800;
+  color: var(--text);
+}
 
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-      padding: 16px;
-    }
-    .dialog {
-      background: var(--karte);
-      color: var(--text);
-      border-radius: var(--radius);
-      padding: 20px;
-      max-width: 480px;
-      width: 100%;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-    }
-    .dialog-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 16px;
-      flex-wrap: wrap;
-    }
+h1 {
+  font-size: 1.75rem;
+  letter-spacing: -0.01em;
+}
 
-    #leiste {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--karte);
-      border-top: 1px solid var(--rand);
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 0 env(safe-area-inset-bottom);
-      z-index: 100;
-      max-width: 520px;
-      margin: 0 auto;
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
-    }
-    #leiste.hidden { display: none; }
-    .leiste-knopf {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      font-size: 0.75rem;
-      color: var(--text-leicht);
-      background: none;
-      border: none;
-      min-width: 60px;
-      cursor: pointer;
-    }
-    .leiste-knopf.aktiv { color: var(--akzent); font-weight: 700; }
-    .leiste-emoji { font-size: 1.4rem; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.1rem; }
 
-    .hinweis-ockergelb { background: #fff7e0; border-left: 4px solid #e0a800; padding: 10px 12px; border-radius: 10px; }
-    body.thema-nacht .hinweis-ockergelb { background: #2a2416; border-left-color: #e0a800; }
+p { margin: 8px 0; color: var(--text); }
 
-    .zurueck {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      min-height: 44px;
-      background: none;
-      border: none;
-      color: var(--akzent);
-      font-weight: 700;
-      cursor: pointer;
-      padding: 0;
-      margin-bottom: 8px;
-    }
+.kopf {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
 
-    .schritte-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .schritt-item {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-      align-items: flex-start;
-    }
-    .schritt-nr {
-      flex: 0 0 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--akzent);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
+.kopf-titel { flex: 1; }
 
-    .fortschritt-punkte {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 16px;
-    }
-    .punkt {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--rand);
-    }
-    .punkt.aktiv { background: var(--akzent); width: 26px; border-radius: 5px; }
+/* Startseite: Begrüßung groß mit Verlaufstext, inline neben dem Winken */
+.kopf-titel h1 {
+  display: inline;
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, #fff 10%, var(--akzent) 55%, var(--akzent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
 
-    .abzeichen-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 12px;
-    }
-    .abzeichen-karte {
-      background: var(--karte);
-      border-radius: var(--radius);
-      padding: 14px;
-      text-align: center;
-      border: 1px solid var(--rand);
-      box-shadow: var(--schatten);
-    }
-    .abzeichen-emoji { font-size: 2.2rem; }
-    .abzeichen-karte.grau { filter: grayscale(1); opacity: 0.55; }
+body.thema-hell .kopf-titel h1 {
+  background: linear-gradient(135deg, #1d1b3a 10%, var(--akzent) 55%, var(--akzent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
 
-    .skill-zeile {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--rand);
-      gap: 8px;
-      cursor: pointer;
-    }
-    .skill-zeile:last-child { border-bottom: none; }
-    .versuch-zeile {
-      display: block;
-      width: 100%;
-      text-align: left;
-      background: var(--karte);
-      border: 1px solid var(--rand);
-      border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 8px;
-      cursor: pointer;
-    }
+.kopf-klein {
+  display: block;
+  color: var(--text-leicht);
+  font-size: 0.95rem;
+  margin-top: 2px;
+}
 
-    .balken {
-      height: 8px;
-      border-radius: 6px;
-      background: var(--rand);
-      position: relative;
-      overflow: hidden;
-      margin: 4px 0;
-    }
-    .balken-fuellung {
-      position: absolute;
-      height: 100%;
-      border-radius: 6px;
-      background: var(--akzent);
-    }
+.tageszeit {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-leicht);
+  margin-top: 4px;
+}
 
-    .zwei-spalten { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 400px) {
-      .zwei-spalten { grid-template-columns: 1fr; }
-    }
+.winken {
+  display: inline-block;
+  font-size: 2rem;
+  vertical-align: .1em;
+  margin-left: 8px;
+  animation: winken 0.8s ease;
+}
+
+/* Karten (Glas) */
+.karte {
+  background: var(--karte-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--schatten);
+  border: 1px solid var(--karte-rand);
+  -webkit-backdrop-filter: var(--karte-blur);
+  backdrop-filter: var(--karte-blur);
+}
+
+/* Kacheln auf der Startseite */
+.kachel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 360px) {
+  .kachel-grid { grid-template-columns: 1fr; }
+}
+
+.kachel {
+  background: var(--karte-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+  user-select: none;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-shadow: var(--schatten);
+  border: 1px solid var(--karte-rand);
+  font-weight: 700;
+  text-align: left;
+  transition: transform 0.1s ease, background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.kachel:active {
+  transform: scale(0.97);
+  background: var(--karte-bg);
+}
+
+.kachel-emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  font-size: 2rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 14px rgba(255,255,255,0.15);
+}
+
+/* Individuelle Verläufe für Startkacheln */
+.kachel[data-test="kachel-fest"] .kachel-emoji {
+  background: linear-gradient(135deg, #ff6b6b, #f43f5e);
+  box-shadow: 0 4px 12px rgba(244,63,94,0.4), 0 0 18px rgba(255,107,107,0.3);
+}
+.kachel[data-test="kachel-skills"] .kachel-emoji {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  box-shadow: 0 4px 12px rgba(56,189,248,0.4), 0 0 18px rgba(99,102,241,0.3);
+}
+.kachel[data-test="kachel-koffer"] .kachel-emoji {
+  background: linear-gradient(135deg, #fbbf24, #f97316);
+  box-shadow: 0 4px 12px rgba(251,146,60,0.4), 0 0 18px rgba(249,115,22,0.3);
+}
+.kachel[data-test="kachel-pass"] .kachel-emoji {
+  background: linear-gradient(135deg, #a78bfa, #ec4899);
+  box-shadow: 0 4px 12px rgba(236,72,153,0.4), 0 0 18px rgba(167,139,250,0.3);
+}
+.kachel[data-test="kachel-weg"] .kachel-emoji {
+  background: linear-gradient(135deg, #34d399, #06b6d4);
+  box-shadow: 0 4px 12px rgba(52,211,153,0.4), 0 0 18px rgba(6,182,212,0.3);
+}
+.kachel[data-test="kachel-versuch"] .kachel-emoji {
+  background: linear-gradient(135deg, #f472b6, #8b5cf6);
+  box-shadow: 0 4px 12px rgba(244,114,182,0.4), 0 0 18px rgba(139,92,246,0.3);
+}
+
+/* "Ich stecke fest" flache, breite Kachel mit Pulsrand */
+.kachel[data-test="kachel-fest"] {
+  grid-column: 1 / -1;
+  min-height: 80px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  border: 1px solid rgba(244,63,94,0.5);
+  animation: fest-puls 2.5s ease-in-out infinite;
+}
+
+@keyframes fest-puls {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244,63,94,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(244,63,94,0.15); }
+}
+
+/* "Ich habe etwas ausprobiert" flache, breite Kachel ohne Pulsrand */
+.kachel[data-test="kachel-versuch"] {
+  grid-column: 1 / -1;
+  min-height: 80px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+/* Knöpfe */
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 12px 20px;
+  border-radius: 16px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--akzent), var(--akzent2));
+  color: #ffffff;
+  width: 100%;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25), 0 0 14px var(--akzent);
+  transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-zweit {
+  background: var(--karte-bg);
+  color: var(--akzent);
+  border: 1px solid var(--karte-rand);
+  box-shadow: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--akzent);
+  border: 1px solid var(--karte-rand);
+  box-shadow: none;
+}
+
+.btn-gefahr {
+  background: linear-gradient(135deg, #fb7185, #e11d48);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(225,29,72,0.3);
+}
+
+.btn-klein {
+  width: auto;
+  min-height: 40px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  border-radius: 12px;
+}
+
+/* Eingabefelder */
+input[type="text"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+textarea,
+select {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--karte-rand);
+  background: var(--karte-bg);
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+textarea { min-height: 90px; resize: vertical; }
+
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.feld { margin-bottom: 14px; }
+
+/* Kontrollkästchen: eigene Glasfläche mit Haken */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--karte-bg);
+  border: 1px solid var(--karte-rand);
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  margin: 0;
+}
+
+input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  width: 6px;
+  height: 12px;
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.2s;
+}
+
+input[type="checkbox"]:checked {
+  background: linear-gradient(135deg, var(--akzent), var(--akzent2));
+  border-color: transparent;
+}
+
+input[type="checkbox"]:checked::after {
+  transform: rotate(45deg) scale(1);
+}
+
+/* Schieberegler */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 14px;
+  background: transparent;
+  margin: 16px 0;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 14px;
+  border-radius: 7px;
+  background: linear-gradient(90deg, #34d399 0%, #fbbf24 50%, #f43f5e 100%);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3),
+              0 0 0 4px hsl(calc(120 - (var(--wert, 0) * 1.2)), 100%, 50%);
+  margin-top: -10px; /* Höhe ausgleichen: (34 - 14) / 2 */
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 14px;
+  border-radius: 7px;
+  background: linear-gradient(90deg, #34d399 0%, #fbbf24 50%, #f43f5e 100%);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3),
+              0 0 0 4px hsl(calc(120 - (var(--wert, 0) * 1.2)), 100%, 50%);
+  cursor: pointer;
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+.regler-wert {
+  font-size: 3.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin: 6px 0;
+  transition: color 0.3s;
+}
+
+/* Farbwahl */
+.farb-zeile { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.farb-knopf {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  box-shadow: 0 0 0 2px var(--karte-rand);
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.farb-knopf.aktiv {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px var(--akzent);
+  transform: scale(1.1);
+}
+
+/* Chips */
+.chip-zeile {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 0;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--karte-bg);
+  border: 1px solid var(--karte-rand);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s, background 0.2s, color 0.2s;
+}
+
+.chip:active { transform: scale(0.94); }
+
+.chip.aktiv {
+  background: linear-gradient(135deg, var(--akzent), var(--akzent2));
+  color: #ffffff;
+  border-color: transparent;
+}
+
+/* Bewertungs-Emojis als runde Glasknöpfe */
+.chip[data-hilfreich],
+.chip[data-angenehm] {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  padding: 0;
+  justify-content: center;
+  font-size: 1.8rem;
+  background: var(--karte-bg);
+  border: 1px solid var(--karte-rand);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.chip[data-hilfreich].aktiv,
+.chip[data-angenehm].aktiv {
+  transform: scale(1.15);
+  background: linear-gradient(135deg, var(--akzent), var(--akzent2));
+  box-shadow: 0 0 16px var(--akzent);
+}
+
+/* Listen und Zeilen */
+.liste { list-style: none; padding: 0; margin: 0; }
+
+.liste-item,
+.skill-zeile,
+.versuch-zeile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--karte-bg);
+  border: 1px solid var(--karte-rand);
+  border-radius: 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.1s, background 0.2s;
+}
+
+.liste-item:active,
+.skill-zeile:active,
+.versuch-zeile:active {
+  transform: scale(0.98);
+  background: var(--karte-bg);
+}
+
+.liste-item.graut {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Skill-Zeilen als eigene Glaszeilen (Ich stecke fest, Gruppenkarte, etc.) */
+.skill-zeile {
+  justify-content: space-between;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--karte-bg);
+  border: 1px solid var(--karte-rand);
+  margin-bottom: 8px;
+}
+
+.skill-zeile:last-child {
+  border-bottom: 1px solid var(--karte-rand);
+}
+
+.versuch-zeile {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--karte-bg);
+  border: 1px solid var(--karte-rand);
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+/* Kategorie-Emoji als Verlaufsquadrat */
+.kat-symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--k1, #38bdf8), var(--k2, #6366f1));
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Skill-Liste: Flex-Wrap und Pillen für Zusatzangaben */
+.liste-item {
+  flex-wrap: wrap;
+}
+
+.liste-item span:nth-child(2) {
+  flex: 1 1 0;
+  min-width: 55%;
+  font-weight: 600;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.liste-item .klein {
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--akzent-hell);
+  white-space: nowrap;
+}
+
+/* Hinweise */
+.hinweis-ockergelb {
+  background: rgba(251,191,36,0.15);
+  border-left: 4px solid #fbbf24;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--text);
+}
+
+/* Zurück-Button */
+.zurueck {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  background: none;
+  border: none;
+  color: var(--akzent);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+/* Schritte */
+.schritte-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.schritt-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.schritt-nr {
+  flex: 0 0 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--akzent), var(--akzent2));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Fortschrittspunkte */
+.fortschritt-punkte {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.punkt {
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  background: var(--karte-rand);
+  transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+
+.punkt.aktiv {
+  width: 28px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--akzent), var(--akzent2));
+}
+
+/* Abzeichen */
+.abzeichen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.abzeichen-karte {
+  background: var(--karte-bg);
+  border-radius: var(--radius);
+  padding: 14px;
+  text-align: center;
+  border: 1px solid var(--karte-rand);
+  box-shadow: var(--schatten);
+  transition: transform 0.3s;
+}
+
+.abzeichen-karte.grau {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.abzeichen-karte:not(.grau) .abzeichen-emoji {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--akzent), var(--akzent2));
+  font-size: 2.5rem;
+  box-shadow: 0 0 18px var(--akzent);
+  position: relative;
+  overflow: hidden;
+}
+
+.abzeichen-karte:not(.grau) .abzeichen-emoji::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: abzeichen-glanz 4s linear infinite;
+}
+
+@keyframes abzeichen-glanz {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+/* Dialog */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 16px;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.dialog {
+  background: var(--dialog-bg);
+  color: var(--text);
+  border-radius: 24px;
+  padding: 20px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  animation: dialog-rein 0.4s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes dialog-rein {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dialog-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  background: var(--toast-bg);
+  color: var(--text);
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 90vw;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  animation: toast-rein 0.4s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes toast-rein {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.toast button {
+  pointer-events: auto;
+  color: var(--akzent);
+  font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* Untere Leiste */
+#leiste {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 488px;
+  background: var(--leiste-bg);
+  border-radius: 26px;
+  display: flex;
+  justify-content: space-around;
+  padding: 6px 0;
+  z-index: 100;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+#leiste.hidden { display: none; }
+
+.leiste-knopf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.75rem;
+  color: var(--text-leicht);
+  background: none;
+  border: none;
+  min-width: 60px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.leiste-knopf.aktiv {
+  color: var(--akzent);
+  font-weight: 700;
+}
+
+.leiste-emoji {
+  font-size: 1.4rem;
+  transition: transform 0.3s;
+}
+
+.leiste-knopf.aktiv .leiste-emoji {
+  animation: leiste-huepf 0.5s ease;
+}
+
+@keyframes leiste-huepf {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+  60% { transform: translateY(0); }
+  80% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+/* Balken (falls verwendet) */
+.balken {
+  height: 8px;
+  border-radius: 6px;
+  background: var(--karte-rand);
+  position: relative;
+  overflow: hidden;
+  margin: 4px 0;
+}
+
+.balken-fuellung {
+  position: absolute;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--akzent), var(--akzent2));
+}
+
+/* Zwei Spalten */
+.zwei-spalten {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 400px) {
+  .zwei-spalten { grid-template-columns: 1fr; }
+}
+
+/* Timer-Bereich */
+.timer-feld {
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+#timer-anzeige,
+.timer-anzeige {
+  grid-area: 1 / 1;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text);
+  z-index: 2;
+}
+
+.timer-ring {
+  grid-area: 1 / 1;
+  width: 220px;
+  height: 220px;
+  z-index: 1;
+}
+
+.timer-progress {
+  transition: stroke-dashoffset 1s linear;
+}
+
+/* Atemkreis */
+.atem {
+  grid-area: 1 / 1;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--akzent) 0%, var(--akzent2) 45%, transparent 72%);
+  opacity: 0.55;
+  box-shadow: 0 0 30px rgba(56,189,248,0.5), 0 0 60px rgba(99,102,241,0.25);
+  z-index: 0;
+  animation: atem-zyklus 8s ease-in-out infinite;
+}
+
+.atem.box {
+  animation: atem-box-zyklus 16s ease-in-out infinite;
+}
+
+@keyframes atem-zyklus {
+  0% { transform: scale(0.72); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(0.72); }
+}
+
+@keyframes atem-box-zyklus {
+  0% { transform: scale(0.72); }
+  25% { transform: scale(1.08); }
+  50% { transform: scale(1.08); }
+  75% { transform: scale(0.72); }
+  100% { transform: scale(0.72); }
+}
+
+.atem-text {
+  grid-area: 2 / 1;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  z-index: 2;
+}
+
+.atem-text.wechsel {
+  animation: atem-text-wechsel 0.6s ease;
+}
+
+@keyframes atem-text-wechsel {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.puls {
+  animation: timer-puls 0.8s ease;
+}
+
+@keyframes timer-puls {
+  0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
+  100% { box-shadow: 0 0 0 20px rgba(255,255,255,0); }
+}
+
+/* Neue Effekte: Einblenden, Welle, Huepf, Winken */
+.rein {
+  animation: rein 0.38s cubic-bezier(.34,1.56,.64,1) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+@keyframes rein {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.welle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  transform: scale(0);
+  animation: welle 0.45s ease-out forwards;
+  pointer-events: none;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  margin-top: -10px;
+}
+
+@keyframes welle {
+  to { transform: scale(8); opacity: 0; }
+}
+
+.huepf {
+  animation: huepf 0.3s ease;
+}
+
+@keyframes huepf {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.12); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.winken {
+  display: inline-block;
+  animation: winken 0.8s ease;
+  margin-left: 8px;
+}
+
+@keyframes winken {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(20deg); }
+  40% { transform: rotate(-15deg); }
+  60% { transform: rotate(10deg); }
+  80% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.abzeichen-pop {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--dialog-bg);
+  border-radius: 24px;
+  padding: 20px;
+  text-align: center;
+  z-index: 300;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  animation: pop-rein 0.5s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes pop-rein {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.abzeichen-pop .pop-emoji { font-size: 4rem; }
+.abzeichen-pop .pop-titel { font-weight: 800; margin-top: 8px; }
+.abzeichen-pop .pop-name { margin-top: 4px; color: var(--text-leicht); }
+
+/* Rückblick in "Mein Weg": Kacheln */
+.karte.rueckblick {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.rueckblick > div {
+  background: var(--karte-bg);
+  border: 1px solid var(--karte-rand);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: var(--schatten);
+}
+
+.rueckblick strong {
+  display: block;
+  font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 800;
+  font-size: 2.2rem;
+  line-height: 1.2;
+  background: linear-gradient(135deg, var(--akzent), var(--akzent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 4px;
+}
+
+/* Reduzierte Bewegung */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .aurora span { animation: none !important; }
+  .kachel[data-test="kachel-fest"] { animation: none !important; }
+  .rein { animation: none; opacity: 1; transform: none; }
+  .welle { display: none; }
+  .abzeichen-karte:not(.grau) .abzeichen-emoji::after { animation: none; }
+  .timer-progress { transition: none; }
+  .atem { animation: none; }
+  .atem-text.wechsel { animation: none; }
+  .puls { animation: none; }
+}
+
+/* Sicherstellen, dass Elemente für Welleneffekt positioniert sind */
+.btn,
+.kachel,
+.chip,
+.liste-item,
+.leiste-knopf,
+.skill-zeile,
+.versuch-zeile {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Kontrast: Text auf Glas ausreichend dunkel/hell */
+.klein {
+  font-size: 0.85rem;
+  color: var(--text-leicht);
+}
+
+/* Feinschliff nach der Sichtprüfung */
+/* Kategorie-Knöpfe dürfen in der waagerechten Leiste nicht gestaucht werden. */
+.chip { flex-shrink: 0; }
+/* Rückblick auch am Handy zweispaltig, der Zeilenumbruch aus dem Markup stört nur. */
+.karte.zwei-spalten.rueckblick { grid-template-columns: 1fr 1fr; gap: 10px; }
+.rueckblick br { display: none; }
+/* Timer: Ring oben, Atemtext darunter, Abbrechen ganz unten. */
+.timer-feld > .btn { grid-area: 3 / 1; width: auto; min-width: 160px; }
+/* Kleine Knöpfe neben Text nie mitten im Wort umbrechen. */
+.btn-klein { white-space: nowrap; flex-shrink: 0; overflow-wrap: normal; }
+
   </style>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon-180.png">
@@ -624,12 +1404,14 @@
   // Alle Standardskills erhalten quelle standard.
   STANDARD_SKILLS.forEach(s => { s.quelle = "standard"; });
 
+  // Farbwelten: akzent und akzent2 bilden den Verlauf, hell ist die zarte Fläche.
+  // "hell" ist die einzige helle Welt; alle anderen liegen auf dunklem Nachthimmel.
   const THEMEN = {
-    ozean:  { akzent: "#2f6fde", hell: "#e6efff" },
-    wald:   { akzent: "#2e8b57", hell: "#e3f4ea" },
-    sonne:  { akzent: "#e08a00", hell: "#fff2dc" },
-    beere:  { akzent: "#b43c8c", hell: "#f9e4f2" },
-    nacht:  { akzent: "#8fa8ff", hell: "#262c3d" }
+    ozean:  { akzent: "#38bdf8", akzent2: "#6366f1", hell: "rgba(56,189,248,0.16)", grund: "#0b1026" },
+    wald:   { akzent: "#34d399", akzent2: "#0ea5e9", hell: "rgba(52,211,153,0.16)", grund: "#061a1a" },
+    sonne:  { akzent: "#fb923c", akzent2: "#f43f5e", hell: "rgba(251,146,60,0.16)", grund: "#1a0d14" },
+    beere:  { akzent: "#e879f9", akzent2: "#8b5cf6", hell: "rgba(232,121,249,0.16)", grund: "#140b24" },
+    hell:   { akzent: "#6366f1", akzent2: "#ec4899", hell: "rgba(99,102,241,0.10)", grund: "#f4f3ff" }
   };
 
   const SITUATIONEN = ["Schule / Leistung", "Streit / Konflikt", "Alltag / Überforderung", "Grübeln", "Abends", "Ruhe / Freizeit", "Auf Station", "Anderes"];
@@ -665,6 +1447,7 @@
   let timerInterval = null;
   let timerRestSekunden = 0;
   let timerLaeuft = false;
+  let timerGesamtSekunden = 0;
 
   function neueId() {
     return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
@@ -684,15 +1467,17 @@
 
   function wendeThemeAn() {
     if (!zustand) return;
-    const thema = zustand.profil.thema || "ozean";
-    document.body.classList.toggle("thema-nacht", thema === "nacht");
-    const farben = THEMEN[thema] || THEMEN.ozean;
-    document.documentElement.style.setProperty("--akzent", farben.akzent);
-    document.documentElement.style.setProperty("--akzent-hell", farben.hell);
+    // Alte Spielstände mit "nacht" landen auf ozean.
+    const thema = THEMEN[zustand.profil.thema] ? zustand.profil.thema : "ozean";
+    Object.keys(THEMEN).forEach(t => document.body.classList.toggle("thema-" + t, t === thema));
+    const farben = THEMEN[thema];
+    const wurzel = document.documentElement.style;
+    wurzel.setProperty("--akzent", farben.akzent);
+    wurzel.setProperty("--akzent2", farben.akzent2);
+    wurzel.setProperty("--akzent-hell", farben.hell);
+    wurzel.setProperty("--grund", farben.grund);
     const metaTheme = document.querySelector('meta[name="theme-color"]');
-    if (metaTheme) {
-      metaTheme.setAttribute("content", thema === "nacht" ? "#14161c" : "#f5f7fa");
-    }
+    if (metaTheme) metaTheme.setAttribute("content", farben.grund);
   }
 
   /* ---------- Zustand laden/speichern ---------- */
@@ -785,6 +1570,8 @@
     aktAnsicht = ansicht;
     aktParam = param;
     renderApp();
+    // Neue Ansicht beginnt oben, sonst landet man mitten in der Seite.
+    try { window.scrollTo(0, 0); } catch (e) {}
     wendeThemeAn();
     aktualisiereLeiste();
     if (pushHistory !== false) {
@@ -990,6 +1777,7 @@
   function starteTimer(sekunden) {
     stoppeTimer();
     timerRestSekunden = sekunden;
+    timerGesamtSekunden = sekunden;
     timerLaeuft = true;
     timerInterval = setInterval(() => {
       timerRestSekunden--;
@@ -998,6 +1786,7 @@
         stoppeTimer();
         if (navigator.vibrate) try { navigator.vibrate(200); } catch (e) {}
         zeigeToast("Zeit um.");
+        melde("next:timer-fertig", {});
         renderApp();
       } else {
         renderTimerAnzeige();
@@ -1021,6 +1810,7 @@
     const min = Math.floor(timerRestSekunden / 60);
     const sek = timerRestSekunden % 60;
     el.textContent = min + ":" + String(sek).padStart(2, "0");
+    melde("next:timer", { rest: timerRestSekunden, gesamt: timerGesamtSekunden, skillId: versuchTemp ? versuchTemp.skillId : null });
   }
 
   function leseDauerSekunden(skill) {
@@ -1051,6 +1841,13 @@
     aktualisiereLeiste();
     // Event-Listener für dynamische Elemente nach dem Rendern binden
     bindEvents();
+    // Anschluss für die Animationen (effekte): wer welche Ansicht gerade sieht.
+    melde("next:gerendert", { ansicht: aktAnsicht, schritt: versuchTemp ? versuchTemp.schritt : null });
+  }
+
+  // Kleine Ereignisse für die Animationsschicht; Fehler dort dürfen die App nie stören.
+  function melde(name, detail) {
+    try { document.dispatchEvent(new CustomEvent(name, { detail: detail })); } catch (e) {}
   }
 
   function renderHauptinhalt() {
@@ -1443,8 +2240,8 @@
       </div>
       <div class="karte">
         ${timerLaeuft ? `
-          <div style="text-align:center;">
-            <div style="font-size:2.5rem; font-weight:800;" id="timer-anzeige"></div>
+          <div class="timer-feld" id="timer-feld">
+            <div class="timer-anzeige" id="timer-anzeige"></div>
             <button class="btn btn-ghost" id="timer-abbrechen">Abbrechen</button>
           </div>` : `
           <button class="btn btn-zweit" id="timer-starten">Timer starten</button>`}
@@ -1768,7 +2565,7 @@
     const alleVersuche = alleVersucheSortiertNeu();
     return `
       <h1>Mein Weg</h1>
-      <div class="karte zwei-spalten">
+      <div class="karte zwei-spalten rueckblick">
         <div><strong>${angesehen}</strong><br><span class="klein">Skills entdeckt</span></div>
         <div><strong>${ausprobiert}</strong><br><span class="klein">verschiedene ausprobiert</span></div>
         <div><strong>${versuche}</strong><br><span class="klein">Versuche</span></div>
@@ -2566,6 +3363,7 @@
     versuchTemp.neueAbzeichen = neue;
     versuchTemp.schritt = "F";
     renderApp();
+    melde("next:gespeichert", { abzeichen: neue.map(a => ({ name: a.name, emoji: a.emoji })), vorher: versuch.vorher, nachher: versuch.nachher });
   }
 
   function kofferDialog(skillId) {
@@ -2967,6 +3765,516 @@
     zeige
   };
   </script>
+<script>
+/* Effekte: Bewegung und Spielerei, rein ergänzend. */
+(function() {
+  "use strict";
+
+  window.NEXT_EFFEKTE = { version: 2 };
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var rafId = null;
+
+  function tryOr(fn) {
+    try { return fn(); } catch (e) { return null; }
+  }
+
+  /* Aurora Hintergrund einmalig einfügen */
+  function auroraEinfuegen() {
+    if (document.querySelector('.aurora')) return;
+    var div = document.createElement('div');
+    div.className = 'aurora';
+    div.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < 3; i++) {
+      var span = document.createElement('span');
+      div.appendChild(span);
+    }
+    document.body.insertBefore(div, document.body.firstChild);
+  }
+
+  if (document.body) {
+    tryOr(auroraEinfuegen);
+  } else {
+    document.addEventListener('DOMContentLoaded', function() {
+      tryOr(auroraEinfuegen);
+    });
+  }
+
+  /* Verzierungen, die nach jedem Rendern und bei DOM-Änderungen laufen */
+  function verzierungenAusfuehren() {
+    kategorieSymboleFaerben();
+    startDekos();
+    reglerStartwerteSetzen();
+  }
+
+  /* MutationObserver auf #app: bündelt Änderungen per rAF */
+  function observerEinrichten() {
+    var app = document.getElementById('app');
+    if (!app) return false;
+    var observer = new MutationObserver(function(mutationen) {
+      if (rafId) return;
+      rafId = requestAnimationFrame(function() {
+        rafId = null;
+        verzierungenAusfuehren();
+      });
+    });
+    observer.observe(app, { childList: true, subtree: true });
+    return true;
+  }
+
+  if (!observerEinrichten()) {
+    document.addEventListener('DOMContentLoaded', function() {
+      observerEinrichten();
+    });
+  }
+
+  /* Kategorie-Emojis färben: nur reine Emoji-Spans */
+  function kategorieSymboleFaerben() {
+    var emojiMap = {
+      '🔥': ['#ff6b6b', '#f97316'],
+      '🌊': ['#38bdf8', '#3b82f6'],
+      '🍃': ['#34d399', '#10b981'],
+      '💬': ['#a78bfa', '#8b5cf6'],
+      '🎧': ['#f472b6', '#ec4899'],
+      '🌱': ['#a3e635', '#22c55e']
+    };
+
+    var kandidaten = document.querySelectorAll('.liste-item span:first-child, .skill-zeile span:first-child');
+    kandidaten.forEach(function(span) {
+      var text = span.textContent.trim();
+      var found = null;
+      for (var key in emojiMap) {
+        if (text === key || text === key + '\uFE0F') {
+          found = key;
+          break;
+        }
+      }
+      if (found) {
+        var farben = emojiMap[found];
+        span.classList.add('kat-symbol');
+        span.style.setProperty('--k1', farben[0]);
+        span.style.setProperty('--k2', farben[1]);
+      }
+    });
+  }
+
+  /* Startseite: Winken hinter das h1, Tageszeit ergänzen */
+  function startDekos() {
+    var startH1 = document.querySelector('#app .kopf-titel h1');
+    if (!startH1) return;
+    var kopfTitel = startH1.closest('.kopf-titel') || startH1.parentElement;
+    if (!kopfTitel || !kopfTitel.classList.contains('kopf-titel')) return;
+
+    if (!kopfTitel.querySelector('.winken')) {
+      var wink = document.createElement('span');
+      wink.className = 'winken';
+      wink.textContent = '👋';
+      wink.setAttribute('aria-hidden', 'true');
+      startH1.insertAdjacentElement('afterend', wink);
+    }
+
+    var kopfKlein = kopfTitel.querySelector('.kopf-klein');
+    if (kopfKlein && !kopfKlein.parentElement.querySelector('.tageszeit')) {
+      var tageszeit = document.createElement('span');
+      tageszeit.className = 'tageszeit';
+      tageszeit.setAttribute('aria-hidden', 'true');
+      var stunde = new Date().getHours();
+      if (stunde >= 5 && stunde < 10) tageszeit.textContent = 'Guten Morgen ☀️';
+      else if (stunde >= 10 && stunde < 17) tageszeit.textContent = 'Schön, dass du da bist ✨';
+      else if (stunde >= 17 && stunde < 22) tageszeit.textContent = 'Guten Abend 🌙';
+      else tageszeit.textContent = 'Auch nachts ist das okay 🌌';
+      kopfKlein.parentElement.appendChild(tageszeit);
+    }
+  }
+
+  /* Regler-Startwert: --wert aus aktuellem Wert setzen */
+  function reglerStartwerteSetzen() {
+    var regler = document.querySelectorAll('#app input[type="range"]');
+    regler.forEach(function(input) {
+      var wert = Number(input.value);
+      var min = Number(input.min) || 0;
+      var max = Number(input.max) || 100;
+      var prozent = ((wert - min) / (max - min)) * 100;
+      input.style.setProperty('--wert', prozent);
+    });
+  }
+
+  /* Ansichtswechsel: gestaffeltes Einblenden */
+  var letzterRenderKey = null;
+
+  function animiereAnsicht(e) {
+    var detail = e.detail || {};
+    var ansicht = detail.ansicht || '';
+    var schritt = detail.schritt !== undefined ? detail.schritt : null;
+    var key = ansicht + '|' + (schritt === null ? '' : schritt);
+    if (key !== letzterRenderKey) {
+      letzterRenderKey = key;
+      var app = document.getElementById('app');
+      if (app) {
+        var indexMax = 12;
+
+        function setzeIndex(el, i) {
+          el.classList.add('rein');
+          el.style.setProperty('--i', i < indexMax ? i : indexMax - 1);
+        }
+
+        var kinder = Array.prototype.slice.call(app.children);
+        kinder.forEach(function(el, i) { setzeIndex(el, i); });
+
+        var kacheln = app.querySelectorAll('.kachel-grid .kachel');
+        kacheln.forEach(function(el, i) { setzeIndex(el, i); });
+
+        var listen = app.querySelectorAll('.liste-item, .skill-zeile, .versuch-zeile, .abzeichen-karte');
+        listen.forEach(function(el, i) { setzeIndex(el, i); });
+
+        setTimeout(function() {
+          kinder.forEach(function(el) { el.classList.remove('rein'); });
+          kacheln.forEach(function(el) { el.classList.remove('rein'); });
+          listen.forEach(function(el) { el.classList.remove('rein'); });
+        }, 800);
+
+        /* Forscherpass: erreichte Abzeichen animieren */
+        if (ansicht === 'pass') {
+          animierePassAbzeichen();
+        }
+      }
+    }
+
+    /* Verzierungen unabhängig vom key immer ausführen */
+    verzierungenAusfuehren();
+  }
+
+  function animierePassAbzeichen() {
+    var badges = document.querySelectorAll('#app .abzeichen-karte:not(.grau)');
+    badges.forEach(function(badge, index) {
+      setTimeout(function() {
+        try {
+          badge.classList.add('rein');
+          badge.style.setProperty('--i', index < 12 ? index : 11);
+          setTimeout(function() { badge.classList.remove('rein'); }, 600);
+        } catch (e) {}
+      }, index * 80);
+    });
+  }
+
+  /* Druck-Feedback: Welle und Vibration */
+  document.addEventListener('pointerdown', function(e) {
+    try {
+      var ziel = e.target.closest('.btn, .kachel, .chip, .liste-item, .leiste-knopf, .skill-zeile, .versuch-zeile');
+      if (!ziel) return;
+      var rect = ziel.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var welle = document.createElement('span');
+      welle.className = 'welle';
+      welle.style.left = x + 'px';
+      welle.style.top = y + 'px';
+      welle.setAttribute('aria-hidden', 'true');
+      ziel.appendChild(welle);
+      setTimeout(function() {
+        try { welle.remove(); } catch (e) {}
+      }, 450);
+      if (navigator.vibrate) {
+        try { navigator.vibrate(8); } catch (e) {}
+      }
+    } catch (e) {}
+  }, { passive: true });
+
+  /* Regler: Huepf und Farbvariable */
+  document.addEventListener('input', function(e) {
+    try {
+      var input = e.target;
+      if (input.matches && input.matches('input[type="range"]')) {
+        var wert = Number(input.value);
+        var min = Number(input.min) || 0;
+        var max = Number(input.max) || 100;
+        var prozent = ((wert - min) / (max - min)) * 100;
+        input.style.setProperty('--wert', prozent);
+
+        var wertEl = null;
+        var parent = input.parentElement;
+        if (parent) {
+          var alle = parent.querySelectorAll('.regler-wert');
+          if (alle.length > 0) wertEl = alle[0];
+        }
+        if (!wertEl && input.nextElementSibling && input.nextElementSibling.classList.contains('regler-wert')) {
+          wertEl = input.nextElementSibling;
+        }
+        if (wertEl) {
+          wertEl.classList.remove('huepf');
+          void wertEl.offsetWidth;
+          wertEl.classList.add('huepf');
+        }
+      }
+    } catch (e) {}
+  });
+
+  /* Timer: Atemkreis und Ring */
+  document.addEventListener('next:timer', function(e) {
+    try {
+      var detail = e.detail || {};
+      var rest = detail.rest || 0;
+      var gesamt = detail.gesamt || 1;
+      var skillId = detail.skillId || '';
+
+      var feld = document.getElementById('timer-feld');
+      if (!feld) return;
+
+      var ring = feld.querySelector('.timer-ring');
+      if (!ring) {
+        ring = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        ring.setAttribute('class', 'timer-ring');
+        ring.setAttribute('viewBox', '0 0 220 220');
+        ring.setAttribute('width', '220');
+        ring.setAttribute('height', '220');
+        ring.setAttribute('aria-hidden', 'true');
+
+        var defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        var grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+        grad.setAttribute('id', 'timerGrad');
+        grad.setAttribute('x1', '0%');
+        grad.setAttribute('y1', '0%');
+        grad.setAttribute('x2', '100%');
+        grad.setAttribute('y2', '100%');
+        var stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop1.setAttribute('offset', '0%');
+        stop1.style.stopColor = 'var(--akzent)';
+        var stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop2.setAttribute('offset', '100%');
+        stop2.style.stopColor = 'var(--akzent2)';
+        grad.appendChild(stop1);
+        grad.appendChild(stop2);
+        defs.appendChild(grad);
+        ring.appendChild(defs);
+
+        var hintergrund = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        hintergrund.setAttribute('cx', '110');
+        hintergrund.setAttribute('cy', '110');
+        hintergrund.setAttribute('r', '90');
+        hintergrund.setAttribute('fill', 'none');
+        hintergrund.setAttribute('stroke', 'rgba(255,255,255,0.1)');
+        hintergrund.setAttribute('stroke-width', '10');
+        ring.appendChild(hintergrund);
+
+        var fortschritt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        fortschritt.setAttribute('cx', '110');
+        fortschritt.setAttribute('cy', '110');
+        fortschritt.setAttribute('r', '90');
+        fortschritt.setAttribute('fill', 'none');
+        fortschritt.setAttribute('stroke', 'url(#timerGrad)');
+        fortschritt.setAttribute('stroke-width', '10');
+        fortschritt.setAttribute('stroke-linecap', 'round');
+        var umfang = 2 * Math.PI * 90;
+        fortschritt.setAttribute('stroke-dasharray', umfang.toString());
+        fortschritt.setAttribute('stroke-dashoffset', umfang.toString());
+        fortschritt.style.transition = 'stroke-dashoffset 1s linear';
+        fortschritt.classList.add('timer-progress');
+        ring.appendChild(fortschritt);
+
+        feld.appendChild(ring);
+      }
+
+      var progress = 1 - (rest / gesamt);
+      var umfang = 2 * Math.PI * 90;
+      var circle = feld.querySelector('.timer-progress');
+      if (circle) {
+        circle.style.strokeDashoffset = (umfang * (1 - progress)).toString();
+      }
+
+      var atem = feld.querySelector('.atem');
+      if (!atem) {
+        atem = document.createElement('div');
+        atem.className = 'atem';
+        atem.setAttribute('aria-hidden', 'true');
+        atem.style.animationDelay = -(gesamt - rest) + 's';
+        feld.appendChild(atem);
+      }
+
+      var atemText = feld.querySelector('.atem-text');
+      if (!atemText) {
+        atemText = document.createElement('div');
+        atemText.className = 'atem-text';
+        atemText.setAttribute('aria-hidden', 'true');
+        feld.appendChild(atemText);
+      }
+
+      if (atemText) {
+        var elapsed = gesamt - rest;
+        if (skillId === 'box') {
+          var phase = Math.floor(elapsed / 4) % 4;
+          var texte = ['Einatmen', 'Halten', 'Ausatmen', 'Halten'];
+          atemText.textContent = texte[phase];
+          atem.classList.add('box');
+        } else {
+          var phaseNormal = Math.floor(elapsed / 4) % 2;
+          atemText.textContent = phaseNormal === 0 ? 'Einatmen' : 'Ausatmen';
+          atem.classList.remove('box');
+        }
+        atemText.classList.remove('wechsel');
+        void atemText.offsetWidth;
+        atemText.classList.add('wechsel');
+      }
+    } catch (e) {}
+  });
+
+  /* Timer fertig: Glanz-Puls */
+  document.addEventListener('next:timer-fertig', function(e) {
+    try {
+      var feld = document.getElementById('timer-feld');
+      if (feld) {
+        feld.classList.add('puls');
+        setTimeout(function() {
+          try { feld.classList.remove('puls'); } catch (e) {}
+        }, 800);
+      }
+    } catch (e) {}
+  });
+
+  /* Speichern: Konfetti und Abzeichen-Popup */
+  document.addEventListener('next:gespeichert', function(e) {
+    try {
+      var detail = e.detail || {};
+      if (reduceMotion) {
+        abzeichenPopup(detail.abzeichen);
+        return;
+      }
+      konfettiZeigen(detail.abzeichen);
+    } catch (e) {}
+  });
+
+  function konfettiZeigen(abzeichen) {
+    var canvas = document.createElement('canvas');
+    canvas.className = 'konfetti-canvas';
+    canvas.setAttribute('aria-hidden', 'true');
+    canvas.style.position = 'fixed';
+    canvas.style.inset = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '400';
+    document.body.appendChild(canvas);
+
+    var ctx = canvas.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    var breite = window.innerWidth;
+    var hoehe = window.innerHeight;
+    canvas.width = breite * dpr;
+    canvas.height = hoehe * dpr;
+    canvas.style.width = breite + 'px';
+    canvas.style.height = hoehe + 'px';
+    ctx.scale(dpr, dpr);
+
+    var akzent = getComputedStyle(document.documentElement).getPropertyValue('--akzent').trim() || '#38bdf8';
+    var akzent2 = getComputedStyle(document.documentElement).getPropertyValue('--akzent2').trim() || '#6366f1';
+
+    var teilchen = [];
+    for (var i = 0; i < 90; i++) {
+      var farbe;
+      var rand = Math.random();
+      if (rand < 0.4) farbe = akzent;
+      else if (rand < 0.7) farbe = akzent2;
+      else farbe = '#ffffff';
+      teilchen.push({
+        x: breite / 2,
+        y: hoehe * 0.3,
+        vx: (Math.random() - 0.5) * 12,
+        vy: -(7 + Math.random() * 9),
+        winkel: Math.random() * Math.PI * 2,
+        drehung: (Math.random() - 0.5) * 0.3,
+        groesse: 6 + Math.random() * 8,
+        farbe: farbe,
+        leben: 1,
+        form: Math.random() < 0.5 ? 'rechteck' : 'kreis'
+      });
+    }
+
+    var start = performance.now();
+    var dauer = 1600;
+
+    function zeichnen(jetzt) {
+      var vergangen = jetzt - start;
+      var fortschritt = Math.min(vergangen / dauer, 1);
+
+      ctx.clearRect(0, 0, breite, hoehe);
+
+      for (var i = 0; i < teilchen.length; i++) {
+        var t = teilchen[i];
+        t.vy += 0.32; // Schwerkraft
+        t.x += t.vx;
+        t.y += t.vy;
+        t.winkel += t.drehung;
+
+        var alpha = 1 - fortschritt;
+        if (alpha < 0) alpha = 0;
+
+        ctx.save();
+        ctx.translate(t.x, t.y);
+        ctx.rotate(t.winkel);
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = t.farbe;
+        if (t.form === 'kreis') {
+          ctx.beginPath();
+          ctx.arc(0, 0, t.groesse / 2, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillRect(-t.groesse / 2, -t.groesse / 2, t.groesse, t.groesse);
+        }
+        ctx.restore();
+      }
+
+      if (fortschritt < 1) {
+        requestAnimationFrame(zeichnen);
+      } else {
+        try { canvas.remove(); } catch (e) {}
+      }
+    }
+
+    requestAnimationFrame(zeichnen);
+
+    abzeichenPopup(abzeichen);
+  }
+
+  function abzeichenPopup(abzeichen) {
+    if (!abzeichen || abzeichen.length === 0) return;
+    var pop = document.createElement('div');
+    pop.className = 'abzeichen-pop';
+    pop.setAttribute('aria-hidden', 'true');
+
+    var emoji = document.createElement('div');
+    emoji.className = 'pop-emoji';
+    emoji.textContent = abzeichen[0].emoji;
+
+    var titel = document.createElement('div');
+    titel.className = 'pop-titel';
+    titel.textContent = 'Neues Abzeichen';
+
+    var name = document.createElement('div');
+    name.className = 'pop-name';
+    name.textContent = abzeichen[0].name;
+
+    pop.appendChild(emoji);
+    pop.appendChild(titel);
+    pop.appendChild(name);
+
+    document.body.appendChild(pop);
+
+    var timer = setTimeout(function() {
+      try { pop.remove(); } catch (e) {}
+    }, 2400);
+
+    pop.addEventListener('click', function() {
+      clearTimeout(timer);
+      try { pop.remove(); } catch (e) {}
+    });
+  }
+
+  /* Event Listener registrieren */
+  document.addEventListener('next:gerendert', function(e) {
+    try { animiereAnsicht(e); } catch (e) {}
+  });
+})();
+
+</script>
 <script>
   // Offline-Speicher nur im Netz anmelden; als lose Datei geht das nicht.
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
