@@ -1,0 +1,2977 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f7fa">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>NEXT</title>
+  <style>
+    :root {
+      --hintergrund: #f5f7fa;
+      --karte: #ffffff;
+      --text: #1b1f24;
+      --text-leicht: #5b6472;
+      --rand: #e2e7ee;
+      --akzent: #2f6fde;
+      --akzent-hell: #e6efff;
+      --schatten: 0 2px 8px rgba(0, 0, 0, 0.05);
+      --erfolg: #2e8b57;
+      --warnung: #b43c8c;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--hintergrund);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 17px;
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+
+    body.thema-nacht {
+      --hintergrund: #14161c;
+      --karte: #1f232c;
+      --text: #eef0f4;
+      --text-leicht: #aab2c0;
+      --rand: #303642;
+      --akzent: #8fa8ff;
+      --akzent-hell: #262c3d;
+      --schatten: 0 2px 8px rgba(0, 0, 0, 0.4);
+      --erfolg: #7bc79a;
+      --warnung: #e78cc4;
+    }
+
+    #app {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 16px 16px 100px;
+      overflow-wrap: anywhere;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 8px;
+      line-height: 1.2;
+      font-weight: 700;
+    }
+    h1 { font-size: 1.7rem; }
+    h2 { font-size: 1.35rem; }
+    h3 { font-size: 1.1rem; }
+    p { margin: 8px 0; }
+
+    .kopf {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .kopf-titel { flex: 1; }
+    .kopf-klein { color: var(--text-leicht); font-size: 0.95rem; margin-top: 2px; }
+
+    .karte {
+      background: var(--karte);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--schatten);
+      border: 1px solid var(--rand);
+    }
+
+    .kachel-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 360px) {
+      .kachel-grid { grid-template-columns: 1fr; }
+    }
+
+    .kachel {
+      background: var(--karte);
+      border-radius: var(--radius);
+      padding: 18px 12px;
+      text-align: center;
+      box-shadow: var(--schatten);
+      border: 1px solid var(--rand);
+      cursor: pointer;
+      user-select: none;
+      min-height: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-weight: 600;
+      transition: transform 0.1s ease, background 0.2s;
+    }
+    .kachel:active { transform: scale(0.99); background: var(--akzent-hell); }
+    .kachel-emoji { font-size: 2rem; line-height: 1; }
+
+    button {
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 600;
+      background: var(--akzent);
+      color: #fff;
+      width: 100%;
+      text-align: center;
+      border: 1px solid transparent;
+      transition: background 0.2s, opacity 0.2s;
+    }
+    .btn:active { opacity: 0.85; }
+    .btn-zweit {
+      background: var(--akzent-hell);
+      color: var(--akzent);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--akzent);
+      border: 1px solid var(--rand);
+    }
+    .btn-gefahr {
+      background: var(--warnung);
+      color: #fff;
+    }
+    .btn-klein {
+      width: auto;
+      min-height: 40px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"], input[type="tel"], input[type="number"], textarea, select {
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--rand);
+      background: var(--karte);
+      color: var(--text);
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    label { display: block; margin-bottom: 4px; font-weight: 600; }
+    .feld { margin-bottom: 14px; }
+
+    input[type="range"] {
+      width: 100%;
+      min-height: 44px;
+      accent-color: var(--akzent);
+    }
+    .regler-wert {
+      font-size: 2.2rem;
+      font-weight: 800;
+      text-align: center;
+      margin: 6px 0;
+      transition: color 0.3s;
+    }
+
+    .farb-zeile { display: flex; gap: 12px; flex-wrap: wrap; }
+    .farb-knopf {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      box-shadow: 0 0 0 2px var(--rand);
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+    .farb-knopf.aktiv { border-color: #fff; box-shadow: 0 0 0 2px var(--akzent); }
+
+    .chip-zeile {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 0;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--karte);
+      border: 1px solid var(--rand);
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .chip.aktiv {
+      background: var(--akzent);
+      color: #fff;
+      border-color: var(--akzent);
+    }
+
+    .liste { list-style: none; padding: 0; margin: 0; }
+    .liste-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: var(--karte);
+      border: 1px solid var(--rand);
+      border-radius: 14px;
+      margin-bottom: 8px;
+      box-shadow: var(--schatten);
+      cursor: pointer;
+    }
+    .liste-item.graut { opacity: 0.5; pointer-events: none; }
+
+    .klein { font-size: 0.85rem; color: var(--text-leicht); }
+    .block { margin-top: 12px; }
+    .fuss { text-align: center; color: var(--text-leicht); font-size: 0.9rem; margin-top: 20px; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: calc(84px + env(safe-area-inset-bottom));
+      background: #1f232c;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      z-index: 120;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 90vw;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      /* Die Meldung liegt über den Knöpfen; Tipps sollen durchgehen, nur „Rückgängig“ bleibt antippbar. */
+      pointer-events: none;
+    }
+    .toast button {
+      pointer-events: auto;
+      color: #8fa8ff;
+      font-weight: 700;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 16px;
+    }
+    .dialog {
+      background: var(--karte);
+      color: var(--text);
+      border-radius: var(--radius);
+      padding: 20px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    .dialog-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    #leiste {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--karte);
+      border-top: 1px solid var(--rand);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0 env(safe-area-inset-bottom);
+      z-index: 100;
+      max-width: 520px;
+      margin: 0 auto;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+    }
+    #leiste.hidden { display: none; }
+    .leiste-knopf {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 0.75rem;
+      color: var(--text-leicht);
+      background: none;
+      border: none;
+      min-width: 60px;
+      cursor: pointer;
+    }
+    .leiste-knopf.aktiv { color: var(--akzent); font-weight: 700; }
+    .leiste-emoji { font-size: 1.4rem; }
+
+    .hinweis-ockergelb { background: #fff7e0; border-left: 4px solid #e0a800; padding: 10px 12px; border-radius: 10px; }
+    body.thema-nacht .hinweis-ockergelb { background: #2a2416; border-left-color: #e0a800; }
+
+    .zurueck {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      background: none;
+      border: none;
+      color: var(--akzent);
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 8px;
+    }
+
+    .schritte-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .schritt-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: flex-start;
+    }
+    .schritt-nr {
+      flex: 0 0 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--akzent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .fortschritt-punkte {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .punkt {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--rand);
+    }
+    .punkt.aktiv { background: var(--akzent); width: 26px; border-radius: 5px; }
+
+    .abzeichen-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .abzeichen-karte {
+      background: var(--karte);
+      border-radius: var(--radius);
+      padding: 14px;
+      text-align: center;
+      border: 1px solid var(--rand);
+      box-shadow: var(--schatten);
+    }
+    .abzeichen-emoji { font-size: 2.2rem; }
+    .abzeichen-karte.grau { filter: grayscale(1); opacity: 0.55; }
+
+    .skill-zeile {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--rand);
+      gap: 8px;
+      cursor: pointer;
+    }
+    .skill-zeile:last-child { border-bottom: none; }
+    .versuch-zeile {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: var(--karte);
+      border: 1px solid var(--rand);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .balken {
+      height: 8px;
+      border-radius: 6px;
+      background: var(--rand);
+      position: relative;
+      overflow: hidden;
+      margin: 4px 0;
+    }
+    .balken-fuellung {
+      position: absolute;
+      height: 100%;
+      border-radius: 6px;
+      background: var(--akzent);
+    }
+
+    .zwei-spalten { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 400px) {
+      .zwei-spalten { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <meta name="apple-mobile-web-app-title" content="NEXT">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+</head>
+<body>
+  <div id="app"></div>
+  <nav id="leiste" class="hidden"></nav>
+  <div id="toast-bereich"></div>
+  <div id="dialog-bereich"></div>
+
+  <script>
+  "use strict";
+
+  /* ---------- Konstanten und Grundzustand ---------- */
+
+  const KATEGORIEN = [
+    { id: "hoch", name: "Hohe Anspannung", emoji: "🔥" },
+    { id: "mittel", name: "Mittlere Anspannung", emoji: "🌊" },
+    { id: "achtsam", name: "Achtsamkeit", emoji: "🍃" },
+    { id: "gefuehle", name: "Umgang mit Gefühlen", emoji: "💬" },
+    { id: "ablenkung", name: "Ablenkung und Schönes", emoji: "🎧" },
+    { id: "alltag", name: "Langfristig gut für mich", emoji: "🌱" }
+  ];
+
+  const STANDARD_SKILLS = [
+    {
+      id: "kalt", name: "Kaltes Wasser", kategorie: "hoch", dauer: "1 Minute",
+      material: "Waschbecken, kaltes Wasser", wann: "Wenn die Anspannung sehr hoch ist und du schnell runterkommen willst.",
+      bereich: "hoch",
+      schritte: ["Geh zu einem Waschbecken.", "Lass kaltes Wasser über deine Handgelenke laufen.", "Spritz dir kaltes Wasser ins Gesicht.", "Atme dabei langsam aus.", "Spür nach: Was ist jetzt anders?"]
+    },
+    {
+      id: "kuehlpack", name: "Kühlpack in der Hand", kategorie: "hoch", dauer: "2 Minuten",
+      material: "Kühlpack oder Eiswürfel", wann: "Wenn deine Gedanken rasen.",
+      bereich: "hoch",
+      schritte: ["Nimm ein Kühlpack oder einen Eiswürfel in die Hand.", "Konzentrier dich nur auf die Kälte.", "Wechsle die Hand, wenn es zu kalt wird.", "Zähl langsam bis 60."]
+    },
+    {
+      id: "sauer", name: "Etwas sehr Saures", kategorie: "hoch", dauer: "1 Minute",
+      material: "Saures Bonbon oder Zitronenscheibe", wann: "Wenn du einen starken Reiz brauchst, um wieder bei dir zu sein.",
+      bereich: "hoch",
+      schritte: ["Nimm ein saures Bonbon oder beiß in eine Zitronenscheibe.", "Achte genau auf den Geschmack.", "Wo im Mund spürst du ihn am stärksten?"]
+    },
+    {
+      id: "sport", name: "Kurz auspowern", kategorie: "hoch", dauer: "2 Minuten",
+      material: "Nichts", wann: "Wenn ganz viel Energie und Druck in dir ist.",
+      bereich: "hoch",
+      schritte: ["Mach 20 Kniebeugen oder Hampelmänner.", "Oder lauf eine Treppe zweimal hoch und runter.", "Bleib danach stehen und atme ruhig.", "Spür deinen Herzschlag."]
+    },
+    {
+      id: "igel", name: "Igelball", kategorie: "hoch", dauer: "3 Minuten",
+      material: "Igelball oder Massageball", wann: "Wenn du deinen Körper wieder spüren willst.",
+      bereich: "mittel",
+      schritte: ["Roll den Igelball fest zwischen deinen Händen.", "Roll ihn über deine Arme.", "Spür die Noppen ganz genau.", "Wechsle das Tempo: schnell, dann langsam."]
+    },
+    {
+      id: "54321", name: "5-4-3-2-1", kategorie: "mittel", dauer: "3 Minuten",
+      material: "Nichts", wann: "Wenn Gedanken kreisen oder du unruhig bist.",
+      bereich: "mittel",
+      schritte: ["Nenne 5 Dinge, die du siehst.", "Nenne 4 Dinge, die du spürst.", "Nenne 3 Dinge, die du hörst.", "Nenne 2 Dinge, die du riechst.", "Nenne 1 Sache, die du schmeckst."]
+    },
+    {
+      id: "box", name: "Kästchen-Atmung", kategorie: "mittel", dauer: "2 Minuten",
+      material: "Nichts", wann: "Wenn du vor etwas aufgeregt bist.",
+      bereich: "mittel",
+      schritte: ["Atme 4 Sekunden ein.", "Halte 4 Sekunden.", "Atme 4 Sekunden aus.", "Halte 4 Sekunden.", "Wiederhole das viermal."]
+    },
+    {
+      id: "rechnen", name: "Rückwärts rechnen", kategorie: "mittel", dauer: "2 Minuten",
+      material: "Nichts", wann: "Wenn dein Kopf voll ist.",
+      bereich: "mittel",
+      schritte: ["Starte bei 100.", "Zieh immer 7 ab: 93, 86, 79 ...", "Verrechnet? Egal, einfach weiter.", "Hör auf, wenn du bei unter 10 bist."]
+    },
+    {
+      id: "abc", name: "ABC-Spiel", kategorie: "mittel", dauer: "3 Minuten",
+      material: "Nichts", wann: "Wenn du dich ablenken willst.",
+      bereich: "mittel",
+      schritte: ["Such dir ein Thema aus, zum Beispiel Tiere oder Städte.", "Finde zu jedem Buchstaben von A bis Z ein Wort.", "Bei schweren Buchstaben darfst du springen."]
+    },
+    {
+      id: "fuesse", name: "Füße auf dem Boden", kategorie: "achtsam", dauer: "1 Minute",
+      material: "Nichts", wann: "Überall, auch in der Schule, ohne dass es jemand merkt.",
+      bereich: "mittel",
+      schritte: ["Stell beide Füße fest auf den Boden.", "Drück sie leicht nach unten.", "Spür, wie der Boden dich trägt.", "Atme dreimal ruhig aus."]
+    },
+    {
+      id: "wolken", name: "Gedanken auf Wolken", kategorie: "achtsam", dauer: "5 Minuten",
+      material: "Ruhiger Ort", wann: "Wenn du grübelst.",
+      bereich: "niedrig",
+      schritte: ["Setz dich bequem hin.", "Stell dir einen Himmel mit Wolken vor.", "Leg jeden Gedanken auf eine Wolke.", "Lass die Wolke weiterziehen.", "Du musst keinen Gedanken festhalten."]
+    },
+    {
+      id: "essen", name: "Achtsam essen", kategorie: "achtsam", dauer: "3 Minuten",
+      material: "Eine Rosine, ein Stück Schokolade oder Obst", wann: "In der Gruppe oder wenn du runterfahren willst.",
+      bereich: "niedrig",
+      schritte: ["Schau dir das Essen genau an.", "Riech daran.", "Leg es in den Mund, ohne zu kauen.", "Kau ganz langsam.", "Was schmeckst du alles?"]
+    },
+    {
+      id: "koerper", name: "Kurzer Körperscan", kategorie: "achtsam", dauer: "5 Minuten",
+      material: "Ruhiger Ort", wann: "Abends oder in Ruhe.",
+      bereich: "niedrig",
+      schritte: ["Schließ die Augen oder schau auf einen Punkt.", "Wandere mit deiner Aufmerksamkeit von den Füßen nach oben.", "Wo ist es angespannt, wo locker?", "Nur wahrnehmen, nichts ändern."]
+    },
+    {
+      id: "geraeusche", name: "Geräusche sammeln", kategorie: "achtsam", dauer: "2 Minuten",
+      material: "Nichts", wann: "Draußen oder drinnen, wenn du zur Ruhe kommen willst.",
+      bereich: "niedrig",
+      schritte: ["Sei eine Minute ganz still.", "Zähl alle Geräusche, die du hörst.", "Welches ist am lautesten, welches am leisesten?"]
+    },
+    {
+      id: "benennen", name: "Gefühl benennen", kategorie: "gefuehle", dauer: "2 Minuten",
+      material: "Nichts", wann: "Wenn du nicht genau weißt, was los ist.",
+      bereich: "alle",
+      schritte: ["Halte kurz an.", "Frag dich: Was fühle ich gerade?", "Gib dem Gefühl einen Namen, zum Beispiel Wut, Angst, Trauer.", "Wie stark ist es von 0 bis 100?", "Gefühle kommen und gehen wieder."]
+    },
+    {
+      id: "gegenteil", name: "Das Gegenteil tun", kategorie: "gefuehle", dauer: "5 Minuten",
+      material: "Nichts", wann: "Wenn ein Gefühl dich zu etwas drängt, das dir nicht guttut.",
+      bereich: "mittel",
+      schritte: ["Was will das Gefühl, dass du tust?", "Zum Beispiel: Rückzug, wenn du traurig bist.", "Mach bewusst das Gegenteil, ganz klein.", "Zum Beispiel: kurz rausgehen oder jemandem schreiben."]
+    },
+    {
+      id: "freund", name: "Wie mit einem Freund reden", kategorie: "gefuehle", dauer: "3 Minuten",
+      material: "Optional: Zettel und Stift", wann: "Wenn du hart zu dir selbst bist.",
+      bereich: "niedrig",
+      schritte: ["Was würdest du einem guten Freund jetzt sagen?", "Sag dir genau diesen Satz.", "Oder schreib ihn auf."]
+    },
+    {
+      id: "gefuehlbrief", name: "Gefühle aufschreiben", kategorie: "gefuehle", dauer: "5 Minuten",
+      material: "Zettel und Stift", wann: "Wenn sich viel angestaut hat.",
+      bereich: "mittel",
+      schritte: ["Schreib alles auf, was dich gerade beschäftigt.", "Rechtschreibung ist egal.", "Du musst es niemandem zeigen.", "Du kannst den Zettel danach zerreißen."]
+    },
+    {
+      id: "musik", name: "Ruhige Musik", kategorie: "ablenkung", dauer: "5 Minuten",
+      material: "Handy, Kopfhörer", wann: "Abends oder wenn du runterkommen willst.",
+      bereich: "niedrig",
+      schritte: ["Such dir ein ruhiges Lieblingslied aus.", "Setz Kopfhörer auf.", "Hör nur zu, ohne nebenbei zu scrollen."]
+    },
+    {
+      id: "laut", name: "Laute Musik und mitsingen", kategorie: "ablenkung", dauer: "4 Minuten",
+      material: "Musik", wann: "Wenn du Energie loswerden willst.",
+      bereich: "mittel",
+      schritte: ["Mach ein Lied an, das dich mitreißt.", "Sing laut mit oder beweg dich dazu.", "Wie fühlst du dich nach dem Lied?"]
+    },
+    {
+      id: "malen", name: "Kritzeln und Malen", kategorie: "ablenkung", dauer: "10 Minuten",
+      material: "Papier, Stifte", wann: "Wenn du etwas mit den Händen machen willst.",
+      bereich: "niedrig",
+      schritte: ["Nimm ein Blatt und Stifte.", "Mal Muster, Formen oder einfach Linien.", "Es muss nicht schön werden."]
+    },
+    {
+      id: "spaziergang", name: "Spaziergang", kategorie: "alltag", dauer: "15 Minuten",
+      material: "Jacke, Schuhe", wann: "Wenn du grübelst oder dir die Decke auf den Kopf fällt.",
+      bereich: "mittel",
+      schritte: ["Zieh dich an und geh raus.", "Kein Ziel nötig.", "Achte auf drei Dinge unterwegs, die dir gefallen.", "Optional: Nimm jemanden mit."]
+    },
+    {
+      id: "kontakt", name: "Jemandem schreiben", kategorie: "alltag", dauer: "5 Minuten",
+      material: "Handy", wann: "Wenn du dich allein fühlst.",
+      bereich: "alle",
+      schritte: ["Überleg, wem du gern schreiben würdest.", "Ein kurzes Hallo reicht.", "Du musst nicht erklären, wie es dir geht."]
+    },
+    {
+      id: "schlaf", name: "Abendroutine", kategorie: "alltag", dauer: "20 Minuten",
+      material: "Nichts", wann: "Jeden Abend, damit der Schlaf besser wird.",
+      bereich: "niedrig",
+      schritte: ["Leg das Handy 30 Minuten vor dem Schlafen weg.", "Mach jeden Abend die gleichen drei Dinge.", "Zum Beispiel: Zähne putzen, lesen, Licht aus."]
+    },
+    {
+      id: "schoenes", name: "Eine schöne Sache am Tag", kategorie: "alltag", dauer: "2 Minuten",
+      material: "Nichts", wann: "Abends, auch an schlechten Tagen.",
+      bereich: "alle",
+      schritte: ["Denk an den heutigen Tag.", "Finde eine Sache, die okay oder schön war.", "Sie darf ganz klein sein.", "Halte sie in deinem Weg fest."]
+    }
+  ];
+
+  // Alle Standardskills erhalten quelle standard.
+  STANDARD_SKILLS.forEach(s => { s.quelle = "standard"; });
+
+  const THEMEN = {
+    ozean:  { akzent: "#2f6fde", hell: "#e6efff" },
+    wald:   { akzent: "#2e8b57", hell: "#e3f4ea" },
+    sonne:  { akzent: "#e08a00", hell: "#fff2dc" },
+    beere:  { akzent: "#b43c8c", hell: "#f9e4f2" },
+    nacht:  { akzent: "#8fa8ff", hell: "#262c3d" }
+  };
+
+  const SITUATIONEN = ["Schule / Leistung", "Streit / Konflikt", "Alltag / Überforderung", "Grübeln", "Abends", "Ruhe / Freizeit", "Auf Station", "Anderes"];
+  const BEREICHE = ["niedrig", "mittel", "hoch", "alle"];
+  const HILFREICH_EMOJIS = ["😣", "🙁", "😐", "🙂", "😄"];
+  const ANERKENNUNGEN = ["Ausprobieren ist schon ein Schritt.", "Jeder Versuch zeigt dir etwas über dich."];
+
+  const STANDARD_ZUSTAND = {
+    version: 1,
+    profil: { name: "", thema: "ozean", eingerichtet: false, grenzeHoch: 70, grenzeMittel: 40 },
+    eigeneSkills: [],
+    fachSkills: [],
+    ausgeblendet: [],
+    versuche: [],
+    koffer: { mittel: [], hoch: [], langfristig: [] },
+    angesehen: [],
+    plan: { text: "", kontakte: [] },
+    kompass: [],
+    gruppe: { titel: "", skillIds: [], datum: "" },
+    fachPin: ""
+  };
+
+  /* ---------- Globaler Zustand ---------- */
+
+  let zustand = null;
+  let speicherProblem = false;
+  let aktAnsicht = "einrichtung";
+  let aktParam = null;
+
+  // Versuchsablauf
+  let versuchTemp = null;
+  // Timer
+  let timerInterval = null;
+  let timerRestSekunden = 0;
+  let timerLaeuft = false;
+
+  function neueId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  }
+
+  function esc(text) {
+    if (text === null || typeof text === "undefined") return "";
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  /* ---------- Theme ---------- */
+
+  function wendeThemeAn() {
+    if (!zustand) return;
+    const thema = zustand.profil.thema || "ozean";
+    document.body.classList.toggle("thema-nacht", thema === "nacht");
+    const farben = THEMEN[thema] || THEMEN.ozean;
+    document.documentElement.style.setProperty("--akzent", farben.akzent);
+    document.documentElement.style.setProperty("--akzent-hell", farben.hell);
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) {
+      metaTheme.setAttribute("content", thema === "nacht" ? "#14161c" : "#f5f7fa");
+    }
+  }
+
+  /* ---------- Zustand laden/speichern ---------- */
+
+  function mergeStandard(geladen) {
+    const z = JSON.parse(JSON.stringify(STANDARD_ZUSTAND));
+    if (!geladen || typeof geladen !== "object") return z;
+    z.version = 1;
+    if (geladen.profil && typeof geladen.profil === "object") {
+      z.profil = { ...z.profil, ...geladen.profil };
+    }
+    z.eigeneSkills = Array.isArray(geladen.eigeneSkills) ? geladen.eigeneSkills : [];
+    z.fachSkills = Array.isArray(geladen.fachSkills) ? geladen.fachSkills : [];
+    z.ausgeblendet = Array.isArray(geladen.ausgeblendet) ? geladen.ausgeblendet : [];
+    z.versuche = Array.isArray(geladen.versuche) ? geladen.versuche : [];
+    if (geladen.koffer && typeof geladen.koffer === "object") {
+      z.koffer = { ...z.koffer, ...geladen.koffer };
+      z.koffer.mittel = Array.isArray(z.koffer.mittel) ? z.koffer.mittel : [];
+      z.koffer.hoch = Array.isArray(z.koffer.hoch) ? z.koffer.hoch : [];
+      z.koffer.langfristig = Array.isArray(z.koffer.langfristig) ? z.koffer.langfristig : [];
+    }
+    z.angesehen = Array.isArray(geladen.angesehen) ? geladen.angesehen : [];
+    if (geladen.plan && typeof geladen.plan === "object") {
+      z.plan = { ...z.plan, ...geladen.plan };
+      z.plan.kontakte = Array.isArray(z.plan.kontakte) ? z.plan.kontakte : [];
+    }
+    z.kompass = Array.isArray(geladen.kompass) ? geladen.kompass : [];
+    if (geladen.gruppe && typeof geladen.gruppe === "object") {
+      z.gruppe = { ...z.gruppe, ...geladen.gruppe };
+      z.gruppe.skillIds = Array.isArray(z.gruppe.skillIds) ? z.gruppe.skillIds : [];
+    }
+    z.fachPin = typeof geladen.fachPin === "string" ? geladen.fachPin : "";
+    return z;
+  }
+
+  function ladeZustand() {
+    try {
+      const roh = localStorage.getItem("next-v1");
+      if (roh) {
+        try {
+          const geladen = JSON.parse(roh);
+          zustand = mergeStandard(geladen);
+          speicherProblem = false;
+        } catch (e) {
+          // Kaputtes JSON aufheben und mit leerem Zustand starten
+          try {
+            localStorage.setItem("next-v1-kaputt-" + Date.now(), roh);
+          } catch (e2) {}
+          zustand = JSON.parse(JSON.stringify(STANDARD_ZUSTAND));
+          speicherProblem = false;
+        }
+      } else {
+        zustand = JSON.parse(JSON.stringify(STANDARD_ZUSTAND));
+        speicherProblem = false;
+      }
+    } catch (e) {
+      // localStorage nicht verfügbar, Arbeitsspeicher verwenden
+      zustand = JSON.parse(JSON.stringify(STANDARD_ZUSTAND));
+      speicherProblem = true;
+    }
+  }
+
+  function speichereZustand() {
+    if (!zustand) return;
+    try {
+      localStorage.setItem("next-v1", JSON.stringify(zustand));
+      speicherProblem = false;
+    } catch (e) {
+      speicherProblem = true;
+    }
+  }
+
+  /* ---------- Navigation ---------- */
+
+  function aktualisiereLeiste() {
+    const leiste = document.getElementById("leiste");
+    if (!leiste) return;
+    const versteckt = ["einrichtung", "fachLogin", "fach", "versuch", "skillForm"].includes(aktAnsicht);
+    leiste.classList.toggle("hidden", versteckt);
+    if (!versteckt) {
+      leiste.querySelectorAll("[data-nav]").forEach(btn => {
+        const ziel = btn.getAttribute("data-nav");
+        btn.classList.toggle("aktiv", ziel === aktAnsicht && !aktParam);
+      });
+    }
+  }
+
+  function zeige(ansicht, param, pushHistory) {
+    stoppeTimer();
+    aktAnsicht = ansicht;
+    aktParam = param;
+    renderApp();
+    wendeThemeAn();
+    aktualisiereLeiste();
+    if (pushHistory !== false) {
+      try {
+        history.pushState({ ansicht, param }, "");
+      } catch (e) {}
+    }
+  }
+
+  window.addEventListener("popstate", function (e) {
+    if (e.state && e.state.ansicht) {
+      zeige(e.state.ansicht, e.state.param, false);
+    } else {
+      zeige("start", null, false);
+    }
+  });
+
+  /* ---------- Toast und Dialog ---------- */
+
+  function zeigeToast(text, aktionText, aktionCallback) {
+    const bereich = document.getElementById("toast-bereich");
+    bereich.innerHTML = "";
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    const span = document.createElement("span");
+    span.textContent = text;
+    toast.appendChild(span);
+    if (aktionText && aktionCallback) {
+      const btn = document.createElement("button");
+      btn.textContent = aktionText;
+      btn.addEventListener("click", () => {
+        aktionCallback();
+        toast.remove();
+      });
+      toast.appendChild(btn);
+    }
+    bereich.appendChild(toast);
+    setTimeout(() => {
+      toast.remove();
+    }, aktionText ? 4000 : 2500);
+  }
+
+  function schliesseDialog() {
+    document.getElementById("dialog-bereich").innerHTML = "";
+  }
+
+  function zeigeDialog({ inhalt, knopfOk, knopfAbbrechen, onOk, onAbbrechen }) {
+    const bereich = document.getElementById("dialog-bereich");
+    bereich.innerHTML = "";
+    const overlay = document.createElement("div");
+    overlay.className = "overlay";
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay && knopfAbbrechen !== false) {
+        schliesseDialog();
+        if (onAbbrechen) onAbbrechen();
+      }
+    });
+    const dialog = document.createElement("div");
+    dialog.className = "dialog";
+    const inhaltDiv = document.createElement("div");
+    inhaltDiv.innerHTML = inhalt;
+    dialog.appendChild(inhaltDiv);
+    const buttons = document.createElement("div");
+    buttons.className = "dialog-buttons";
+    if (knopfOk !== false) {
+      const okBtn = document.createElement("button");
+      okBtn.className = "btn";
+      okBtn.textContent = knopfOk || "OK";
+      okBtn.setAttribute("data-test", "ok");
+      okBtn.addEventListener("click", () => {
+        schliesseDialog();
+        if (onOk) onOk(dialog);
+      });
+      buttons.appendChild(okBtn);
+    }
+    if (knopfAbbrechen && knopfAbbrechen !== false) {
+      const abbrBtn = document.createElement("button");
+      abbrBtn.className = "btn btn-ghost";
+      abbrBtn.textContent = knopfAbbrechen;
+      abbrBtn.addEventListener("click", () => {
+        schliesseDialog();
+        if (onAbbrechen) onAbbrechen();
+      });
+      buttons.appendChild(abbrBtn);
+    }
+    dialog.appendChild(buttons);
+    overlay.appendChild(dialog);
+    bereich.appendChild(overlay);
+  }
+
+  /* ---------- Skills finden ---------- */
+
+  function alleStandardSkills() {
+    return STANDARD_SKILLS.filter(s => !zustand.ausgeblendet.includes(s.id));
+  }
+
+  function alleSichtbarenSkills() {
+    return [...alleStandardSkills(), ...zustand.fachSkills, ...zustand.eigeneSkills];
+  }
+
+  function findSkill(id) {
+    if (!id) return null;
+    const standard = STANDARD_SKILLS.find(s => s.id === id);
+    if (standard) return standard;
+    return zustand.fachSkills.find(s => s.id === id) || zustand.eigeneSkills.find(s => s.id === id) || null;
+  }
+
+  function skillNameOderGeloescht(id) {
+    const s = findSkill(id);
+    return s ? s.name : "(gelöschter Skill)";
+  }
+
+  function kategorieEmoji(katId) {
+    const k = KATEGORIEN.find(c => c.id === katId);
+    return k ? k.emoji : "🧩";
+  }
+  function kategorieName(katId) {
+    const k = KATEGORIEN.find(c => c.id === katId);
+    return k ? k.name : katId;
+  }
+
+  function versuchAnzahl(skillId) {
+    return zustand.versuche.filter(v => v.skillId === skillId).length;
+  }
+
+  function istImKoffer(skillId) {
+    return zustand.koffer.mittel.includes(skillId) || zustand.koffer.hoch.includes(skillId) || zustand.koffer.langfristig.includes(skillId);
+  }
+
+  function bereichAusWert(wert) {
+    const gM = Number(zustand.profil.grenzeMittel) || 40;
+    const gH = Number(zustand.profil.grenzeHoch) || 70;
+    if (wert < gM) return "niedrig";
+    if (wert < gH) return "mittel";
+    return "hoch";
+  }
+
+  function formatDatum(iso) {
+    if (!iso) return "";
+    try {
+      const d = new Date(iso);
+      return d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
+    } catch (e) { return ""; }
+  }
+  function formatKurz(iso) {
+    if (!iso) return "";
+    try {
+      const d = new Date(iso);
+      return d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" });
+    } catch (e) { return ""; }
+  }
+
+  function durchschnittsSenkung(versuche) {
+    if (!versuche || versuche.length === 0) return null;
+    const summe = versuche.reduce((sum, v) => sum + (Number(v.vorher) - Number(v.nachher)), 0);
+    return summe / versuche.length;
+  }
+
+  function versucheZuSkill(skillId) {
+    return zustand.versuche
+      .filter(v => v.skillId === skillId)
+      .sort((a, b) => new Date(a.datum) - new Date(b.datum));
+  }
+
+  function alleVersucheSortiertNeu() {
+    return [...zustand.versuche].sort((a, b) => new Date(b.datum) - new Date(a.datum));
+  }
+
+  function abzeichenBerechnen() {
+    const angesehenEinzeln = new Set(zustand.angesehen).size;
+    const versuche = zustand.versuche;
+    const verschiedeneSkills = new Set(versuche.map(v => v.skillId)).size;
+    const skillHaeufigkeit = {};
+    versuche.forEach(v => { skillHaeufigkeit[v.skillId] = (skillHaeufigkeit[v.skillId] || 0) + 1; });
+    const hat3MalGleicher = Object.values(skillHaeufigkeit).some(n => n >= 3);
+    const kategorien = new Set();
+    versuche.forEach(v => {
+      const s = findSkill(v.skillId);
+      if (s) kategorien.add(s.kategorie);
+    });
+    const kofferAnzahl = zustand.koffer.mittel.length + zustand.koffer.hoch.length + zustand.koffer.langfristig.length;
+    const notizVersuche = versuche.filter(v => v.notiz && v.notiz.trim()).length;
+    const besprechenVersuche = versuche.filter(v => v.besprechen).length;
+    const hatPlan = (zustand.plan.text && zustand.plan.text.trim()) || zustand.plan.kontakte.length > 0;
+    return [
+      { id: "neugierig", emoji: "👀", name: "Neugierig", satz: "3 verschiedene Skills angesehen", erreicht: angesehenEinzeln >= 3 },
+      { id: "erster", emoji: "🧪", name: "Erster Versuch", satz: "1 Versuch gespeichert", erreicht: versuche.length >= 1 },
+      { id: "entdecker", emoji: "🧭", name: "Entdecker", satz: "3 verschiedene Skills ausprobiert", erreicht: verschiedeneSkills >= 3 },
+      { id: "forscher", emoji: "🔬", name: "Forscher", satz: "6 verschiedene Skills ausprobiert", erreicht: verschiedeneSkills >= 6 },
+      { id: "dranbleiber", emoji: "🔁", name: "Dranbleiber", satz: "Denselben Skill 3-mal ausprobiert", erreicht: hat3MalGleicher },
+      { id: "weltenbummler", emoji: "🌍", name: "Weltenbummler", satz: "Skills aus 4 verschiedenen Kategorien ausprobiert", erreicht: kategorien.size >= 4 },
+      { id: "erfinder", emoji: "💡", name: "Erfinder", satz: "Eigenen Skill angelegt", erreicht: zustand.eigeneSkills.length >= 1 },
+      { id: "koffer", emoji: "🧳", name: "Koffer gepackt", satz: "Mindestens 3 Skills im Koffer", erreicht: kofferAnzahl >= 3 },
+      { id: "ehrlich", emoji: "📝", name: "Ehrlich zu mir", satz: "3 Versuche mit Notiz", erreicht: notizVersuche >= 3 },
+      { id: "mutig", emoji: "🗣️", name: "Mutig gefragt", satz: "1 Versuch zum Besprechen markiert", erreicht: besprechenVersuche >= 1 },
+      { id: "planer", emoji: "🛟", name: "Planer", satz: "Plan mit mindestens einem Kontakt oder Text", erreicht: hatPlan },
+      { id: "selbstkenner", emoji: "🪞", name: "Selbstkenner", satz: "2 Kompass-Sätze", erreicht: zustand.kompass.length >= 2 }
+    ];
+  }
+
+  /* ---------- Timer ---------- */
+
+  function starteTimer(sekunden) {
+    stoppeTimer();
+    timerRestSekunden = sekunden;
+    timerLaeuft = true;
+    timerInterval = setInterval(() => {
+      timerRestSekunden--;
+      if (timerRestSekunden <= 0) {
+        timerRestSekunden = 0;
+        stoppeTimer();
+        if (navigator.vibrate) try { navigator.vibrate(200); } catch (e) {}
+        zeigeToast("Zeit um.");
+        renderApp();
+      } else {
+        renderTimerAnzeige();
+      }
+    }, 1000);
+    renderApp();
+  }
+
+  function stoppeTimer() {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+    timerLaeuft = false;
+    timerRestSekunden = 0;
+  }
+
+  function renderTimerAnzeige() {
+    const el = document.getElementById("timer-anzeige");
+    if (!el) return;
+    const min = Math.floor(timerRestSekunden / 60);
+    const sek = timerRestSekunden % 60;
+    el.textContent = min + ":" + String(sek).padStart(2, "0");
+  }
+
+  function leseDauerSekunden(skill) {
+    if (!skill || !skill.dauer) return 120;
+    const zahl = parseInt(skill.dauer, 10);
+    if (!isNaN(zahl)) return zahl * 60;
+    return 120;
+  }
+
+  /* ---------- Rendering: Hauptweiche ---------- */
+
+  function renderApp() {
+    const app = document.getElementById("app");
+    if (!app) return;
+    if (speicherProblem) {
+      const hinweis = document.createElement("div");
+      hinweis.className = "hinweis-ockergelb";
+      hinweis.style.marginBottom = "10px";
+      hinweis.textContent = "Achtung: Dieses Gerät speichert gerade nicht. Deine Einträge sind nach dem Schließen weg.";
+      app.innerHTML = "";
+      app.appendChild(hinweis);
+      const rest = document.createElement("div");
+      rest.innerHTML = renderHauptinhalt();
+      while (rest.firstChild) app.appendChild(rest.firstChild);
+    } else {
+      app.innerHTML = renderHauptinhalt();
+    }
+    aktualisiereLeiste();
+    // Event-Listener für dynamische Elemente nach dem Rendern binden
+    bindEvents();
+  }
+
+  function renderHauptinhalt() {
+    if (!zustand) return "";
+    if (aktAnsicht === "einrichtung") return renderEinrichtung();
+    if (aktAnsicht === "start") return renderStart();
+    if (aktAnsicht === "fest") return renderFest();
+    if (aktAnsicht === "hilfe") return renderHilfe();
+    if (aktAnsicht === "skills") return renderSkills();
+    if (aktAnsicht === "skill") return renderSkillDetail(aktParam);
+    if (aktAnsicht === "skillForm") return renderSkillForm(aktParam);
+    if (aktAnsicht === "versuch") return renderVersuch();
+    if (aktAnsicht === "versuchWahl") return renderVersuchWahl();
+    if (aktAnsicht === "pass") return renderPass();
+    if (aktAnsicht === "weg") return renderWeg();
+    if (aktAnsicht === "koffer") return renderKoffer();
+    if (aktAnsicht === "kofferAuswahl") return renderKofferAuswahl(aktParam);
+    if (aktAnsicht === "plan") return renderPlan();
+    if (aktAnsicht === "einstellungen") return renderEinstellungen();
+    if (aktAnsicht === "fachLogin") return renderFachLogin();
+    if (aktAnsicht === "fach") return renderFach();
+    return renderStart();
+  }
+
+  /* ---------- Einrichtung ---------- */
+
+  function renderEinrichtung() {
+    return `
+      <div class="karte" style="margin-top:20px;">
+        <h1>Hey! Schön, dass du da bist.</h1>
+        <p class="kopf-klein">NEXT hilft dir, herauszufinden, was dir guttut.</p>
+        <div class="feld">
+          <label for="name">Wie sollen wir dich nennen?</label>
+          <input type="text" id="name" data-test="name" placeholder="z. B. Mika" value="${esc(zustand.profil.name)}" maxlength="30">
+          <p class="klein">Spitzname reicht. Darf leer bleiben, dann sagen wir du.</p>
+        </div>
+        <div class="feld">
+          <label>Farbthema</label>
+          <div class="farb-zeile" id="farb-zeile">
+            ${Object.keys(THEMEN).map(t => {
+              const farbe = THEMEN[t].akzent;
+              return `<button type="button" class="farb-knopf ${zustand.profil.thema === t ? 'aktiv' : ''}" data-thema="${t}" style="background:${farbe};" aria-label="${t}"></button>`;
+            }).join("")}
+          </div>
+        </div>
+        <button class="btn" data-test="los" id="einrichtung-los">Los geht's</button>
+        <p class="klein" style="margin-top:12px;">Alles, was du hier einträgst, bleibt nur auf diesem Gerät.</p>
+      </div>`;
+  }
+
+  /* ---------- Start ---------- */
+
+  function renderStart() {
+    const name = zustand.profil.name;
+    const begruessung = name ? `Hey ${esc(name)}!` : "Hey!";
+    const gruppenSkillIds = zustand.gruppe.skillIds || [];
+    return `
+      <div class="kopf">
+        <div class="kopf-titel">
+          <h1>${begruessung}</h1>
+          <div class="kopf-klein">Was möchtest du heute machen?</div>
+        </div>
+        <button class="btn btn-ghost btn-klein" data-test="einstellungen" id="btn-einstellungen" aria-label="Einstellungen">⚙️</button>
+      </div>
+      ${gruppenSkillIds.length > 0 ? `
+        <div class="karte">
+          <h3>Heute in der Gruppe: ${esc(zustand.gruppe.titel || "")}</h3>
+          ${gruppenSkillIds.map(id => {
+            const s = findSkill(id);
+            if (!s) return "";
+            return `<div class="skill-zeile" data-skill="${esc(id)}"><span>${kategorieEmoji(s.kategorie)} ${esc(s.name)}</span><span class="klein">${esc(s.dauer)}</span></div>`;
+          }).join("")}
+        </div>` : ""}
+      <div class="kachel-grid">
+        <button class="kachel" data-test="kachel-fest" data-nav="fest"><span class="kachel-emoji">🆘</span> Ich stecke fest</button>
+        <button class="kachel" data-test="kachel-skills" data-nav="skills"><span class="kachel-emoji">🧪</span> Skills entdecken</button>
+        <button class="kachel" data-test="kachel-koffer" data-nav="koffer"><span class="kachel-emoji">🧳</span> Mein Skillskoffer</button>
+        <button class="kachel" data-test="kachel-pass" data-nav="pass"><span class="kachel-emoji">🏅</span> Forscherpass</button>
+        <button class="kachel" data-test="kachel-weg" data-nav="weg"><span class="kachel-emoji">🧭</span> Mein Weg</button>
+        <button class="kachel" data-test="kachel-versuch" data-nav="versuchWahl"><span class="kachel-emoji">✍️</span> Ich habe etwas ausprobiert</button>
+      </div>
+      <p class="fuss">Du musst nicht alles schaffen. Nur deinen nächsten Schritt finden.</p>`;
+  }
+
+  /* ---------- Ich stecke fest ---------- */
+
+  function renderFest() {
+    if (!aktParam || !["niedrig", "mittel", "hoch"].includes(aktParam)) {
+      return `
+        <button class="zurueck" data-zurueck>← Zurück</button>
+        <h1>Wie stark ist die Anspannung gerade?</h1>
+        <div class="karte">
+          <button class="btn btn-zweit" data-fest="niedrig" style="margin-bottom:10px;">Geht so</button>
+          <button class="btn btn-zweit" data-fest="mittel" style="margin-bottom:10px;">Ziemlich stark</button>
+          <button class="btn btn-gefahr" data-fest="hoch">Sehr stark</button>
+        </div>`;
+    }
+    const niveau = aktParam;
+    const isHoch = niveau === "hoch";
+    const isMittel = niveau === "mittel";
+    let skills = [];
+    if (isHoch) {
+      const kIds = zustand.koffer.hoch.slice(0, 3);
+      if (kIds.length > 0) {
+        skills = kIds.map(id => findSkill(id)).filter(Boolean);
+      } else {
+        skills = alleSichtbarenSkills().filter(s => s.kategorie === "hoch").slice(0, 3);
+      }
+    } else if (isMittel) {
+      const kIds = zustand.koffer.mittel.slice(0, 4);
+      if (kIds.length > 0) {
+        skills = kIds.map(id => findSkill(id)).filter(Boolean);
+      } else {
+        skills = alleSichtbarenSkills().filter(s => s.kategorie === "mittel").slice(0, 4);
+      }
+    } else {
+      // niedrig
+      const kIds = zustand.koffer.langfristig.slice(0, 4);
+      const langfristig = kIds.map(id => findSkill(id)).filter(Boolean);
+      const ablenkungAchtsam = alleSichtbarenSkills().filter(s => s.kategorie === "ablenkung" || s.kategorie === "achtsam").slice(0, 4);
+      skills = [...langfristig];
+      ablenkungAchtsam.forEach(s => { if (!skills.some(x => x.id === s.id)) skills.push(s); });
+      skills = skills.slice(0, 4);
+    }
+    const niveauText = isHoch ? "Atme einmal aus. Du musst jetzt nur eine Sache tun." : "Wähle einen kleinen Schritt.";
+    return `
+      <button class="zurueck" data-zurueck-fest>← Zurück</button>
+      <h1>${isHoch ? "Sehr stark" : isMittel ? "Ziemlich stark" : "Geht so"}</h1>
+      <p class="kopf-klein">${niveauText}</p>
+      <div class="karte">
+        ${skills.length > 0 ? skills.map(s => `
+          <div class="skill-zeile" data-versuch-start="${esc(s.id)}">
+            <span>${kategorieEmoji(s.kategorie)} ${esc(s.name)}</span>
+            <span class="klein">${esc(s.dauer)}</span>
+          </div>`).join("") : "<p>Keine passenden Skills gefunden.</p>"}
+      </div>
+      <button class="btn btn-ghost" id="fest-zu-viel" style="margin-bottom:10px;">Das ist gerade zu viel</button>
+      <div id="fest-zu-viel-text" style="display:none; margin-bottom:12px;" class="karte">
+        <p>Okay. Dann nur das: Stell beide Füße auf den Boden und atme dreimal langsam aus. Mehr musst du gerade nicht.</p>
+        <button class="btn btn-gefahr" data-hilfe>Ich brauche jemanden</button>
+      </div>
+      <button class="btn btn-gefahr" data-hilfe>Ich brauche jemanden</button>`;
+  }
+
+  /* ---------- Hilfe ---------- */
+
+  function renderHilfe() {
+    const kontakte = zustand.plan.kontakte || [];
+    const planText = zustand.plan.text || "";
+    return `
+      <button class="zurueck" data-zurueck>← Zurück</button>
+      <h1>Hilfe holen ist stark.</h1>
+      <div class="karte">
+        <h3>Meine Kontakte</h3>
+        ${kontakte.length > 0 ? kontakte.map(k => `
+          <a class="btn btn-zweit" style="margin-bottom:8px; text-decoration:none;" href="tel:${esc(k.telefon)}">Anrufen: ${esc(k.name)}</a>`).join("") : `
+          <p>Du hast noch keine Kontakte eingetragen. Das kannst du in deinem Koffer unter Mein Plan machen.</p>
+          <button class="btn btn-zweit" id="hilfe-zum-plan">Zum Plan</button>`}
+      </div>
+      ${planText ? `<div class="karte"><h3>Mein Plan</h3><p>${esc(planText)}</p></div>` : ""}
+      <div class="karte">
+        <h3>Auf Station</h3>
+        <p>Sag einer Person aus dem Team Bescheid. Du störst nicht.</p>
+      </div>
+      <div class="karte">
+        <h3>Nummer gegen Kummer</h3>
+        <p>Kostenlos und anonym: 116 111</p>
+        <a class="btn btn-ghost" href="tel:116111" style="text-decoration:none;">Anrufen: 116 111</a>
+        <p style="margin-top:12px;">In akuter Gefahr: Notruf 112</p>
+        <a class="btn btn-gefahr" href="tel:112" style="text-decoration:none;">Anrufen: 112</a>
+        <p class="klein" style="margin-top:12px;">Diese App ersetzt keine Hilfe von Menschen. Sie meldet niemandem etwas.</p>
+      </div>`;
+  }
+
+  /* ---------- Skills ---------- */
+
+  let skillsFilter = { suche: "", kategorie: "alle" };
+
+  function renderSkills() {
+    skillsFilter = { suche: "", kategorie: "alle" };
+    return `
+      <h1>Skills entdecken</h1>
+      <input type="text" id="suchfeld" data-test="suche" placeholder="Suchen ..." value="${esc(skillsFilter.suche)}" autocomplete="off">
+      <div class="chip-zeile" id="skill-chips">
+        ${renderSkillChips()}
+      </div>
+      <div id="ergebnis-liste"></div>
+      <button class="btn btn-zweit" id="btn-eigen-anlegen" style="margin-top:12px;">+ Eigenen Skill anlegen</button>`;
+  }
+
+  function renderSkillChips() {
+    const kategorien = [{ id: "alle", name: "Alle" }, ...KATEGORIEN, { id: "eigene", name: "Eigene" }];
+    return kategorien.map(k => `
+      <button class="chip ${skillsFilter.kategorie === k.id ? 'aktiv' : ''}" data-kat="${esc(k.id)}">${esc(k.name)}</button>`).join("");
+  }
+
+  function gefilterteSkills() {
+    const alle = alleSichtbarenSkills();
+    const suche = skillsFilter.suche.trim().toLocaleLowerCase('de-DE');
+    let ergebnis = alle;
+    if (skillsFilter.kategorie === "eigene") {
+      ergebnis = zustand.eigeneSkills;
+    } else if (skillsFilter.kategorie !== "alle") {
+      ergebnis = alle.filter(s => s.kategorie === skillsFilter.kategorie);
+    }
+    if (suche) {
+      ergebnis = ergebnis.filter(s => {
+        const text = (s.name + " " + s.wann + " " + (s.schritte || []).join(" ")).toLocaleLowerCase('de-DE');
+        return text.includes(suche);
+      });
+    }
+    return ergebnis;
+  }
+
+  function renderSkillListe() {
+    const liste = gefilterteSkills();
+    const container = document.getElementById("ergebnis-liste");
+    if (!container) return;
+    if (liste.length === 0) {
+      container.innerHTML = `
+        <div class="karte" style="text-align:center;">
+          <p>Nichts gefunden. Vielleicht willst du einen eigenen Skill anlegen?</p>
+          <button class="btn btn-zweit" id="btn-eigen-anlegen-list">+ Eigenen Skill anlegen</button>
+        </div>`;
+    } else {
+      container.innerHTML = liste.map(s => `
+        <div class="liste-item" data-skill-card="${esc(s.id)}" data-test="skill-${esc(s.id)}">
+          <span style="font-size:1.5rem;">${kategorieEmoji(s.kategorie)}</span>
+          <span style="flex:1;">${esc(s.name)}</span>
+          <span class="klein">${esc(s.dauer)}</span>
+          ${istImKoffer(s.id) ? '<span class="klein">im Koffer</span>' : ''}
+          ${versuchAnzahl(s.id) > 0 ? `<span class="klein">ausprobiert ×${versuchAnzahl(s.id)}</span>` : ''}
+        </div>`).join("");
+    }
+  }
+
+  /* ---------- Skill Detail ---------- */
+
+  function angesehenHinzufuegen(id) {
+    if (!id) return;
+    if (!zustand.angesehen.includes(id)) {
+      zustand.angesehen.push(id);
+      speichereZustand();
+    }
+  }
+
+  function renderSkillDetail(id) {
+    const skill = findSkill(id);
+    if (!skill) {
+      return `<div class="karte">Dieser Skill wurde gelöscht oder existiert nicht.</div><button class="btn" data-nav="skills">Zur Skill-Liste</button>`;
+    }
+    const versuche = versucheZuSkill(id);
+    const kategorien = KATEGORIEN.map(k => k.name).join(", ");
+    return `
+      <button class="zurueck" data-zurueck>← Zurück</button>
+      <h1>${esc(skill.name)}</h1>
+      <div class="karte">
+        <p><strong>${kategorieEmoji(skill.kategorie)} ${esc(kategorieName(skill.kategorie))}</strong></p>
+        <p><strong>Dauer:</strong> ${esc(skill.dauer)}</p>
+        <p><strong>Material:</strong> ${esc(skill.material)}</p>
+        <p><strong>Wann?</strong> ${esc(skill.wann)}</p>
+      </div>
+      <div class="karte">
+        <h3>So geht es</h3>
+        <ol class="schritte-list">
+          ${(skill.schritte || []).map((schritt, i) => `
+            <li class="schritt-item"><span class="schritt-nr">${i + 1}</span><span>${esc(schritt)}</span></li>`).join("")}
+        </ol>
+      </div>
+      <button class="btn" data-test="ausprobieren" data-versuch-start="${esc(skill.id)}">Jetzt ausprobieren</button>
+      <button class="btn btn-zweit" id="btn-in-koffer" data-test="in-koffer" data-skill="${esc(skill.id)}" style="margin-top:8px;">In meinen Koffer</button>
+      ${skill.quelle !== "standard" ? `
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button class="btn btn-ghost" id="btn-skill-bearbeiten" data-skill-bearbeiten="${esc(skill.id)}">Bearbeiten</button>
+          <button class="btn btn-gefahr" id="btn-skill-loeschen" data-skill-loeschen="${esc(skill.id)}">Löschen</button>
+        </div>` : ""}
+      ${versuche.length > 0 ? renderErfahrungen(skill) : ""}
+    `;
+  }
+
+  function renderErfahrungen(skill) {
+    const versuche = versucheZuSkill(skill.id);
+    return `
+      <div class="karte">
+        <h3>Meine Erfahrungen</h3>
+        ${versuche.map(v => `
+          <button class="versuch-zeile" data-versuch-detail="${esc(v.id)}">
+            <span class="klein">${formatKurz(v.datum)}</span>
+            <span>${esc(v.situation || "Keine Situation")}</span>
+            <span>${Number(v.vorher)} → ${Number(v.nachher)}</span>
+            <span>${v.hilfreich ? HILFREICH_EMOJIS[Number(v.hilfreich) - 1] : "?"}</span>
+          </button>`).join("")}
+        ${renderAuswertung(skill.id).map(z => `<p class="klein">${esc(z)}</p>`).join("")}
+        <p class="klein" style="margin-top:8px;">Das sind deine eigenen Erfahrungen, keine Messung. Ein Skill kann auch helfen, wenn die Zahl nicht sinkt, zum Beispiel wenn du dadurch handlungsfähig bleibst.</p>
+      </div>`;
+  }
+
+  function renderAuswertung(skillId) {
+    const versuche = versucheZuSkill(skillId);
+    const bereiche = {};
+    versuche.forEach(v => {
+      const b = bereichAusWert(Number(v.vorher));
+      if (!bereiche[b]) bereiche[b] = [];
+      bereiche[b].push(v);
+    });
+    const zeilen = [];
+    Object.keys(bereiche).forEach(b => {
+      const list = bereiche[b];
+      const durchschnitt = durchschnittsSenkung(list);
+      const anzahl = list.length;
+      const bname = b === "niedrig" ? "niedriger" : b === "mittel" ? "mittlerer" : "sehr hoher";
+      const schnitt = Math.round(durchschnitt);
+      const veraenderung = schnitt > 0 ? `${schnitt} Punkte weniger` : schnitt < 0 ? `${Math.abs(schnitt)} Punkte mehr` : "gleich";
+      let zeile = `${anzahl} Versuch${anzahl === 1 ? "" : "e"} bei ${bname} Anspannung, im Schnitt ${veraenderung}.`;
+      if (anzahl >= 2) {
+        if (durchschnitt >= 15) {
+          zeile += ` Bei ${bname} Anspannung war dieser Skill für dich in mehreren Versuchen hilfreich.`;
+        } else if (b === "hoch" && durchschnitt < 10) {
+          zeile += ` Bei sehr hoher Anspannung hat er dir bisher weniger geholfen. Dann ist vielleicht dein Plan oder eine andere Strategie dran.`;
+        }
+      }
+      zeilen.push(zeile);
+    });
+    return zeilen;
+  }
+
+  /* ---------- Versuch: Ablauf ---------- */
+
+  function renderVersuchWahl() {
+    const alle = alleSichtbarenSkills();
+    return `
+      <button class="zurueck" data-zurueck>← Zurück</button>
+      <h1>Was hast du ausprobiert?</h1>
+      ${alle.map(s => `
+        <div class="skill-zeile" data-versuch-start="${esc(s.id)}">
+          <span>${kategorieEmoji(s.kategorie)} ${esc(s.name)}</span>
+          <span class="klein">${esc(s.dauer)}</span>
+        </div>`).join("")}
+    `;
+  }
+
+  function renderVersuch() {
+    if (!versuchTemp) return renderStart();
+    const schritt = versuchTemp.schritt;
+    const skill = findSkill(versuchTemp.skillId);
+    const skillName = skill ? skill.name : "(gelöschter Skill)";
+    const fortschritt = ["A", "B", "C", "D", "E"].map(s => `<span class="punkt ${s === schritt ? 'aktiv' : ''}"></span>`).join("");
+    let inhalt = "";
+    if (schritt === "A") inhalt = renderVersuchSchrittA();
+    else if (schritt === "B") inhalt = renderVersuchSchrittB();
+    else if (schritt === "C") inhalt = renderVersuchSchrittC();
+    else if (schritt === "D") inhalt = renderVersuchSchrittD();
+    else if (schritt === "E") inhalt = renderVersuchSchrittE();
+    else if (schritt === "F") inhalt = renderVersuchErgebnis();
+
+    return `
+      <div style="margin-bottom:10px;">
+        <button class="zurueck" id="versuch-zurueck">← ${schritt === "A" ? "Abbrechen" : "Zurück"}</button>
+        <div class="fortschritt-punkte">${fortschritt}</div>
+        <div class="kopf-klein" style="text-align:center; margin-bottom:8px;">${esc(skillName)}</div>
+      </div>
+      ${inhalt}`;
+  }
+
+  function renderVersuchSchrittA() {
+    return `
+      <h1>Wie angespannt bist du gerade?</h1>
+      <div class="karte">
+        <input type="range" min="0" max="100" step="5" value="${Number(versuchTemp.vorher)}" data-test="regler" id="regler-vorher" oninput="reglerVorherGeaendert(this)">
+        <div class="regler-wert" id="vorher-wert" style="color:${farbeFuerWert(Number(versuchTemp.vorher))}">${Number(versuchTemp.vorher)}</div>
+        <div id="vorher-wort" class="klein" style="text-align:center;">${wortFuerWert(Number(versuchTemp.vorher))}</div>
+        <div class="feld" style="margin-top:12px;">
+          <label for="erwartung">Was erwartest du? (freiwillig)</label>
+          <input type="text" id="erwartung" placeholder="Ich glaube, das hilft mir ..." value="${esc(versuchTemp.erwartung)}" oninput="versuchTemp.erwartung = this.value; versuchTemp.veraendert = true;">
+        </div>
+      </div>
+      <button class="btn" data-test="weiter" id="versuch-weiter-a">Weiter</button>`;
+  }
+
+  function renderVersuchSchrittB() {
+    const skill = findSkill(versuchTemp.skillId);
+    const schritte = skill ? skill.schritte : [];
+    const zeit = leseDauerSekunden(skill);
+    return `
+      <h1>Probier es aus</h1>
+      <div class="karte">
+        <ol class="schritte-list">
+          ${schritte.map((s, i) => `<li class="schritt-item"><span class="schritt-nr">${i + 1}</span><span>${esc(s)}</span></li>`).join("")}
+        </ol>
+      </div>
+      <div class="karte">
+        ${timerLaeuft ? `
+          <div style="text-align:center;">
+            <div style="font-size:2.5rem; font-weight:800;" id="timer-anzeige"></div>
+            <button class="btn btn-ghost" id="timer-abbrechen">Abbrechen</button>
+          </div>` : `
+          <button class="btn btn-zweit" id="timer-starten">Timer starten</button>`}
+      </div>
+      <button class="btn" data-test="weiter" id="versuch-weiter-b">Fertig, weiter</button>`;
+  }
+
+  function renderVersuchSchrittC() {
+    const vorher = Number(versuchTemp.vorher);
+    const nachher = Number(versuchTemp.nachher !== null ? versuchTemp.nachher : vorher);
+    const diff = vorher - nachher;
+    let veraenderung = "";
+    let farbe = farbeFuerWert(nachher);
+    if (diff > 0) {
+      veraenderung = `Um ${diff} gesunken.`;
+    } else if (diff === 0) {
+      veraenderung = "Gleich geblieben. Das ist auch eine wichtige Erfahrung.";
+    } else {
+      veraenderung = `Um ${Math.abs(diff)} gestiegen. Gut, dass du das weißt.`;
+    }
+    versuchTemp.nachher = nachher;
+    return `
+      <h1>Und jetzt?</h1>
+      <div class="karte">
+        <input type="range" min="0" max="100" step="5" value="${nachher}" data-test="regler" id="regler-nachher" oninput="reglerNachherGeaendert(this)">
+        <div class="regler-wert" id="nachher-wert" style="color:${farbe}">${nachher}</div>
+        <div id="nachher-wort" class="klein" style="text-align:center;">${wortFuerWert(nachher)}</div>
+        <p id="veraenderung-text" style="text-align:center; font-weight:600;">${veraenderung}</p>
+      </div>
+      <button class="btn" data-test="weiter" id="versuch-weiter-c">Weiter</button>`;
+  }
+
+  function renderVersuchSchrittD() {
+    const gewaehlt = versuchTemp.situation || "";
+    return `
+      <h1>Wo warst du?</h1>
+      <div class="karte">
+        <div class="chip-zeile" style="flex-wrap: wrap; overflow-x: visible;">
+          ${SITUATIONEN.map((sit, index) => `
+            <button class="chip ${gewaehlt === sit ? 'aktiv' : ''}" data-test="sit-${index}" data-situation="${esc(sit)}">${esc(sit)}</button>`).join("")}
+        </div>
+        ${gewaehlt === "Anderes" ? `
+          <div class="feld" style="margin-top:12px;">
+            <label for="situation-anders">Anderes</label>
+            <input type="text" id="situation-anders" value="${esc(versuchTemp.situationAnderes)}" oninput="versuchTemp.situationAnderes = this.value; versuchTemp.veraendert = true;">
+          </div>` : ""}
+      </div>
+      <button class="btn" data-test="weiter" id="versuch-weiter-d">Weiter</button>`;
+  }
+
+  function renderVersuchSchrittE() {
+    const h = versuchTemp.hilfreich;
+    const a = versuchTemp.angenehm;
+    const nochmal = versuchTemp.nochmal;
+    return `
+      <h1>Wie war's?</h1>
+      <div class="karte">
+        <label>Wie hilfreich?</label>
+        <div style="display:flex; gap:6px; justify-content:space-between;">
+          ${[1,2,3,4,5].map(n => `
+            <button class="chip ${h == n ? 'aktiv' : ''}" data-test="hilf-${n}" data-hilfreich="${n}">${HILFREICH_EMOJIS[n-1]}</button>`).join("")}
+        </div>
+        <label style="margin-top:12px;">Wie angenehm?</label>
+        <div style="display:flex; gap:6px; justify-content:space-between;">
+          ${[1,2,3,4,5].map(n => `
+            <button class="chip ${a == n ? 'aktiv' : ''}" data-angenehm="${n}">${HILFREICH_EMOJIS[n-1]}</button>`).join("")}
+        </div>
+        <label style="margin-top:12px;">Nochmal ausprobieren?</label>
+        <div style="display:flex; gap:8px;">
+          <button class="chip ${nochmal === 'ja' ? 'aktiv' : ''}" data-nochmal="ja">Ja</button>
+          <button class="chip ${nochmal === 'vielleicht' ? 'aktiv' : ''}" data-nochmal="vielleicht">Vielleicht</button>
+          <button class="chip ${nochmal === 'nein' ? 'aktiv' : ''}" data-nochmal="nein">Nein</button>
+        </div>
+        <div class="feld" style="margin-top:12px;">
+          <label for="notiz">Notiz (freiwillig)</label>
+          <textarea id="notiz" oninput="versuchTemp.notiz = this.value; versuchTemp.veraendert = true;">${esc(versuchTemp.notiz)}</textarea>
+        </div>
+        <label style="display:flex; align-items:center; gap:8px;">
+          <input type="checkbox" id="besprechen" ${versuchTemp.besprechen ? 'checked' : ''} onchange="versuchTemp.besprechen = this.checked; versuchTemp.veraendert = true;">
+          Das möchte ich in der Gruppe oder im Einzelgespräch besprechen
+        </label>
+      </div>
+      <button class="btn" data-test="speichern" id="versuch-speichern">Speichern</button>`;
+  }
+
+  function renderVersuchErgebnis() {
+    const anerkennung = ANERKENNUNGEN[Math.floor(Math.random() * ANERKENNUNGEN.length)];
+    const neue = versuchTemp.neueAbzeichen || [];
+    return `
+      <h1>Gespeichert. Danke fürs Ausprobieren!</h1>
+      <div class="karte">
+        <p>${anerkennung}</p>
+        ${neue.length > 0 ? neue.map(a => `<p><strong>Neues Abzeichen: ${a.name} ${a.emoji}</strong></p>`).join("") : ""}
+      </div>
+      ${!istImKoffer(versuchTemp.skillId) ? `<button class="btn btn-zweit" id="ergebnis-in-koffer" data-test="ergebnis-in-koffer">In meinen Koffer</button>` : ""}
+      <button class="btn btn-ghost" id="ergebnis-erfahrungen" style="margin-top:8px;">Meine Erfahrungen ansehen</button>
+      <button class="btn" id="ergebnis-start" style="margin-top:8px;">Zur Startseite</button>`;
+  }
+
+  function farbeFuerWert(wert) {
+    if (wert <= 30) return "#2e8b57";
+    if (wert <= 60) return "#d9a400";
+    if (wert <= 85) return "#e07b00";
+    return "#c0392b";
+  }
+
+  function wortFuerWert(wert) {
+    if (wert <= 20) return "ganz ruhig";
+    if (wert <= 45) return "etwas angespannt";
+    if (wert <= 65) return "ziemlich angespannt";
+    if (wert <= 85) return "sehr angespannt";
+    return "kaum auszuhalten";
+  }
+
+  function reglerVorherGeaendert(input) {
+    versuchTemp.vorher = Number(input.value);
+    versuchTemp.veraendert = true;
+    const wertEl = document.getElementById("vorher-wert");
+    const wortEl = document.getElementById("vorher-wort");
+    if (wertEl) {
+      wertEl.textContent = input.value;
+      wertEl.style.color = farbeFuerWert(Number(input.value));
+    }
+    if (wortEl) wortEl.textContent = wortFuerWert(Number(input.value));
+  }
+
+  function reglerNachherGeaendert(input) {
+    const nachher = Number(input.value);
+    versuchTemp.nachher = nachher;
+    versuchTemp.veraendert = true;
+    const vorher = Number(versuchTemp.vorher);
+    const diff = vorher - nachher;
+    let veraenderung;
+    if (diff > 0) veraenderung = `Um ${diff} gesunken.`;
+    else if (diff === 0) veraenderung = "Gleich geblieben. Das ist auch eine wichtige Erfahrung.";
+    else veraenderung = `Um ${Math.abs(diff)} gestiegen. Gut, dass du das weißt.`;
+    const wertEl = document.getElementById("nachher-wert");
+    const wortEl = document.getElementById("nachher-wort");
+    const textEl = document.getElementById("veraenderung-text");
+    if (wertEl) {
+      wertEl.textContent = nachher;
+      wertEl.style.color = farbeFuerWert(nachher);
+    }
+    if (wortEl) wortEl.textContent = wortFuerWert(nachher);
+    if (textEl) textEl.textContent = veraenderung;
+  }
+
+  /* ---------- Koffer ---------- */
+
+  function renderKoffer() {
+    return `
+      <h1>Mein Skillskoffer</h1>
+      ${renderKofferFach("mittel", "🌊 Bei mittlerer Anspannung", "mittel")}
+      ${renderKofferFach("hoch", "🔥 Bei sehr hoher Anspannung", "hoch")}
+      ${renderKofferFach("langfristig", "🌱 Was mir langfristig guttut", "langfristig")}
+      <div class="karte">
+        <h3>🛟 Mein Plan</h3>
+        <p class="klein">Was du tust, wenn es ganz schlimm wird.</p>
+        <button class="btn btn-zweit" id="zum-plan">Mein Plan öffnen</button>
+      </div>
+      <div class="karte">
+        <h3>Meine Grenzen</h3>
+        <p class="klein">Jeder Mensch ist anders. Leg das am besten mit jemandem aus dem Team fest.</p>
+        <label>Ab hier ist es für mich mittel</label>
+        <input type="range" min="10" max="90" value="${Number(zustand.profil.grenzeMittel)}" id="grenze-mittel">
+        <span id="grenze-mittel-wert">${Number(zustand.profil.grenzeMittel)}</span>
+        <label style="margin-top:10px;">Ab hier ist es für mich sehr hoch</label>
+        <input type="range" min="10" max="90" value="${Number(zustand.profil.grenzeHoch)}" id="grenze-hoch">
+        <span id="grenze-hoch-wert">${Number(zustand.profil.grenzeHoch)}</span>
+      </div>`;
+  }
+
+  function renderKofferFach(fach, titel, key) {
+    const ids = zustand.koffer[key] || [];
+    const eintraege = ids.map(id => findSkill(id)).filter(Boolean);
+    const hinweis = key === "hoch" ? `<p class="klein">Hier am besten nur wenige Skills, die du gut kennst.</p>` : "";
+    const vielHinweis = key === "hoch" && eintraege.length >= 4 ? `<p class="klein">Vielleicht reichen hier drei.</p>` : "";
+    return `
+      <div class="karte">
+        <h3>${titel}</h3>
+        ${hinweis}
+        ${vielHinweis}
+        ${eintraege.length > 0 ? eintraege.map(s => `
+          <div class="skill-zeile" data-skill-detail="${esc(s.id)}" style="cursor:pointer;">
+            <span>${esc(s.name)}</span>
+            <span style="display:flex; gap:4px;">
+              <button class="btn btn-ghost btn-klein" data-koffer-hoch-schieben="${esc(s.id)}" data-fach="${key}">▲</button>
+              <button class="btn btn-ghost btn-klein" data-koffer-runter-schieben="${esc(s.id)}" data-fach="${key}">▼</button>
+              <button class="btn btn-ghost btn-klein" data-koffer-entfernen="${esc(s.id)}" data-fach="${key}">✕</button>
+            </span>
+          </div>`).join("") : "<p class='klein'>Noch leer.</p>"}
+        <button class="btn btn-zweit btn-klein" data-koffer-add="${key}" style="margin-top:8px;">+ Skill hinzufügen</button>
+      </div>`;
+  }
+
+  function renderKofferAuswahl(fach) {
+    const ids = zustand.koffer[fach] || [];
+    const alle = alleSichtbarenSkills();
+    return `
+      <button class="zurueck" data-zurueck>← Zurück</button>
+      <h1>Skill hinzufügen</h1>
+      ${alle.map(s => {
+        const schon = ids.includes(s.id);
+        return `<div class="skill-zeile ${schon ? 'graut' : ''}" data-koffer-waehlen="${esc(s.id)}" data-fach="${fach}"><span>${esc(s.name)}</span><span class="klein">${schon ? 'schon drin' : esc(s.dauer)}</span></div>`;
+      }).join("")}
+      <button class="btn btn-zweit" id="koffer-auswahl-eigen">Eigenen Skill anlegen</button>`;
+  }
+
+  /* ---------- Plan ---------- */
+
+  function renderPlan() {
+    return `
+      <button class="zurueck" data-zurueck>← Zurück</button>
+      <h1>Mein Plan</h1>
+      <div class="karte">
+        <label for="plan-text">Was ich tue, wenn es ganz schlimm wird</label>
+        <textarea id="plan-text" placeholder="z. B. Ich sage Frau K. Bescheid und gehe in den Ruheraum.">${esc(zustand.plan.text)}</textarea>
+      </div>
+      <div class="karte">
+        <h3>Kontakte</h3>
+        <div id="kontakt-liste">
+          ${zustand.plan.kontakte.map((k, i) => `
+            <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px;">
+              <span style="flex:1;">${esc(k.name)}: ${esc(k.telefon)}</span>
+              <button class="btn btn-ghost btn-klein" data-kontakt-loeschen="${i}">Löschen</button>
+            </div>`).join("")}
+        </div>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <input type="text" id="kontakt-name" placeholder="Name">
+          <input type="tel" id="kontakt-telefon" placeholder="Telefon">
+        </div>
+        <button class="btn btn-zweit btn-klein" id="kontakt-hinzufuegen">Hinzufügen</button>
+      </div>
+      <button class="btn" id="plan-speichern">Speichern</button>
+      <p class="klein">Am besten zusammen mit jemandem aus dem Team ausfüllen.</p>`;
+  }
+
+  /* ---------- Skill-Formular ---------- */
+
+  function renderSkillForm(param) {
+    let skill = null;
+    let quelle = "eigen";
+    if (param && param.id) {
+      skill = findSkill(param.id);
+      if (skill) quelle = skill.quelle === "fach" ? "fach" : "eigen";
+    } else if (param && param.quelle) {
+      quelle = param.quelle;
+    }
+    if (!skill) {
+      skill = { id: "", name: "", kategorie: "mittel", dauer: "", material: "", wann: "", schritte: [], bereich: "alle" };
+    }
+    const modusText = quelle === "fach" ? "Fach-Skill anlegen" : "Eigenen Skill anlegen";
+    return `
+      <button class="zurueck" data-zurueck>← Zurück</button>
+      <h1>${modusText}</h1>
+      <div class="karte">
+        <div class="feld">
+          <label for="sf-name">Name</label>
+          <input type="text" id="sf-name" value="${esc(skill.name)}" placeholder="z. B. Meine Atemübung">
+          <div id="sf-name-fehler" class="klein" style="color:var(--warnung); display:none;">Bitte gib einen Namen ein.</div>
+        </div>
+        <div class="feld">
+          <label for="sf-kategorie">Kategorie</label>
+          <select id="sf-kategorie">
+            ${KATEGORIEN.map(k => `<option value="${k.id}" ${skill.kategorie === k.id ? 'selected' : ''}>${k.emoji} ${esc(k.name)}</option>`).join("")}
+          </select>
+        </div>
+        <div class="feld">
+          <label for="sf-dauer">Dauer</label>
+          <input type="text" id="sf-dauer" value="${esc(skill.dauer)}" placeholder="z. B. 3 Minuten">
+        </div>
+        <div class="feld">
+          <label for="sf-material">Material</label>
+          <input type="text" id="sf-material" value="${esc(skill.material)}" placeholder="z. B. Stift und Papier">
+        </div>
+        <div class="feld">
+          <label for="sf-wann">Wann hilft er dir?</label>
+          <input type="text" id="sf-wann" value="${esc(skill.wann)}" placeholder="z. B. Wenn ich nicht abschalten kann.">
+        </div>
+        <div class="feld">
+          <label for="sf-schritte">Schritte (eine Zeile = ein Schritt)</label>
+          <textarea id="sf-schritte">${esc((skill.schritte || []).join("\n"))}</textarea>
+        </div>
+        <div class="feld">
+          <label>Bereich</label>
+          <div class="chip-zeile" style="flex-wrap:wrap;">
+            ${BEREICHE.map(b => `<button class="chip ${skill.bereich === b ? 'aktiv' : ''}" data-bereich="${b}">${esc(b)}</button>`).join("")}
+          </div>
+          <input type="hidden" id="sf-bereich" value="${esc(skill.bereich)}">
+        </div>
+      </div>
+      <button class="btn" id="sf-speichern">Speichern</button>`;
+  }
+
+  /* ---------- Forscherpass ---------- */
+
+  function renderPass() {
+    const abzeichen = abzeichenBerechnen();
+    const anzahl = abzeichen.filter(a => a.erreicht).length;
+    return `
+      <h1>Forscherpass</h1>
+      <p>${anzahl} von 12 Abzeichen. Hier zählt Ausprobieren, nicht das Ergebnis.</p>
+      <div class="abzeichen-grid">
+        ${abzeichen.map(a => `
+          <div class="abzeichen-karte ${a.erreicht ? '' : 'grau'}">
+            <div class="abzeichen-emoji">${a.emoji}</div>
+            <div><strong>${esc(a.name)}</strong></div>
+            <div class="klein">${esc(a.satz)}</div>
+          </div>`).join("")}
+      </div>`;
+  }
+
+  /* ---------- Mein Weg ---------- */
+
+  function renderWeg() {
+    const angesehen = zustand.angesehen.length;
+    const ausprobiert = new Set(zustand.versuche.map(v => v.skillId)).size;
+    const versuche = zustand.versuche.length;
+    const imKoffer = zustand.koffer.mittel.length + zustand.koffer.hoch.length + zustand.koffer.langfristig.length;
+    const markiert = zustand.versuche.filter(v => v.besprechen);
+    const alleVersuche = alleVersucheSortiertNeu();
+    return `
+      <h1>Mein Weg</h1>
+      <div class="karte zwei-spalten">
+        <div><strong>${angesehen}</strong><br><span class="klein">Skills entdeckt</span></div>
+        <div><strong>${ausprobiert}</strong><br><span class="klein">verschiedene ausprobiert</span></div>
+        <div><strong>${versuche}</strong><br><span class="klein">Versuche</span></div>
+        <div><strong>${imKoffer}</strong><br><span class="klein">im Koffer</span></div>
+      </div>
+      <div class="karte">
+        <h3>💬 Zum Besprechen</h3>
+        ${markiert.length > 0 ? markiert.map(v => `
+          <button class="versuch-zeile" data-v-besprechen="${esc(v.id)}">
+            <span>${esc(skillNameOderGeloescht(v.skillId))}</span>
+            <span class="klein">${formatKurz(v.datum)} ${esc(v.notiz || "")}</span>
+            <span class="klein">Erledigt?</span>
+          </button>`).join("") : '<p class="klein">Nichts markiert. Du kannst bei jedem Versuch sagen, dass du darüber sprechen möchtest.</p>'}
+      </div>
+      <div class="karte">
+        <h3>🧭 Mein Was-hilft-mir-Kompass</h3>
+        ${zustand.kompass.length > 0 ? zustand.kompass.map((k, i) => `
+          <div class="skill-zeile" style="cursor:default;"><span>Wenn ${esc(k.wenn)}, hilft mir ${esc(k.dann)}.</span>
+            <button class="btn btn-ghost btn-klein" data-kompass-loeschen="${i}">Löschen</button>
+          </div>`).join("") : '<p class="klein">Noch keine Sätze.</p>'}
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <input type="text" id="kompass-wenn" placeholder="ich grübele">
+          <input type="text" id="kompass-dann" placeholder="ein Spaziergang">
+        </div>
+        <button class="btn btn-zweit btn-klein" id="kompass-hinzufuegen">Hinzufügen</button>
+        <button class="btn btn-ghost btn-klein" id="kompass-vorschlag">Idee aus meinen Versuchen</button>
+      </div>
+      <div class="karte">
+        <h3>Alle Versuche</h3>
+        ${alleVersuche.length > 0 ? alleVersuche.map(v => `
+          <button class="versuch-zeile" data-versuch-detail="${esc(v.id)}">
+            <span>${esc(skillNameOderGeloescht(v.skillId))}</span>
+            <span class="klein">${formatDatum(v.datum)}</span>
+          </button>`).join("") : '<p class="klein">Noch keine Versuche.</p>'}
+      </div>`;
+  }
+
+  /* ---------- Einstellungen ---------- */
+
+  function renderEinstellungen() {
+    return `
+      <button class="zurueck" data-zurueck>← Zurück</button>
+      <h1>Einstellungen</h1>
+      <div class="karte">
+        <div class="feld">
+          <label for="ein-name">Name</label>
+          <input type="text" id="ein-name" value="${esc(zustand.profil.name)}">
+        </div>
+        <div class="feld">
+          <label>Farbthema</label>
+          <div class="farb-zeile">
+            ${Object.keys(THEMEN).map(t => {
+              const farbe = THEMEN[t].akzent;
+              return `<button type="button" class="farb-knopf ${zustand.profil.thema === t ? 'aktiv' : ''}" data-thema-ew="${t}" style="background:${farbe};" aria-label="${t}"></button>`;
+            }).join("")}
+          </div>
+        </div>
+        <button class="btn" id="ein-speichern">Änderungen speichern</button>
+      </div>
+      <div class="karte">
+        <h3>🎒 Meinen Rucksack sichern</h3>
+        <p class="klein">So kannst du deine Inhalte auf ein anderes Gerät mitnehmen.</p>
+        <button class="btn btn-zweit" id="rucksack-sichern">Rucksack sichern</button>
+        <button class="btn btn-zweit" id="rucksack-laden-btn" style="margin-top:8px;">Rucksack laden</button>
+        <input type="file" id="rucksack-datei" accept=".json" style="display:none;">
+      </div>
+      <div class="karte">
+        <h3>Beispiel ansehen</h3>
+        <p class="klein">Fiktive Daten zum Ausprobieren.</p>
+        <button class="btn btn-zweit" data-test="beispiel" id="beispiel-laden">Beispiel ansehen</button>
+      </div>
+      <div class="karte">
+        <h3>Alles löschen</h3>
+        <button class="btn btn-gefahr" id="alles-loeschen">Alles löschen</button>
+      </div>
+      <div class="karte">
+        <h3>👩‍🏫 Fachkräftebereich</h3>
+        <button class="btn btn-zweit" id="fach-login-oeffnen">Fachkräftebereich öffnen</button>
+      </div>
+      <div class="karte">
+        <h3>Über diesen Prototyp</h3>
+        <p class="klein">NEXT ist ein Prototyp zum Ausprobieren. Bitte nur mit erfundenen Namen und Beispielinhalten nutzen. Alles bleibt auf diesem Gerät, es wird nichts ins Internet geschickt. Die App ersetzt keine Hilfe von Menschen.</p>
+      </div>`;
+  }
+
+  /* ---------- Fach-Login ---------- */
+
+  function renderFachLogin() {
+    const pinGesetzt = zustand.fachPin && zustand.fachPin.length === 4;
+    return `
+      <button class="zurueck" data-zurueck>← Zurück</button>
+      <h1>Fachkräftebereich</h1>
+      ${pinGesetzt ? `
+        <div class="karte">
+          <label for="fach-pin-eingabe">PIN eingeben</label>
+          <input type="password" id="fach-pin-eingabe" inputmode="numeric" maxlength="4" placeholder="4 Ziffern">
+          <button class="btn" id="fach-pin-einloggen" style="margin-top:10px;">Einloggen</button>
+          <p class="klein" style="margin-top:8px;">Die PIN schützt nur vor versehentlichem Öffnen, nicht vor Absicht.</p>
+        </div>` : `
+        <div class="karte">
+          <p>Lege eine vierstellige PIN fest</p>
+          <label for="fach-pin-neu1">PIN</label>
+          <input type="password" id="fach-pin-neu1" inputmode="numeric" maxlength="4" placeholder="4 Ziffern">
+          <label for="fach-pin-neu2" style="margin-top:8px;">PIN wiederholen</label>
+          <input type="password" id="fach-pin-neu2" inputmode="numeric" maxlength="4" placeholder="4 Ziffern">
+          <button class="btn" id="fach-pin-setzen" style="margin-top:10px;">PIN festlegen</button>
+        </div>`}`;
+  }
+
+  /* ---------- Fachbereich ---------- */
+
+  function renderFach() {
+    const fachSkills = zustand.fachSkills;
+    const standard = STANDARD_SKILLS;
+    const gruppe = zustand.gruppe;
+    const gruppenIds = gruppe.skillIds || [];
+    return `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h1>Fachkräftebereich</h1>
+        <button class="btn btn-ghost btn-klein" id="fach-verlassen">Verlassen</button>
+      </div>
+      <div class="karte">
+        <h3>Skill anlegen</h3>
+        <button class="btn btn-zweit" id="fach-skill-anlegen">Skill anlegen</button>
+      </div>
+      <div class="karte">
+        <h3>Fach-Skills</h3>
+        ${fachSkills.length > 0 ? fachSkills.map(s => `
+          <div class="skill-zeile">
+            <span>${esc(s.name)}</span>
+            <span>
+              <button class="btn btn-ghost btn-klein" data-fach-skill-bearbeiten="${esc(s.id)}">Bearbeiten</button>
+              <button class="btn btn-ghost btn-klein" data-fach-skill-loeschen="${esc(s.id)}">Löschen</button>
+            </span>
+          </div>`).join("") : '<p class="klein">Noch keine Fach-Skills.</p>'}
+      </div>
+      <div class="karte">
+        <h3>Standard-Skills</h3>
+        ${standard.map(s => `
+          <div class="skill-zeile" style="cursor:default;">
+            <span>${esc(s.name)}</span>
+            <span>
+              <input type="checkbox" ${!zustand.ausgeblendet.includes(s.id) ? 'checked' : ''} data-standard-sichtbar="${esc(s.id)}">
+              <span class="klein">sichtbar</span>
+            </span>
+          </div>`).join("")}
+      </div>
+      <div class="karte">
+        <h3>Gruppenstunde vorbereiten</h3>
+        <div class="feld">
+          <label for="fach-gruppen-titel">Titel</label>
+          <input type="text" id="fach-gruppen-titel" value="${esc(gruppe.titel)}" placeholder="z. B. Achtsamkeit über die Sinne">
+        </div>
+        <p class="klein">Bis zu 3 Skills auswählen</p>
+        ${standard.map(s => `
+          <div class="skill-zeile" style="cursor:default;">
+            <span>${esc(s.name)}</span>
+            <span>
+              <input type="checkbox" ${gruppenIds.includes(s.id) ? 'checked' : ''} data-gruppen-skill="${esc(s.id)}">
+            </span>
+          </div>`).join("")}
+        <button class="btn" id="fach-gruppe-speichern">Gruppenstunde speichern</button>
+        <button class="btn btn-gefahr" id="fach-gruppe-beenden" style="margin-top:8px;">Gruppenstunde beenden</button>
+      </div>
+      <div class="karte">
+        <h3>Skill-Paket teilen</h3>
+        <p class="klein">So kannst du auf deinem Gerät vorbereiten und auf den Stations-Tablets einspielen.</p>
+        <button class="btn btn-zweit" id="fach-paket-export">Skill-Paket exportieren</button>
+        <button class="btn btn-zweit" id="fach-paket-import-btn" style="margin-top:8px;">Skill-Paket importieren</button>
+        <input type="file" id="fach-paket-datei" accept=".json" style="display:none;">
+      </div>
+      <div class="karte">
+        <h3>PIN ändern</h3>
+        <button class="btn btn-zweit" id="fach-pin-aendern">PIN ändern</button>
+      </div>
+      <p class="klein" style="margin-top:12px;">Die persönlichen Versuche der Jugendlichen siehst du hier nicht. Sie entscheiden selbst, was sie zeigen.</p>`;
+  }
+
+  /* ---------- Event-Binding ---------- */
+
+  function bindEvents() {
+    // Zurück-Buttons
+    document.querySelectorAll("[data-zurueck]").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        history.back();
+      });
+    });
+
+    // Allgemeine data-nav Buttons (z. B. Kacheln)
+    document.querySelectorAll("[data-nav]").forEach(btn => {
+      if (btn.closest("#leiste")) return; // Leiste wird separat gebunden
+      btn.addEventListener("click", () => {
+        const ziel = btn.getAttribute("data-nav");
+        zeige(ziel, null);
+      });
+    });
+
+    // Einrichtung
+    if (aktAnsicht === "einrichtung") {
+      const nameInput = document.getElementById("name");
+      if (nameInput) nameInput.addEventListener("input", () => {
+        zustand.profil.name = nameInput.value;
+      });
+      document.querySelectorAll("#farb-zeile [data-thema]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          zustand.profil.thema = btn.getAttribute("data-thema");
+          wendeThemeAn();
+          zeige("einrichtung", null, false);
+        });
+      });
+      document.getElementById("einrichtung-los")?.addEventListener("click", () => {
+        zustand.profil.eingerichtet = true;
+        speichereZustand();
+        zeige("start");
+      });
+    }
+
+    // Start
+    if (aktAnsicht === "start") {
+      document.getElementById("btn-einstellungen")?.addEventListener("click", () => zeige("einstellungen"));
+      document.querySelectorAll("[data-skill]").forEach(el => {
+        el.addEventListener("click", () => zeige("skill", el.getAttribute("data-skill")));
+      });
+    }
+
+    // Fest
+    if (aktAnsicht === "fest") {
+      document.querySelectorAll("[data-fest]").forEach(btn => {
+        btn.addEventListener("click", () => zeige("fest", btn.getAttribute("data-fest")));
+      });
+      document.getElementById("fest-zu-viel")?.addEventListener("click", () => {
+        document.getElementById("fest-zu-viel-text").style.display = "block";
+      });
+      document.querySelectorAll("[data-hilfe]").forEach(btn => {
+        btn.addEventListener("click", () => zeige("hilfe"));
+      });
+      document.querySelectorAll("[data-versuch-start]").forEach(el => {
+        el.addEventListener("click", () => {
+          starteVersuch(el.getAttribute("data-versuch-start"));
+        });
+      });
+    }
+
+    // Hilfe
+    if (aktAnsicht === "hilfe") {
+      document.getElementById("hilfe-zum-plan")?.addEventListener("click", () => zeige("plan"));
+    }
+
+    // Skills
+    if (aktAnsicht === "skills") {
+      const suchfeld = document.getElementById("suchfeld");
+      suchfeld?.addEventListener("input", () => {
+        skillsFilter.suche = suchfeld.value;
+        renderSkillListe();
+      });
+      document.querySelectorAll("#skill-chips [data-kat]").forEach(chip => {
+        chip.addEventListener("click", () => {
+          skillsFilter.kategorie = chip.getAttribute("data-kat");
+          // Chips aktualisieren
+          document.querySelectorAll("#skill-chips [data-kat]").forEach(c => c.classList.remove("aktiv"));
+          chip.classList.add("aktiv");
+          renderSkillListe();
+        });
+      });
+      document.getElementById("btn-eigen-anlegen")?.addEventListener("click", () => zeige("skillForm", { quelle: "eigen" }));
+      // Delegation für Skill-Karten und "Eigenen Skill anlegen" in der leeren Liste
+      document.getElementById("ergebnis-liste")?.addEventListener("click", (e) => {
+        const karte = e.target.closest("[data-skill-card]");
+        if (karte) { zeige("skill", karte.getAttribute("data-skill-card")); return; }
+        if (e.target.closest("#btn-eigen-anlegen-list")) zeige("skillForm", { quelle: "eigen" });
+      });
+      renderSkillListe();
+    }
+
+    // Skill Detail
+    if (aktAnsicht === "skill") {
+      const id = aktParam;
+      angesehenHinzufuegen(id);
+      document.querySelectorAll("[data-versuch-start]").forEach(el => {
+        el.addEventListener("click", () => starteVersuch(el.getAttribute("data-versuch-start")));
+      });
+      document.getElementById("btn-in-koffer")?.addEventListener("click", () => kofferDialog(id));
+      document.getElementById("btn-skill-bearbeiten")?.addEventListener("click", () => zeige("skillForm", { id: id }));
+      document.getElementById("btn-skill-loeschen")?.addEventListener("click", () => {
+        zeigeDialog({
+          inhalt: "<p>Diesen Skill wirklich löschen?</p>",
+          knopfOk: "Löschen", knopfAbbrechen: "Abbrechen",
+          onOk: () => {
+            loescheSkill(id);
+            zeige("skills");
+          }
+        });
+      });
+      document.querySelectorAll("[data-versuch-detail]").forEach(el => {
+        el.addEventListener("click", () => {
+          const vid = el.getAttribute("data-versuch-detail");
+          versuchDetailDialog(vid);
+        });
+      });
+    }
+
+    // Versuch
+    if (aktAnsicht === "versuch") {
+      document.getElementById("versuch-zurueck")?.addEventListener("click", () => versuchZurueck());
+      if (versuchTemp && versuchTemp.schritt === "A") {
+        document.getElementById("versuch-weiter-a")?.addEventListener("click", () => {
+          versuchTemp.schritt = "B";
+          renderApp();
+        });
+      }
+      if (versuchTemp && versuchTemp.schritt === "B") {
+        document.getElementById("timer-starten")?.addEventListener("click", () => {
+          const skill = findSkill(versuchTemp.skillId);
+          starteTimer(leseDauerSekunden(skill));
+        });
+        document.getElementById("timer-abbrechen")?.addEventListener("click", () => {
+          stoppeTimer();
+          renderApp();
+        });
+        document.getElementById("versuch-weiter-b")?.addEventListener("click", () => {
+          stoppeTimer();
+          versuchTemp.schritt = "C";
+          versuchTemp.nachher = versuchTemp.nachher !== null ? versuchTemp.nachher : versuchTemp.vorher;
+          renderApp();
+        });
+        renderTimerAnzeige();
+      }
+      if (versuchTemp && versuchTemp.schritt === "C") {
+        document.getElementById("versuch-weiter-c")?.addEventListener("click", () => {
+          versuchTemp.schritt = "D";
+          renderApp();
+        });
+      }
+      if (versuchTemp && versuchTemp.schritt === "D") {
+        document.querySelectorAll("[data-situation]").forEach(btn => {
+          btn.addEventListener("click", () => {
+            versuchTemp.situation = btn.getAttribute("data-situation");
+            versuchTemp.veraendert = true;
+            renderApp();
+          });
+        });
+        document.getElementById("versuch-weiter-d")?.addEventListener("click", () => {
+          versuchTemp.schritt = "E";
+          renderApp();
+        });
+      }
+      if (versuchTemp && versuchTemp.schritt === "E") {
+        document.querySelectorAll("[data-hilfreich]").forEach(btn => {
+          btn.addEventListener("click", () => {
+            versuchTemp.hilfreich = Number(btn.getAttribute("data-hilfreich"));
+            versuchTemp.veraendert = true;
+            renderApp();
+          });
+        });
+        document.querySelectorAll("[data-angenehm]").forEach(btn => {
+          btn.addEventListener("click", () => {
+            versuchTemp.angenehm = Number(btn.getAttribute("data-angenehm"));
+            versuchTemp.veraendert = true;
+            renderApp();
+          });
+        });
+        document.querySelectorAll("[data-nochmal]").forEach(btn => {
+          btn.addEventListener("click", () => {
+            versuchTemp.nochmal = btn.getAttribute("data-nochmal");
+            versuchTemp.veraendert = true;
+            renderApp();
+          });
+        });
+        document.getElementById("versuch-speichern")?.addEventListener("click", () => speichereVersuch());
+      }
+      if (versuchTemp && versuchTemp.schritt === "F") {
+        document.getElementById("ergebnis-in-koffer")?.addEventListener("click", () => kofferDialog(versuchTemp.skillId));
+        document.getElementById("ergebnis-erfahrungen")?.addEventListener("click", () => zeige("skill", versuchTemp.skillId));
+        document.getElementById("ergebnis-start")?.addEventListener("click", () => zeige("start"));
+      }
+    }
+
+    // Versuch Wahl
+    if (aktAnsicht === "versuchWahl") {
+      document.querySelectorAll("[data-versuch-start]").forEach(el => {
+        el.addEventListener("click", () => starteVersuch(el.getAttribute("data-versuch-start")));
+      });
+    }
+
+    // Koffer
+    if (aktAnsicht === "koffer") {
+      document.querySelectorAll("[data-koffer-add]").forEach(btn => {
+        btn.addEventListener("click", () => zeige("kofferAuswahl", btn.getAttribute("data-koffer-add")));
+      });
+      document.querySelectorAll("[data-koffer-hoch-schieben]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const fach = btn.getAttribute("data-fach");
+          const id = btn.getAttribute("data-koffer-hoch-schieben");
+          kofferSchieben(fach, id, -1);
+        });
+      });
+      document.querySelectorAll("[data-koffer-runter-schieben]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const fach = btn.getAttribute("data-fach");
+          const id = btn.getAttribute("data-koffer-runter-schieben");
+          kofferSchieben(fach, id, 1);
+        });
+      });
+      document.querySelectorAll("[data-koffer-entfernen]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const fach = btn.getAttribute("data-fach");
+          const id = btn.getAttribute("data-koffer-entfernen");
+          kofferEntfernen(fach, id);
+        });
+      });
+      document.querySelectorAll("[data-skill-detail]").forEach(el => {
+        el.addEventListener("click", () => zeige("skill", el.getAttribute("data-skill-detail")));
+      });
+      document.getElementById("zum-plan")?.addEventListener("click", () => zeige("plan"));
+      document.getElementById("grenze-mittel")?.addEventListener("input", event => {
+        const wert = Number(event.target.value);
+        zustand.profil.grenzeMittel = wert;
+        if (wert >= Number(zustand.profil.grenzeHoch)) {
+          zustand.profil.grenzeHoch = Math.min(90, wert + 10);
+          document.getElementById("grenze-hoch").value = zustand.profil.grenzeHoch;
+        }
+        document.getElementById("grenze-mittel-wert").textContent = wert;
+        document.getElementById("grenze-hoch-wert").textContent = zustand.profil.grenzeHoch;
+        speichereZustand();
+      });
+      document.getElementById("grenze-hoch")?.addEventListener("input", event => {
+        const wert = Number(event.target.value);
+        zustand.profil.grenzeHoch = wert;
+        if (wert <= Number(zustand.profil.grenzeMittel)) {
+          zustand.profil.grenzeMittel = Math.max(10, wert - 10);
+          document.getElementById("grenze-mittel").value = zustand.profil.grenzeMittel;
+        }
+        document.getElementById("grenze-hoch-wert").textContent = wert;
+        document.getElementById("grenze-mittel-wert").textContent = zustand.profil.grenzeMittel;
+        speichereZustand();
+      });
+    }
+
+    // Koffer Auswahl
+    if (aktAnsicht === "kofferAuswahl") {
+      document.querySelectorAll("[data-koffer-waehlen]").forEach(el => {
+        el.addEventListener("click", () => {
+          const fach = el.getAttribute("data-fach");
+          const id = el.getAttribute("data-koffer-waehlen");
+          if (!zustand.koffer[fach].includes(id)) {
+            zustand.koffer[fach].push(id);
+            speichereZustand();
+            zeigeToast("In den Koffer gelegt.");
+          }
+          zeige("koffer");
+        });
+      });
+      document.getElementById("koffer-auswahl-eigen")?.addEventListener("click", () => zeige("skillForm", { quelle: "eigen" }));
+    }
+
+    // Plan
+    if (aktAnsicht === "plan") {
+      document.getElementById("kontakt-hinzufuegen")?.addEventListener("click", () => {
+        const name = document.getElementById("kontakt-name").value.trim();
+        const tel = document.getElementById("kontakt-telefon").value.trim();
+        if (!name || !tel) {
+          zeigeToast("Bitte Name und Telefon ausfüllen.");
+          return;
+        }
+        zustand.plan.kontakte.push({ name, telefon: tel });
+        document.getElementById("kontakt-name").value = "";
+        document.getElementById("kontakt-telefon").value = "";
+        renderApp();
+      });
+      document.querySelectorAll("[data-kontakt-loeschen]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const index = Number(btn.getAttribute("data-kontakt-loeschen"));
+          zustand.plan.kontakte.splice(index, 1);
+          renderApp();
+        });
+      });
+      document.getElementById("plan-speichern")?.addEventListener("click", () => {
+        const text = document.getElementById("plan-text").value;
+        zustand.plan.text = text;
+        speichereZustand();
+        zeigeToast("Plan gespeichert.");
+      });
+    }
+
+    // Skill Form
+    if (aktAnsicht === "skillForm") {
+      document.querySelectorAll("[data-bereich]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.getElementById("sf-bereich").value = btn.getAttribute("data-bereich");
+          document.querySelectorAll("[data-bereich]").forEach(b => b.classList.remove("aktiv"));
+          btn.classList.add("aktiv");
+        });
+      });
+      document.getElementById("sf-speichern")?.addEventListener("click", () => {
+        skillFormSpeichern();
+      });
+    }
+
+    // Pass
+    if (aktAnsicht === "pass") {
+      // keine zusätzlichen Events
+    }
+
+    // Weg
+    if (aktAnsicht === "weg") {
+      document.querySelectorAll("[data-v-besprechen]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const vid = btn.getAttribute("data-v-besprechen");
+          const v = zustand.versuche.find(item => item.id === vid);
+          if (v) {
+            v.besprechen = false;
+            speichereZustand();
+            renderApp();
+          }
+        });
+      });
+      document.querySelectorAll("[data-kompass-loeschen]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const index = Number(btn.getAttribute("data-kompass-loeschen"));
+          zustand.kompass.splice(index, 1);
+          speichereZustand();
+          renderApp();
+        });
+      });
+      document.getElementById("kompass-hinzufuegen")?.addEventListener("click", () => {
+        const wenn = document.getElementById("kompass-wenn").value.trim();
+        const dann = document.getElementById("kompass-dann").value.trim();
+        if (!wenn || !dann) {
+          zeigeToast("Bitte beide Felder ausfüllen.");
+          return;
+        }
+        zustand.kompass.push({ wenn, dann });
+        speichereZustand();
+        renderApp();
+      });
+      document.getElementById("kompass-vorschlag")?.addEventListener("click", () => {
+        kompassVorschlag();
+      });
+      document.querySelectorAll("[data-versuch-detail]").forEach(el => {
+        el.addEventListener("click", () => {
+          versuchDetailDialog(el.getAttribute("data-versuch-detail"));
+        });
+      });
+    }
+
+    // Einstellungen
+    if (aktAnsicht === "einstellungen") {
+      document.querySelectorAll("[data-thema-ew]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          zustand.profil.thema = btn.getAttribute("data-thema-ew");
+          wendeThemeAn();
+          document.querySelectorAll("[data-thema-ew]").forEach(b => b.classList.remove("aktiv"));
+          btn.classList.add("aktiv");
+          speichereZustand();
+        });
+      });
+      document.getElementById("ein-speichern")?.addEventListener("click", () => {
+        const name = document.getElementById("ein-name").value;
+        zustand.profil.name = name;
+        speichereZustand();
+        zeigeToast("Gespeichert.");
+      });
+      document.getElementById("rucksack-sichern")?.addEventListener("click", () => {
+        rucksackSichern();
+      });
+      document.getElementById("rucksack-laden-btn")?.addEventListener("click", () => {
+        document.getElementById("rucksack-datei").click();
+      });
+      document.getElementById("rucksack-datei")?.addEventListener("change", (e) => {
+        rucksackLaden(e.target.files[0]);
+      });
+      document.getElementById("beispiel-laden")?.addEventListener("click", () => {
+        zeigeDialog({
+          inhalt: "<p>Beispieldaten laden? Deine aktuellen Daten werden ersetzt.</p>",
+          knopfOk: "Laden", knopfAbbrechen: "Abbrechen",
+          onOk: () => {
+            zustand = beispielZustand();
+            speichereZustand();
+            wendeThemeAn();
+            zeige("start");
+          }
+        });
+      });
+      document.getElementById("alles-loeschen")?.addEventListener("click", () => {
+        zeigeDialog({
+          inhalt: "<p>Wirklich alles löschen?</p>",
+          knopfOk: "Weiter", knopfAbbrechen: "Abbrechen",
+          onOk: () => {
+            zeigeDialog({
+              inhalt: "<p>Bist du sicher? Das kann nicht rückgängig gemacht werden.</p>",
+              knopfOk: "Alles löschen", knopfAbbrechen: "Abbrechen",
+              onOk: () => {
+                zustand = JSON.parse(JSON.stringify(STANDARD_ZUSTAND));
+                speichereZustand();
+                zeige("einrichtung");
+              }
+            });
+          }
+        });
+      });
+      document.getElementById("fach-login-oeffnen")?.addEventListener("click", () => zeige("fachLogin"));
+    }
+
+    // Fach-Login
+    if (aktAnsicht === "fachLogin") {
+      document.getElementById("fach-pin-setzen")?.addEventListener("click", () => {
+        const pin1 = document.getElementById("fach-pin-neu1").value;
+        const pin2 = document.getElementById("fach-pin-neu2").value;
+        if (!/^\d{4}$/.test(pin1) || !/^\d{4}$/.test(pin2) || pin1 !== pin2) {
+          zeigeToast("Bitte genau vier Ziffern.");
+          return;
+        }
+        zustand.fachPin = pin1;
+        speichereZustand();
+        zeige("fach");
+      });
+      document.getElementById("fach-pin-einloggen")?.addEventListener("click", () => {
+        const pin = document.getElementById("fach-pin-eingabe").value;
+        if (pin === zustand.fachPin) {
+          zeige("fach");
+        } else {
+          zeigeToast("Falsche PIN.");
+        }
+      });
+    }
+
+    // Fachbereich
+    if (aktAnsicht === "fach") {
+      document.getElementById("fach-verlassen")?.addEventListener("click", () => zeige("einstellungen"));
+      document.getElementById("fach-skill-anlegen")?.addEventListener("click", () => zeige("skillForm", { quelle: "fach" }));
+      document.querySelectorAll("[data-fach-skill-bearbeiten]").forEach(btn => {
+        btn.addEventListener("click", () => zeige("skillForm", { id: btn.getAttribute("data-fach-skill-bearbeiten") }));
+      });
+      document.querySelectorAll("[data-fach-skill-loeschen]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-fach-skill-loeschen");
+          zeigeDialog({
+            inhalt: "<p>Fach-Skill wirklich löschen?</p>",
+            knopfOk: "Löschen", knopfAbbrechen: "Abbrechen",
+            onOk: () => {
+              loescheSkill(id);
+              renderApp();
+            }
+          });
+        });
+      });
+      document.querySelectorAll("[data-standard-sichtbar]").forEach(checkbox => {
+        checkbox.addEventListener("change", () => {
+          const id = checkbox.getAttribute("data-standard-sichtbar");
+          if (checkbox.checked) {
+            zustand.ausgeblendet = zustand.ausgeblendet.filter(x => x !== id);
+          } else {
+            if (!zustand.ausgeblendet.includes(id)) zustand.ausgeblendet.push(id);
+          }
+          speichereZustand();
+        });
+      });
+      document.querySelectorAll("[data-gruppen-skill]").forEach(checkbox => {
+        checkbox.addEventListener("change", () => {
+          const id = checkbox.getAttribute("data-gruppen-skill");
+          const ids = zustand.gruppe.skillIds || [];
+          if (checkbox.checked) {
+            if (!ids.includes(id)) {
+              if (ids.length >= 3) {
+                zeigeToast("Höchstens drei.");
+                checkbox.checked = false;
+              } else {
+                ids.push(id);
+              }
+            }
+          } else {
+            zustand.gruppe.skillIds = ids.filter(x => x !== id);
+          }
+          speichereZustand();
+          renderApp();
+        });
+      });
+      document.getElementById("fach-gruppe-speichern")?.addEventListener("click", () => {
+        zustand.gruppe.titel = document.getElementById("fach-gruppen-titel").value.trim();
+        zustand.gruppe.datum = new Date().toISOString();
+        speichereZustand();
+        zeigeToast("Gruppenstunde gespeichert.");
+      });
+      document.getElementById("fach-gruppe-beenden")?.addEventListener("click", () => {
+        zustand.gruppe = { titel: "", skillIds: [], datum: "" };
+        speichereZustand();
+        renderApp();
+        zeigeToast("Gruppenstunde beendet.");
+      });
+      document.getElementById("fach-paket-export")?.addEventListener("click", () => {
+        skillPaketExportieren();
+      });
+      document.getElementById("fach-paket-import-btn")?.addEventListener("click", () => {
+        document.getElementById("fach-paket-datei").click();
+      });
+      document.getElementById("fach-paket-datei")?.addEventListener("change", (e) => {
+        skillPaketImportieren(e.target.files[0]);
+      });
+      document.getElementById("fach-pin-aendern")?.addEventListener("click", () => {
+        zeigeDialog({
+          inhalt: `<label>Neue PIN</label><input type="password" id="pin-neu-a" inputmode="numeric" maxlength="4"><label style="margin-top:8px;">Wiederholen</label><input type="password" id="pin-neu-b" inputmode="numeric" maxlength="4">`,
+          knopfOk: "Ändern", knopfAbbrechen: "Abbrechen",
+          onOk: (dialogEl) => {
+            const a = dialogEl.querySelector("#pin-neu-a").value;
+            const b = dialogEl.querySelector("#pin-neu-b").value;
+            if (/^\d{4}$/.test(a) && a === b) {
+              zustand.fachPin = a;
+              speichereZustand();
+              zeigeToast("PIN geändert.");
+            } else {
+              zeigeToast("Bitte genau vier Ziffern.");
+            }
+          }
+        });
+      });
+    }
+  }
+
+  /* ---------- Aktionen ---------- */
+
+  function starteVersuch(skillId) {
+    const skill = findSkill(skillId);
+    if (!skill) {
+      zeigeToast("Skill nicht gefunden.");
+      return;
+    }
+    versuchTemp = {
+      skillId,
+      schritt: "A",
+      vorher: 50,
+      nachher: null,
+      situation: "",
+      situationAnderes: "",
+      hilfreich: null,
+      angenehm: null,
+      nochmal: null,
+      notiz: "",
+      besprechen: false,
+      erwartung: "",
+      veraendert: false,
+      neueAbzeichen: []
+    };
+    zeige("versuch", skillId);
+  }
+
+  function versuchZurueck() {
+    if (!versuchTemp) return;
+    const reihenfolge = ["A", "B", "C", "D", "E", "F"];
+    const index = reihenfolge.indexOf(versuchTemp.schritt);
+    if (index > 0) {
+      versuchTemp.schritt = reihenfolge[index - 1];
+      renderApp();
+    } else {
+      // Schritt A: verwerfen oder zurück
+      if (versuchTemp.veraendert) {
+        zeigeDialog({
+          inhalt: "<p>Versuch verwerfen?</p>",
+          knopfOk: "Verwerfen", knopfAbbrechen: "Abbrechen",
+          onOk: () => {
+            versuchTemp = null;
+            history.back();
+          }
+        });
+      } else {
+        versuchTemp = null;
+        history.back();
+      }
+    }
+  }
+
+  function speichereVersuch() {
+    if (!versuchTemp) return;
+    const vorherAbzeichen = abzeichenBerechnen().filter(a => a.erreicht).map(a => a.id);
+    const situation = versuchTemp.situation === "Anderes"
+      ? (versuchTemp.situationAnderes || "Anderes")
+      : versuchTemp.situation;
+    const versuch = {
+      id: neueId(),
+      skillId: versuchTemp.skillId,
+      datum: new Date().toISOString(),
+      vorher: Number(versuchTemp.vorher),
+      nachher: Number(versuchTemp.nachher !== null ? versuchTemp.nachher : versuchTemp.vorher),
+      situation: situation || "",
+      hilfreich: versuchTemp.hilfreich || null,
+      angenehm: versuchTemp.angenehm || null,
+      notiz: versuchTemp.notiz || "",
+      nochmal: versuchTemp.nochmal || null,
+      besprechen: !!versuchTemp.besprechen,
+      erwartung: versuchTemp.erwartung || ""
+    };
+    zustand.versuche.push(versuch);
+    speichereZustand();
+    const neue = abzeichenBerechnen().filter(a => a.erreicht && !vorherAbzeichen.includes(a.id));
+    versuchTemp.neueAbzeichen = neue;
+    versuchTemp.schritt = "F";
+    renderApp();
+  }
+
+  function kofferDialog(skillId) {
+    const mittel = zustand.koffer.mittel.includes(skillId);
+    const hoch = zustand.koffer.hoch.includes(skillId);
+    const lang = zustand.koffer.langfristig.includes(skillId);
+    const inhalt = `
+      <h3>In welches Fach?</h3>
+      <label style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+        <input type="checkbox" data-test="fach-mittel" class="fach-check" data-fach="mittel" ${mittel ? 'checked' : ''}> Bei mittlerer Anspannung
+      </label>
+      <label style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+        <input type="checkbox" data-test="fach-hoch" class="fach-check" data-fach="hoch" ${hoch ? 'checked' : ''}> Bei sehr hoher Anspannung
+      </label>
+      <label style="display:flex; gap:8px; align-items:center;">
+        <input type="checkbox" data-test="fach-langfristig" class="fach-check" data-fach="langfristig" ${lang ? 'checked' : ''}> Was mir langfristig guttut
+      </label>`;
+    zeigeDialog({
+      inhalt,
+      knopfOk: "Speichern",
+      knopfAbbrechen: "Abbrechen",
+      onOk: (dialogEl) => {
+        const checks = dialogEl.querySelectorAll(".fach-check:checked");
+        ["mittel", "hoch", "langfristig"].forEach(fach => {
+          zustand.koffer[fach] = zustand.koffer[fach].filter(id => id !== skillId);
+        });
+        checks.forEach(cb => {
+          const fach = cb.getAttribute("data-fach");
+          if (!zustand.koffer[fach].includes(skillId)) {
+            zustand.koffer[fach].push(skillId);
+          }
+        });
+        speichereZustand();
+        zeigeToast("Koffer aktualisiert.");
+        if (aktAnsicht === "versuch" && versuchTemp) {
+          renderApp();
+        } else if (aktAnsicht === "skill") {
+          renderApp();
+        } else {
+          zeige("koffer");
+        }
+      }
+    });
+  }
+
+  function kofferSchieben(fach, id, richtung) {
+    const arr = zustand.koffer[fach] || [];
+    const index = arr.indexOf(id);
+    if (index < 0) return;
+    const neuerIndex = index + richtung;
+    if (neuerIndex < 0 || neuerIndex >= arr.length) return;
+    [arr[index], arr[neuerIndex]] = [arr[neuerIndex], arr[index]];
+    speichereZustand();
+    renderApp();
+  }
+
+  function kofferEntfernen(fach, id) {
+    const arr = zustand.koffer[fach] || [];
+    const index = arr.indexOf(id);
+    if (index < 0) return;
+    const skillN = skillNameOderGeloescht(id);
+    arr.splice(index, 1);
+    speichereZustand();
+    zeigeToast(`"${skillN}" entfernt.`, "Rückgängig", () => {
+      zustand.koffer[fach].splice(index, 0, id);
+      speichereZustand();
+      renderApp();
+    });
+    renderApp();
+  }
+
+  function loescheSkill(id) {
+    zustand.eigeneSkills = zustand.eigeneSkills.filter(s => s.id !== id);
+    zustand.fachSkills = zustand.fachSkills.filter(s => s.id !== id);
+    // Aus Koffer entfernen
+    ["mittel", "hoch", "langfristig"].forEach(fach => {
+      zustand.koffer[fach] = zustand.koffer[fach].filter(kid => kid !== id);
+    });
+    // Versuche bleiben erhalten und zeigen dann gelöschter Skill
+    speichereZustand();
+  }
+
+  function skillFormSpeichern() {
+    const name = document.getElementById("sf-name").value.trim();
+    if (!name) {
+      document.getElementById("sf-name-fehler").style.display = "block";
+      return;
+    }
+    const kategorie = document.getElementById("sf-kategorie").value;
+    const dauer = document.getElementById("sf-dauer").value.trim();
+    const material = document.getElementById("sf-material").value.trim();
+    const wann = document.getElementById("sf-wann").value.trim();
+    const schritteText = document.getElementById("sf-schritte").value;
+    const bereich = document.getElementById("sf-bereich").value;
+    const schritte = schritteText.split("\n").map(z => z.trim()).filter(Boolean);
+
+    if (aktParam && aktParam.id) {
+      // Bearbeiten
+      const zielSammlung = findSkill(aktParam.id)?.quelle === "fach" ? zustand.fachSkills : zustand.eigeneSkills;
+      const zuBearbeiten = zielSammlung.find(s => s.id === aktParam.id);
+      if (zuBearbeiten) {
+        Object.assign(zuBearbeiten, { name, kategorie, dauer, material, wann, schritte, bereich });
+      }
+      speichereZustand();
+      zeige("skill", aktParam.id);
+    } else {
+      const quelle = aktParam && aktParam.quelle === "fach" ? "fach" : "eigen";
+      const neuerSkill = {
+        id: neueId(),
+        name,
+        kategorie,
+        dauer,
+        material,
+        wann,
+        schritte,
+        bereich,
+        quelle
+      };
+      if (quelle === "fach") {
+        zustand.fachSkills.push(neuerSkill);
+        speichereZustand();
+        zeige("fach");
+      } else {
+        zustand.eigeneSkills.push(neuerSkill);
+        speichereZustand();
+        zeigeToast("Dein Skill ist gespeichert.");
+        zeigeDialog({
+          inhalt: "<p>Gleich in den Koffer?</p>",
+          knopfOk: "Ja", knopfAbbrechen: "Später",
+          onOk: () => {
+            kofferDialog(neuerSkill.id);
+          },
+          onAbbrechen: () => {
+            zeige("skills");
+          }
+        });
+      }
+    }
+  }
+
+  function versuchDetailDialog(vid) {
+    const v = zustand.versuche.find(item => item.id === vid);
+    if (!v) return;
+    const inhalt = `
+      <h3>Versuch</h3>
+      <p><strong>Skill:</strong> ${esc(skillNameOderGeloescht(v.skillId))}</p>
+      <p><strong>Datum:</strong> ${formatDatum(v.datum)}</p>
+      <p><strong>Situation:</strong> ${esc(v.situation || "Keine")}</p>
+      <p><strong>Erwartung:</strong> ${esc(v.erwartung || "Keine")}</p>
+      <p><strong>Notiz:</strong> ${esc(v.notiz || "Keine")}</p>
+      <p><strong>Besprechen:</strong> ${v.besprechen ? "ja" : "nein"}</p>
+      <button class="btn btn-zweit" id="vd-besprechen-toggle">${v.besprechen ? "Nicht mehr besprechen" : "Zum Besprechen markieren"}</button>
+      <button class="btn btn-gefahr" id="vd-loeschen">Löschen</button>`;
+    zeigeDialog({
+      inhalt,
+      knopfOk: "Schließen",
+      knopfAbbrechen: false,
+      onOk: () => {}
+    });
+    document.getElementById("vd-besprechen-toggle")?.addEventListener("click", () => {
+      v.besprechen = !v.besprechen;
+      speichereZustand();
+      schliesseDialog();
+      renderApp();
+      zeigeToast("Aktualisiert.");
+    });
+    document.getElementById("vd-loeschen")?.addEventListener("click", () => {
+      schliesseDialog();
+      zeigeDialog({
+        inhalt: "<p>Versuch wirklich löschen?</p>",
+        knopfOk: "Löschen", knopfAbbrechen: "Abbrechen",
+        onOk: () => {
+          zustand.versuche = zustand.versuche.filter(item => item.id !== vid);
+          speichereZustand();
+          renderApp();
+          zeigeToast("Versuch gelöscht.");
+        }
+      });
+    });
+  }
+
+  function kompassVorschlag() {
+    const versuche = zustand.versuche;
+    if (versuche.length < 2) {
+      zeigeToast("Probier erst ein paar Skills aus.");
+      return;
+    }
+    const nachSkill = {};
+    versuche.forEach(v => {
+      if (!nachSkill[v.skillId]) nachSkill[v.skillId] = [];
+      nachSkill[v.skillId].push(v);
+    });
+    let besterSkill = null;
+    let besteSenkung = -Infinity;
+    Object.keys(nachSkill).forEach(skillId => {
+      const list = nachSkill[skillId];
+      if (list.length >= 2) {
+        const senkung = durchschnittsSenkung(list);
+        if (senkung !== null && senkung > besteSenkung) {
+          besteSenkung = senkung;
+          besterSkill = skillId;
+        }
+      }
+    });
+    if (!besterSkill) {
+      zeigeToast("Probier erst ein paar Skills aus.");
+      return;
+    }
+    const skill = findSkill(besterSkill);
+    const situationen = nachSkill[besterSkill].map(v => v.situation).filter(Boolean);
+    const haeufigsteSituation = situationen.sort((a, b) =>
+      situationen.filter(s => s === a).length - situationen.filter(s => s === b).length
+    ).pop() || "ich grübele";
+    document.getElementById("kompass-wenn").value = haeufigsteSituation;
+    document.getElementById("kompass-dann").value = skill ? skill.name : "ein Spaziergang";
+  }
+
+  function rucksackSichern() {
+    try {
+      const daten = JSON.stringify(zustand, null, 2);
+      const name = zustand.profil.name || "du";
+      const datum = new Date().toISOString().slice(0, 10);
+      const dateiName = `NEXT-Rucksack-${name}-${datum}.json`;
+      const blob = new Blob([daten], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = dateiName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+      zeigeToast("Rucksack gesichert.");
+    } catch (e) {
+      // Fallback: JSON in Textfeld anzeigen
+      const daten = JSON.stringify(zustand, null, 2);
+      zeigeDialog({
+        inhalt: `<p>Automatisches Herunterladen ging nicht. Kopiere den Text:</p><textarea style="min-height:150px;">${esc(daten)}</textarea>`,
+        knopfOk: "Schließen",
+        knopfAbbrechen: false
+      });
+    }
+  }
+
+  function rucksackLaden(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (!data || typeof data !== "object" || !("version" in data)) {
+          zeigeToast("Diese Datei ist kein NEXT-Rucksack.");
+          return;
+        }
+        zeigeDialog({
+          inhalt: "<p>Rucksack laden? Deine aktuellen Daten werden ersetzt.</p>",
+          knopfOk: "Laden", knopfAbbrechen: "Abbrechen",
+          onOk: () => {
+            zustand = mergeStandard(data);
+            speichereZustand();
+            wendeThemeAn();
+            zeige("start");
+            zeigeToast("Rucksack geladen.");
+          }
+        });
+      } catch (err) {
+        zeigeToast("Diese Datei ist kein NEXT-Rucksack.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function beispielZustand() {
+    const z = mergeStandard(null);
+    z.profil.name = "Mika";
+    z.profil.thema = "ozean";
+    z.profil.eingerichtet = true;
+    z.koffer.mittel = ["54321", "spaziergang", "musik"];
+    z.koffer.hoch = ["kalt"];
+    z.koffer.langfristig = ["spaziergang", "schlaf"];
+    z.angesehen = ["54321", "spaziergang", "musik", "box", "kalt", "schlaf"];
+    z.kompass = [
+      { wenn: "ich grübele", dann: "ein Spaziergang" },
+      { wenn: "ich nicht einschlafen kann", dann: "meine Abendroutine" }
+    ];
+    const jetzt = Date.now();
+    const tag = 24 * 60 * 60 * 1000;
+    const versuche = [
+      { id: "v1", skillId: "54321", datum: new Date(jetzt - 13 * tag).toISOString(), vorher: 65, nachher: 40, situation: "Schule / Leistung", hilfreich: 4, angenehm: 3, notiz: "Hat geholfen", nochmal: "ja", besprechen: false, erwartung: "" },
+      { id: "v2", skillId: "54321", datum: new Date(jetzt - 10 * tag).toISOString(), vorher: 85, nachher: 80, situation: "Streit / Konflikt", hilfreich: 2, angenehm: 2, notiz: "Wenig geholfen", nochmal: "vielleicht", besprechen: true, erwartung: "" },
+      { id: "v3", skillId: "54321", datum: new Date(jetzt - 5 * tag).toISOString(), vorher: 50, nachher: 25, situation: "Schule / Leistung", hilfreich: 5, angenehm: 4, notiz: "Sehr gut", nochmal: "ja", besprechen: false, erwartung: "" },
+      { id: "v4", skillId: "spaziergang", datum: new Date(jetzt - 6 * tag).toISOString(), vorher: 50, nachher: 25, situation: "Grübeln", hilfreich: 4, angenehm: 4, notiz: "Tut einfach gut", nochmal: "ja", besprechen: false, erwartung: "" },
+      { id: "v5", skillId: "musik", datum: new Date(jetzt - 3 * tag).toISOString(), vorher: 35, nachher: 20, situation: "Abends", hilfreich: 4, angenehm: 5, notiz: "Entspannt", nochmal: "ja", besprechen: false, erwartung: "" },
+      { id: "v6", skillId: "box", datum: new Date(jetzt - 1 * tag).toISOString(), vorher: 60, nachher: 45, situation: "Auf Station", hilfreich: 3, angenehm: 3, notiz: "Geht", nochmal: "vielleicht", besprechen: false, erwartung: "" }
+    ];
+    z.versuche = versuche;
+    return z;
+  }
+
+  function skillPaketExportieren() {
+    try {
+      const paket = {
+        typ: "next-skillpaket",
+        version: 1,
+        fachSkills: zustand.fachSkills,
+        ausgeblendet: zustand.ausgeblendet,
+        gruppe: zustand.gruppe
+      };
+      const daten = JSON.stringify(paket, null, 2);
+      const datum = new Date().toISOString().slice(0, 10);
+      const blob = new Blob([daten], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `NEXT-Skillpaket-${datum}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+      zeigeToast("Skill-Paket exportiert.");
+    } catch (e) {
+      zeigeToast("Export fehlgeschlagen.");
+    }
+  }
+
+  function skillPaketImportieren(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const paket = JSON.parse(e.target.result);
+        if (!paket || paket.typ !== "next-skillpaket") {
+          zeigeToast("Das ist kein Skill-Paket.");
+          return;
+        }
+        // Zusammenführen
+        if (Array.isArray(paket.fachSkills)) {
+          paket.fachSkills.forEach(skill => {
+            const index = zustand.fachSkills.findIndex(s => s.id === skill.id);
+            if (index >= 0) zustand.fachSkills[index] = skill;
+            else zustand.fachSkills.push(skill);
+          });
+        }
+        if (Array.isArray(paket.ausgeblendet)) {
+          zustand.ausgeblendet = paket.ausgeblendet;
+        }
+        if (paket.gruppe) {
+          zustand.gruppe = { ...zustand.gruppe, ...paket.gruppe };
+        }
+        speichereZustand();
+        zeigeToast("Skill-Paket importiert.");
+        renderApp();
+      } catch (err) {
+        zeigeToast("Das ist kein Skill-Paket.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  /* ---------- Initialisierung ---------- */
+
+  ladeZustand();
+  wendeThemeAn();
+
+  // Leiste rendern
+  function renderLeiste() {
+    const leiste = document.getElementById("leiste");
+    if (!leiste) return;
+    leiste.innerHTML = `
+      <button class="leiste-knopf" data-nav="start"><span class="leiste-emoji">🏠</span><span>Start</span></button>
+      <button class="leiste-knopf" data-nav="skills"><span class="leiste-emoji">🧪</span><span>Skills</span></button>
+      <button class="leiste-knopf" data-nav="koffer"><span class="leiste-emoji">🧳</span><span>Koffer</span></button>
+      <button class="leiste-knopf" data-nav="weg"><span class="leiste-emoji">🧭</span><span>Mein Weg</span></button>`;
+  }
+  renderLeiste();
+  // Einmalige Delegation für die Leiste
+  document.getElementById("leiste")?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-nav]");
+    if (btn) {
+      const ziel = btn.getAttribute("data-nav");
+      zeige(ziel, null);
+    }
+  });
+  aktualisiereLeiste();
+
+  // Startansicht
+  if (zustand.profil.eingerichtet) {
+    zeige("start", null, false);
+  } else {
+    zeige("einrichtung", null, false);
+  }
+  if (window.history && history.replaceState) {
+    try { history.replaceState({ ansicht: aktAnsicht, param: aktParam }, ""); } catch (e) {}
+  }
+
+  // Test-API
+  window.NEXT = {
+    zustand: () => zustand,
+    zeige
+  };
+  </script>
+<script>
+  // Offline-Speicher nur im Netz anmelden; als lose Datei geht das nicht.
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  }
+</script>
+</body>
+</html>
