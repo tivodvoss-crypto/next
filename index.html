@@ -281,6 +281,66 @@ textarea.eingabe { resize: vertical; }
   .dialog-grund { place-items: center; }
 }
 
+/* Fassung 4.1 */
+.klein-knopf { width: auto; min-height: 40px; padding: 6px 12px; margin: 0; font-size: 14px; flex: none; }
+.klein-knopf[disabled] { opacity: .8; }
+.beweis { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; }
+.beweis .punkt { width: 10px; height: 10px; border-radius: 50%; flex: none; margin-top: 7px; }
+.brief { white-space: pre-wrap; }
+.treppe li[data-a] { cursor: pointer; }
+[hidden] { display: none !important; }
+
+/* Fassung 4.2 */
+.wahl-drei .look-wahl { padding: 10px 6px; font-size: 15px; }
+.look-bild.neon { background: linear-gradient(#0d0b1e 0 60%, #c084fc 60% 68%, #22d3ee 68% 75%, #0d0b1e 75%); }
+.chips.mitte { justify-content: center; }
+.vorlesen { text-align: left; margin: -8px 0 8px; padding-left: 0; }
+.marke { font-style: normal; font-size: 12px; font-weight: 600; color: var(--akzent); background: var(--akzent-hell); border-radius: 6px; padding: 1px 6px; margin-left: 4px; }
+.stufe-knopf { display: flex; gap: 12px; align-items: flex-start; width: 100%; text-align: left; background: var(--flaeche2); border: 1px solid transparent; border-radius: 12px; padding: 12px; margin: 6px 0; font-size: 15px; }
+.stufe-knopf span { flex: none; width: 54px; font-weight: 700; font-size: 13px; padding-top: 1px; }
+.stufe-mini span { color: #10b981; } .stufe-mittel span { color: #f59e0b; } .stufe-gross span { color: #ef4444; }
+.abend-schritt { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; background: var(--flaeche); border: 1px solid var(--linie); border-radius: 14px; padding: 14px; margin: 8px 0; font-size: 16px; }
+.abend-schritt .haken { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--linie); flex: none; }
+.abend-schritt.fertig .haken { background: var(--akzent); border-color: var(--akzent); box-shadow: inset 0 0 0 4px var(--flaeche); }
+.abend-schritt.fertig { color: var(--leise); }
+.ton-zeile { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--linie); }
+.ton-zeile > div { flex: 1 1 120px; display: flex; flex-direction: column; }
+.ton-zeile small { color: var(--leise); font-size: 13px; }
+.ton-zeile audio { flex: 1 1 200px; height: 40px; }
+.teilen-zeile { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--linie); }
+.teilen-zeile input { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--akzent); flex: none; }
+.teilen-zeile span { display: flex; flex-direction: column; }
+.teilen-zeile small { color: var(--leise); font-size: 14px; }
+.unten-fest { position: sticky; bottom: 84px; padding-top: 8px; background: linear-gradient(transparent, var(--grund) 30%); }
+.zeigen-eintrag { padding: 14px 0; border-bottom: 1px solid var(--linie); }
+.chip input { accent-color: var(--akzent); }
+
+/* Neon: der etwas spielerischere Look für alle, die es bunter mögen. */
+:root[data-look="neon"] {
+  --grund: #0d0b1e;
+  --flaeche: #17142e;
+  --flaeche2: #221d42;
+  --text: #f3f0ff;
+  --leise: #a49fc7;
+  --linie: #2f2858;
+  --akzent: #c084fc;
+  --akzent-text: #1a0b2e;
+  --akzent-hell: #2e2152;
+  --notfall: #fb7185;
+  --warnung-grund: #3a2a12;
+  --warnung-text: #fcd58a;
+  --schatten: 0 0 0 1px rgba(192, 132, 252, .08), 0 6px 24px rgba(34, 211, 238, .06);
+  color-scheme: dark;
+}
+:root[data-look="neon"] .knopf.haupt { background: linear-gradient(90deg, #c084fc, #22d3ee); border: 0; }
+:root[data-look="neon"] .naechster { border-color: #22d3ee; box-shadow: 0 0 24px rgba(34, 211, 238, .15); }
+:root[data-look="neon"] .etikett { color: #22d3ee; }
+:root[data-look="neon"] .logo { background: linear-gradient(90deg, #c084fc, #22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; }
+:root[data-look="neon"] .knopf.notfall { color: #2a0909; }
+:root[data-look="neon"] .baum .krone circle { fill: #2a2150; }
+:root[data-look="neon"] .baum .stamm { fill: #a78bfa; }
+:root[data-look="neon"] .baum .ast { stroke: #a78bfa; }
+
 </style>
 </head>
 <body>
@@ -1392,7 +1452,121 @@ window.NEXT_INHALT = (function () {
   // Challenge-Welten aus dem Bestand, zugeordnet zu einem Ast.
   const WELT_AST = { mut: "mut", kontakt: "mut", schule: "mut", alltag: "selbst", neues: "neugier", fuersorge: "fuersorge", zukunft: "zukunft" };
 
-  return { AESTE, ZIELE, SKILL_ZUSATZ, HINWEIS_ABSPRACHE, NEUE_SKILLS, MORGEN, STECK_GRUENDE, SCHUL_GRUENDE, SCHUL_TREPPE, RUECKMELDUNGEN, HILFREICH_CHIPS, SITUATIONEN, NOTRUF, STUFEN, POST_VORLAGEN, WELT_AST };
+  // ---- Fassung 4.1: Life Quest, Zukunftskompass, Selbstwert, Rucksack.
+
+  // Vorlagen, um eine große Alltagsaufgabe in kleine Schritte zu teilen.
+  // Die App hilft beim Einstieg, nicht beim endlosen Planen.
+  const LIFE_VORLAGEN = [
+    { titel: "Einen Termin vereinbaren", schritte: ["Herausfinden, wen ich anrufen oder anschreiben muss", "Nummer oder Adresse heraussuchen", "Aufschreiben, was ich sagen will", "Anrufen oder schreiben", "Termin in den Kalender eintragen"] },
+    { titel: "Ein Telefonat führen", schritte: ["Einen ruhigen Ort suchen", "Zwei Sätze aufschreiben: wer ich bin, was ich will", "Nummer wählen", "Sagen, was ich aufgeschrieben habe", "Mir notieren, was herauskam"] },
+    { titel: "Einkaufen gehen", schritte: ["Einkaufszettel schreiben", "Geld oder Karte einstecken", "Zum Laden gehen", "Die Sachen vom Zettel holen", "Bezahlen"] },
+    { titel: "Mein Zimmer aufräumen", schritte: ["Nur den Boden frei machen", "Wäsche in den Korb", "Müll raus", "Den Schreibtisch frei machen", "Fünf Minuten lüften"] },
+    { titel: "Für eine Arbeit lernen", schritte: ["Herausfinden, welcher Stoff drankommt", "Material zusammenlegen", "Zehn Minuten das erste Thema ansehen", "Drei Fragen dazu aufschreiben", "Jemanden fragen, was ich nicht verstehe"] },
+    { titel: "Eine Bewerbung für ein Praktikum", schritte: ["Drei Betriebe heraussuchen, die mich interessieren", "Einen Betrieb auswählen", "Fragen, ob ich anrufen oder schreiben soll", "Kurzes Anschreiben mit Hilfe aufsetzen", "Abschicken"] },
+    { titel: "Meinen Tag planen", schritte: ["Eine feste Sache für den Vormittag", "Eine feste Sache für den Nachmittag", "Eine schöne Sache für den Abend", "Aufschreiben oder ins Handy eintragen"] },
+    { titel: "Mit Bus oder Bahn fahren", schritte: ["Verbindung heraussuchen", "Fahrkarte klären", "Zur Haltestelle gehen", "Einsteigen und eine Station fahren", "Den ganzen Weg fahren"] }
+  ];
+
+  // Zukunftskompass, Einstieg A: erkunden. Zu jedem Interesse ein paar
+  // kleine Zukunftsexperimente, die man jetzt schon machen kann.
+  const INTERESSEN = [
+    { id: "tiere", name: "Tiere", experimente: ["Einen Nachmittag im Tierheim helfen", "Jemanden fragen, der mit Tieren arbeitet", "Ein Video über einen Tierberuf ansehen"] },
+    { id: "technik", name: "Technik", experimente: ["Etwas auseinanderbauen und wieder zusammenbauen", "Einen Technikberuf heraussuchen und drei Aufgaben aufschreiben", "Einen Schnuppertag in einer Werkstatt anfragen"] },
+    { id: "menschen", name: "Menschen helfen", experimente: ["Jemandem in der Familie bei etwas helfen", "Einen sozialen Beruf heraussuchen", "Fragen, ob es ein Ehrenamt in der Nähe gibt"] },
+    { id: "kreativ", name: "Kreatives", experimente: ["Eine Woche jeden Tag etwas zeichnen, schreiben oder bauen", "Einen kreativen Beruf heraussuchen", "Etwas Selbstgemachtes jemandem zeigen"] },
+    { id: "natur", name: "Natur und draußen", experimente: ["Eine Stunde draußen etwas pflanzen oder pflegen", "Einen grünen Beruf heraussuchen", "Bei einem Gartenbetrieb nach einem Schnuppertag fragen"] },
+    { id: "sport", name: "Sport und Bewegung", experimente: ["Ein Probetraining in einem Verein machen", "Einen Sportberuf heraussuchen", "Eine Woche lang jeden Tag 15 Minuten bewegen"] },
+    { id: "computer", name: "Computer und Medien", experimente: ["Ein kleines Programm, Video oder eine Seite selbst machen", "Einen Medienberuf heraussuchen", "Jemanden fragen, der in dem Bereich arbeitet"] },
+    { id: "kochen", name: "Kochen und Essen", experimente: ["Einmal für die Familie kochen", "Einen Beruf rund ums Essen heraussuchen", "In einer Küche nach einem Schnuppertag fragen"] },
+    { id: "handwerk", name: "Handwerk", experimente: ["Etwas mit den Händen reparieren oder bauen", "Einen Handwerksberuf heraussuchen", "In einem Betrieb nach einem Schnuppertag fragen"] },
+    { id: "ordnung", name: "Planen und Organisieren", experimente: ["Ein kleines Familienfest oder einen Ausflug planen", "Einen Büroberuf heraussuchen", "Jemanden in einem Büro einen Tag begleiten"] }
+  ];
+  const WERTE = ["Sicherheit", "Freiheit", "Anderen helfen", "Etwas erschaffen", "Gemeinschaft", "Abwechslung", "Ruhe", "Anerkennung", "Natur", "Gerechtigkeit", "Spaß", "Ehrlichkeit"];
+  const TAETIGKEITEN = ["Mit den Händen arbeiten", "Draußen sein", "Mit Menschen reden", "Allein tüfteln", "Planen", "Etwas gestalten", "Sich bewegen", "Am Computer arbeiten", "Etwas erklären", "Tiere versorgen"];
+
+  // Einstieg B: ein Ziel. Die Fragen aus dem Konzept, in dieser Reihenfolge.
+  const ZIEL_FRAGEN = [
+    { id: "titel", frage: "Was ist dein Ziel?", hilfe: "z. B. Ich möchte Tierärztin werden.", pflicht: true },
+    { id: "warum", frage: "Was reizt dich daran?", hilfe: "Was genau gefällt dir an diesem Ziel?" },
+    { id: "voraussetzungen", frage: "Was braucht man dafür?", hilfe: "Schulabschluss, Ausbildung, Studium, Fähigkeiten. Wenn du es nicht weißt: Das darfst du herausfinden, zum Beispiel bei der Berufsberatung oder im Internet.", liste: true },
+    { id: "etappen", frage: "Welche großen Etappen gibt es auf dem Weg?", hilfe: "z. B. Schulabschluss, Praktikum, Ausbildung.", liste: true },
+    { id: "ersterSchritt", frage: "Was kannst du jetzt schon tun?", hilfe: "Ein sehr kleiner erster Schritt, z. B. eine Person fragen, die das macht." },
+    { id: "hindernisse", frage: "Was könnte schwierig werden?", hilfe: "Ehrlich hinschauen hilft beim Planen." },
+    { id: "unterstuetzung", frage: "Wer oder was kann dir helfen?", hilfe: "Menschen, Stellen, eigene Stärken." },
+    { id: "alternativen", frage: "Welche anderen Wege würden auch zu dir passen?", hilfe: "z. B. andere Berufe mit Tieren. Ein Plan B macht dein Ziel nicht kleiner." }
+  ];
+
+  // "Stimmt das wirklich?" Häufige Gedanken zum Antippen.
+  const GEDANKEN = ["Ich schaffe das nie.", "Alle finden mich komisch.", "Ich bin nichts wert.", "Es geht sowieso schief.", "Ich bin anders als alle anderen.", "Ich bin an allem schuld.", "Keiner mag mich.", "Ich muss alles perfekt machen."];
+
+  // "Wer bin ich außer meinen Schwierigkeiten?"
+  const ICH_BEREICHE = [
+    { id: "interessen", titel: "Das mache ich gern", hilfe: "Hobbys, Interessen, Lieblingssachen" },
+    { id: "staerken", titel: "Das kann ich", hilfe: "Auch kleine Dinge zählen" },
+    { id: "menschen", titel: "Diese Menschen sind mir wichtig", hilfe: "Familie, Freunde, Haustiere" },
+    { id: "werte", titel: "Das ist mir wichtig", hilfe: "Wofür stehst du?" },
+    { id: "erlebnisse", titel: "Darauf bin ich stolz", hilfe: "Schöne oder starke Momente" }
+  ];
+
+  const WENN_DANN_BEISPIELE = [
+    { wenn: "ich morgens nicht hochkomme", dann: "mache ich nur den Mini-Start" },
+    { wenn: "ich merke, dass ich mich zurückziehe", dann: "schreibe ich einer Person aus meiner Liste" },
+    { wenn: "ich sehr angespannt bin", dann: "nehme ich einen Skill aus meinem Notfall-Koffer" },
+    { wenn: "ich einen Rückschlag hatte", dann: "mache ich einen Neustart in NEXT" }
+  ];
+
+  // ---- Fassung 4.2
+
+  // Challenges mit drei Stufen derselben Sache (Konzept, Punkt 8):
+  // Mini, Mittel, Groß. Wer die große Stufe nicht schafft, nimmt die
+  // kleinere derselben Challenge, nicht irgendeine andere.
+  const CHALLENGES3 = [
+    { welt: "mut", titel: "Meine Meinung sagen", mini: "Sag heute einmal laut, was du gut findest", mittel: "Sag in einer kleinen Runde deine eigene Meinung", gross: "Sag in der Gruppe etwas, bei dem nicht alle zustimmen müssen" },
+    { welt: "mut", titel: "Nein sagen", mini: "Überleg dir einen Satz, mit dem du freundlich Nein sagen kannst", mittel: "Sag bei einer Kleinigkeit Nein", gross: "Sag freundlich Nein, wenn du etwas Größeres nicht willst" },
+    { welt: "mut", titel: "Vor anderen sprechen", mini: "Lies einer vertrauten Person einen Satz laut vor", mittel: "Erzähl in kleiner Runde eine Minute von etwas", gross: "Halte etwas vor der Gruppe vor, eine Minute reicht" },
+    { welt: "kontakt", titel: "Jemanden ansprechen", mini: "Frag jemanden, wie sein Tag war", mittel: "Setz dich beim Essen zu jemand Neuem", gross: "Frag jemanden Neues, ob ihr etwas zusammen macht" },
+    { welt: "kontakt", titel: "Telefonieren", mini: "Schreib einer Person eine nette Nachricht", mittel: "Schick eine Sprachnachricht statt zu schreiben", gross: "Ruf jemanden an, statt zu schreiben" },
+    { welt: "kontakt", titel: "Etwas klären", mini: "Schreib auf, was dich an einer Situation stört", mittel: "Erzähl einer vertrauten Person, was dich gestört hat", gross: "Sprich einen Konflikt ruhig an" },
+    { welt: "schule", titel: "Vorbereiten", mini: "Schau dir deinen Stundenplan an", mittel: "Pack deine Schultasche für morgen", gross: "Leg abends alles für den Schultag bereit, auch die Kleidung" },
+    { welt: "schule", titel: "Lernen", mini: "Lies eine Seite in einem Schulbuch", mittel: "Mach eine Hausaufgabe 15 Minuten lang", gross: "Lern 30 Minuten und frag danach nach, was du nicht verstanden hast" },
+    { welt: "schule", titel: "Im Unterricht", mini: "Überleg dir eine Frage zum Thema", mittel: "Stell im Unterricht eine Frage", gross: "Sprich mit einer Lehrkraft über deinen Plan" },
+    { welt: "alltag", titel: "Einkaufen", mini: "Mit Begleitung in den Laden gehen", mittel: "Selbst etwas fragen, die Begleitung ist in der Nähe", gross: "Einen kleinen Einkauf allein erledigen" },
+    { welt: "alltag", titel: "Termine", mini: "Herausfinden, wo du den Termin machen musst", mittel: "Einen Termin mit Unterstützung vereinbaren", gross: "Einen Termin selbst am Telefon vereinbaren" },
+    { welt: "alltag", titel: "Unterwegs", mini: "Eine Verbindung für Bus oder Bahn heraussuchen", mittel: "Eine bekannte Strecke allein fahren", gross: "Allein eine neue Strecke fahren" },
+    { welt: "neues", titel: "Neues essen", mini: "Probier einen Bissen von etwas Neuem", mittel: "Koch etwas, das du noch nie gekocht hast", gross: "Bestell im Café oder Imbiss selbst etwas Neues" },
+    { welt: "neues", titel: "Neues Hobby", mini: "Schau dir ein Video zu einem neuen Hobby an", mittel: "Probier das Hobby eine halbe Stunde aus", gross: "Geh zu einem Probetraining oder Schnupperkurs" },
+    { welt: "neues", titel: "Neue Orte", mini: "Geh einen anderen Weg als sonst", mittel: "Besuch einen Ort, an dem du noch nie warst", gross: "Mach bei einem Angebot in deiner Stadt mit" },
+    { welt: "fuersorge", titel: "Pausen", mini: "Trink ein Glas Wasser ganz bewusst", mittel: "Mach heute eine Pause ohne Handy", gross: "Plane einen Nachmittag nur für dich" },
+    { welt: "fuersorge", titel: "Schlafen", mini: "Leg heute das Handy 15 Minuten früher weg", mittel: "Geh heute 30 Minuten früher schlafen", gross: "Halte eine Woche lang deine Abendroutine" },
+    { welt: "fuersorge", titel: "Sagen, was ich brauche", mini: "Schreib auf, was dir gerade guttun würde", mittel: "Erzähl einer vertrauten Person, was dir guttut", gross: "Sag jemandem, was du von ihm brauchst" },
+    { welt: "zukunft", titel: "Berufe entdecken", mini: "Such dir einen interessanten Beruf heraus", mittel: "Frag jemanden nach seinem Beruf", gross: "Begleite jemanden einen halben Tag bei der Arbeit" },
+    { welt: "zukunft", titel: "Praktikum", mini: "Schreib drei Betriebe auf, die dich interessieren", mittel: "Bereite eine Praktikumsanfrage vor", gross: "Schick eine Praktikumsanfrage ab" },
+    { welt: "zukunft", titel: "Beratung", mini: "Schreib drei Fragen zu deiner Zukunft auf", mittel: "Sprich mit jemandem über deine Zukunftsideen", gross: "Geh zur Berufsberatung" }
+  ];
+
+  // Abendroutine (Konzept, Punkt 7, optional).
+  const ABEND = [
+    { id: "a1", text: "Sachen für morgen hinlegen" },
+    { id: "a2", text: "Kleidung für morgen rauslegen" },
+    { id: "a3", text: "Wecker stellen" },
+    { id: "a4", text: "Zähne putzen" },
+    { id: "a5", text: "Handy 30 Minuten vor dem Schlafen weglegen" },
+    { id: "a6", text: "Licht aus zur vereinbarten Zeit" }
+  ];
+
+  // Impulse für Gruppeneinheiten, je mit Bezug zur App.
+  const GRUPPEN_IMPULSE = [
+    { titel: "Skill-Testlabor", gruppe: "Skillsgruppe", dauer: "30 Minuten", ziel: "Einen Skill gemeinsam ausprobieren und ehrlich bewerten.", ablauf: ["Skill kurz vorstellen", "Alle schätzen ihre Anspannung in der App ein", "Drei Minuten gemeinsam üben", "Anspannung nachher eintragen", "Austausch: Wann würde ich ihn wieder nutzen, wann nicht?"], aufgabe: "Teste den Skill aus der Gruppe noch einmal in einer echten Situation." },
+    { titel: "Fünf Sinne", gruppe: "Achtsamkeitsgruppe", dauer: "20 Minuten", ziel: "Im Moment ankommen, ohne etwas leisten zu müssen.", ablauf: ["5-4-3-2-1 gemeinsam anleiten", "Kurz still nachspüren", "Jeder sagt ein Wort, wie es jetzt ist", "Wer mag, legt den Skill in den Koffer"], aufgabe: "Mach heute einmal 5-4-3-2-1, wenn du merkst, dass deine Gedanken kreisen." },
+    { titel: "Meine Schul-Treppe", gruppe: "Schulreintegration", dauer: "45 Minuten", ziel: "Realistische Etappen und einen Plan B für jeden festlegen.", ablauf: ["Was macht Schule schwer? Gründe sammeln, ohne Wertung", "Jeder schreibt drei kleine Etappen auf", "Plan B: Wen spreche ich an, wohin ziehe ich mich zurück?", "Gemeinsam mit der Fachkraft in der App eintragen"], aufgabe: "Schau dir morgen früh deine nächste Etappe an." },
+    { titel: "Mein Morgen in Mini-Schritten", gruppe: "Schulreintegration", dauer: "30 Minuten", ziel: "Eine persönliche Morgenroutine mit kleineren Varianten bauen.", ablauf: ["Den eigenen Morgen in Schritte zerlegen", "Zu jedem Schritt eine noch kleinere Variante finden", "Drei Schritte für den Mini-Start auswählen", "In der App unter Morgenroutine eintragen"], aufgabe: "Probier morgen die Morgen-Quest aus, Mini-Start ist völlig in Ordnung." },
+    { titel: "Beweise sammeln", gruppe: "Einzelgespräch oder Gruppe", dauer: "30 Minuten", ziel: "Schwere Gedanken neben echte Erfahrungen legen.", ablauf: ["Einen typischen schweren Gedanken wählen", "Was spricht dafür, was dagegen?", "Knospen aus dem Baum als Beweise ansehen", "Einen genaueren Satz formulieren"], aufgabe: "Mach „Stimmt das wirklich?“ in der App, wenn der Gedanke wiederkommt." },
+    { titel: "Challenge-Stufen", gruppe: "Gruppe", dauer: "30 Minuten", ziel: "Sich fordern, ohne sich zu überfordern.", ablauf: ["Jeder wählt eine Challenge und eine Stufe", "Was erwarte ich, was befürchte ich?", "Bis zur nächsten Gruppe ausprobieren", "Nächstes Mal: Was ist wirklich passiert?"], aufgabe: "Probier deine Challenge bis zur nächsten Gruppe aus, jede Stufe zählt." },
+    { titel: "Zukunftskompass", gruppe: "Gruppe", dauer: "45 Minuten", ziel: "Interessen entdecken und einen ersten kleinen Zukunftsschritt finden.", ablauf: ["Interessen und Werte in der App antippen", "Zu zweit über die Vorschläge sprechen", "Ein Zukunftsexperiment auswählen", "Wer ein Ziel hat, startet den Ziel-Assistenten"], aufgabe: "Mach dein Zukunftsexperiment in den nächsten zwei Wochen." },
+    { titel: "Rucksack packen", gruppe: "Entlassungsvorbereitung", dauer: "60 Minuten", ziel: "Den persönlichen Plan für die Zeit nach der Klinik fertigstellen.", ablauf: ["Warnzeichen sammeln", "Stufenplan von „gut“ bis „nicht mehr sicher“ ausfüllen", "Wenn-dann-Pläne formulieren", "Kontakte prüfen und den Rucksack als Datei sichern"], aufgabe: "Schreib einen Brief an dein späteres Ich." }
+  ];
+
+  return { CHALLENGES3, ABEND, GRUPPEN_IMPULSE, LIFE_VORLAGEN, INTERESSEN, WERTE, TAETIGKEITEN, ZIEL_FRAGEN, GEDANKEN, ICH_BEREICHE, WENN_DANN_BEISPIELE, AESTE, ZIELE, SKILL_ZUSATZ, HINWEIS_ABSPRACHE, NEUE_SKILLS, MORGEN, STECK_GRUENDE, SCHUL_GRUENDE, SCHUL_TREPPE, RUECKMELDUNGEN, HILFREICH_CHIPS, SITUATIONEN, NOTRUF, STUFEN, POST_VORLAGEN, WELT_AST };
 })();
 
 </script>
@@ -1426,9 +1600,13 @@ window.NEXT_INHALT = (function () {
       profil: { name: "", look: "ruhig", eingerichtet: false, mutmacherAn: true },
       morgen: { schritte: I.MORGEN.map(s => ({ ...s })), lauf: null, laeufe: [] },
       schule: { etappen: [], planB: { kontakt: "", ort: "", schritt: "" }, versuche: [] },
-      skills: { eigene: [], favoriten: [], sos: [], versuche: [], skillDerWoche: "" },
+      skills: { eigene: [], favoriten: [], sos: [], versuche: [], skillDerWoche: "", team: [], gruppenAufgabe: null },
       baum: { knospen: [] },
-      hilfe: { kontakte: [], warnzeichen: [], stufen: { gut: "", warn: "", schwer: "", notfall: "" }, erkenntnisse: [], neustarts: [] },
+      hilfe: { kontakte: [], warnzeichen: [], stufen: { gut: "", warn: "", schwer: "", notfall: "" }, erkenntnisse: [], neustarts: [], wennDann: [] },
+      life: { aufgaben: [] },
+      abend: { schritte: I.ABEND.map(s => ({ ...s })), tage: [] },
+      zukunft: { interessen: [], werte: [], taetigkeiten: [], experimente: [], ziele: [] },
+      selbst: { ich: { interessen: [], staerken: [], menschen: [], werte: [], erlebnisse: [] }, gedanken: [], brief: { text: "", datum: "" }, sprach: [] },
       challenges: { laufend: null, erledigt: [] },
       post: [],
       mutmacher: { eigene: [] },
@@ -1539,7 +1717,7 @@ window.NEXT_INHALT = (function () {
       const z = I.SKILL_ZUSATZ[s.id] || {};
       return { ...s, ziele: z.ziele || [], absprache: !!z.absprache };
     });
-    return bestand.concat(I.NEUE_SKILLS.map(s => ({ ...s, absprache: false })), S.skills.eigene.map(s => ({ ...s, eigen: true })));
+    return bestand.concat(I.NEUE_SKILLS.map(s => ({ ...s, absprache: false })), S.skills.team.map(s => ({ ...s, team: true })), S.skills.eigene.map(s => ({ ...s, eigen: true })));
   }
   function skill(id) { return alleSkills().find(s => s.id === id) || null; }
   function versucheZu(id) { return S.skills.versuche.filter(v => v.skillId === id); }
@@ -1587,6 +1765,8 @@ window.NEXT_INHALT = (function () {
     post: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
     treppe: '<path d="M3 20h5v-5h5v-5h5V5h3"/>',
     sonne: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>',
+    liste: '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>',
+    kompass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
     flamme: '<path d="M12 22c4 0 7-3 7-7 0-5-5-7-5-12-3 2-5 5-5 8-1-1-2-2-2-4-2 2-2 5-2 8 0 4 3 7 7 7z"/>'
   };
   function sym(name, extra) { return `<svg class="sym ${extra || ""}" viewBox="0 0 24 24" aria-hidden="true">${SYM[name] || ""}</svg>`; }
@@ -1599,7 +1779,7 @@ window.NEXT_INHALT = (function () {
 
   function weg() {
     const teile = (location.hash || "#heute").slice(1).split("/");
-    return { bereich: teile[0] || "heute", seite: teile[1] || "", param: decodeURIComponent(teile[2] || "") };
+    return { bereich: teile[0] || "heute", seite: teile[1] || "", param: decodeURIComponent(teile.slice(2).join("/")) };
   }
   function geh(ziel) {
     if (location.hash === "#" + ziel) render(); else location.hash = ziel;
@@ -1665,6 +1845,7 @@ window.NEXT_INHALT = (function () {
     if (speicherKaputt) html += `<div class="hinweis-leiste">Speichern geht gerade nicht. Ist der private Modus an?</div>`;
     app().innerHTML = html;
     window.scrollTo(0, 0);
+    if (KANN_AUFNEHMEN) toeneEinhaengen();
     const fokus = app().querySelector("[data-fokus]");
     if (fokus) fokus.focus();
   }
@@ -1676,6 +1857,9 @@ window.NEXT_INHALT = (function () {
         if (w.seite === "morgen") return seiteMorgen();
         if (w.seite === "schule") return seiteSchule();
         if (w.seite === "challenge") return seiteChallenges(w.param);
+        if (w.seite === "life") return seiteLife(w.param);
+        if (w.seite === "abend") return seiteAbend();
+        if (w.seite === "zukunft") { const t = w.param.split("/"); return seiteZukunft(t[0], t[1]); }
         return seiteMissionen();
       case "skills":
         if (w.seite === "s") return seiteSkill(w.param);
@@ -1684,12 +1868,17 @@ window.NEXT_INHALT = (function () {
         return seiteKoffer();
       case "baum":
         if (w.seite === "ast") return seiteAst(w.param);
+        if (w.seite === "ich") return seiteIch();
+        if (w.seite === "beweise") return seiteBeweise();
+        if (w.seite === "entwicklung") return seiteEntwicklung();
         return seiteBaum();
       case "hilfe":
         if (w.seite === "notfall") return seiteNotfall();
         if (w.seite === "plan") return seitePlan();
         if (w.seite === "rucksack") return seiteRucksack();
         if (w.seite === "kontakte") return seiteKontakte();
+        if (w.seite === "brief") return seiteBrief();
+        if (w.seite === "teilen") return seiteTeilen();
         return seiteHilfe();
       case "einstellungen": return seiteEinstellungen();
       case "fach": return seiteFach(w.seite);
@@ -1717,11 +1906,20 @@ window.NEXT_INHALT = (function () {
         <button class="knopf haupt" data-a="einr-weiter">Weiter</button>
       </main>`;
     }
+    if (einrichtungSchritt === 2) {
+      return `<main class="einrichtung">
+        <h2>Was interessiert dich?</h2>
+        <p class="leise">Freiwillig. Du kannst das später jederzeit ändern.</p>
+        <div class="chips mitte">${I.INTERESSEN.map(i => `<button class="chip ${S.zukunft.interessen.includes(i.name) ? "aktiv" : ""}" data-a="einr-interesse" data-z="${esc(i.name)}">${esc(i.name)}</button>`).join("")}</div>
+        <button class="knopf haupt" data-a="einr-weiter">Weiter</button>
+      </main>`;
+    }
     return `<main class="einrichtung">
       <h2>Wie soll NEXT aussehen?</h2>
-      <div class="wahl-zwei">
+      <div class="wahl-zwei wahl-drei">
         <button class="look-wahl ${S.profil.look === "ruhig" ? "aktiv" : ""}" data-a="look" data-z="ruhig"><span class="look-bild ruhig"></span>Hell und ruhig</button>
         <button class="look-wahl ${S.profil.look === "nacht" ? "aktiv" : ""}" data-a="look" data-z="nacht"><span class="look-bild nacht"></span>Dunkel</button>
+        <button class="look-wahl ${S.profil.look === "neon" ? "aktiv" : ""}" data-a="look" data-z="neon"><span class="look-bild neon"></span>Neon</button>
       </div>
       <p class="leise">Alles, was du einträgst, bleibt nur auf diesem Handy.</p>
       <button class="knopf haupt" data-a="einr-fertig">Fertig</button>
@@ -1745,8 +1943,13 @@ window.NEXT_INHALT = (function () {
     if (etappe && stunde < 14) {
       return { titel: "Deine Schul-Treppe", text: etappe.text, knopf: "Ansehen", a: "geh", z: "missionen/schule" };
     }
+    const ga = S.skills.gruppenAufgabe;
+    if (ga) return { titel: "Aufgabe aus der Gruppe", text: ga.text, knopf: ga.skillId && skill(ga.skillId) ? "Skill öffnen" : "Erledigt", a: ga.skillId && skill(ga.skillId) ? "geh" : "ga-erledigt", z: ga.skillId ? "skills/s/" + ga.skillId : "" };
     const ch = S.challenges.laufend;
     if (ch) return { titel: "Deine Challenge", text: ch.text, knopf: "Wie lief's?", a: "challenge-auswerten" };
+    if (stunde >= 19 && !abendHeute()) return { titel: "Dein Abend", text: "Kurz den Tag abschließen und den Morgen leichter machen.", knopf: "Abendroutine", a: "geh", z: "missionen/abend" };
+    const life = S.life.aufgaben.find(a => !a.fertig && a.schritte.some(x => !x.erledigt));
+    if (life) return { titel: life.titel, text: life.schritte.find(x => !x.erledigt).text, knopf: "Ansehen", a: "geh", z: "missionen/life/" + life.id };
     if (S.skills.skillDerWoche && skill(S.skills.skillDerWoche)) {
       const s = skill(S.skills.skillDerWoche);
       return { titel: "Skill der Woche", text: s.name, knopf: "Ausprobieren", a: "geh", z: "skills/s/" + s.id };
@@ -1785,8 +1988,12 @@ window.NEXT_INHALT = (function () {
     let html = kopf("Missionen") + "<main>";
     html += `<p class="einleitung">Kurz öffnen, im echten Leben etwas tun, kurz zurückmelden. Fertig.</p>`;
     html += zeile("Morgen-Quest", morgenHeuteFertig() ? "Heute schon gemacht" : "Schritt für Schritt in den Tag", "geh", "missionen/morgen", "sonne");
+    if (new Date().getHours() >= 17 || S.abend.tage.length) html += zeile("Abendroutine", abendHeute() ? "Heute schon gemacht" : "Den Tag kurz abschließen", "geh", "missionen/abend", "sonne");
     html += zeile("Schul-Treppe", etappe ? "Nächste Etappe: " + etappe.text : "Noch keine Etappen eingetragen", "geh", "missionen/schule", "treppe");
     html += zeile("Challenge dich!", S.challenges.laufend ? "Läuft: " + S.challenges.laufend.text : "Kleine Mutproben im echten Leben", "geh", "missionen/challenge", "flamme");
+    const life = S.life.aufgaben.filter(a => !a.fertig);
+    html += zeile("Life Quest", life.length ? "Läuft: " + life[0].titel : "Alltagsaufgaben in kleine Schritte teilen", "geh", "missionen/life", "liste");
+    html += zeile("Zukunftskompass", S.zukunft.ziele.length ? "Ziel: " + S.zukunft.ziele[0].titel : "Herausfinden, was zu dir passt", "geh", "missionen/zukunft", "kompass");
     html += "</main>";
     return html;
   }
@@ -1860,17 +2067,18 @@ window.NEXT_INHALT = (function () {
     if (!weltId) {
       html += `<p class="einleitung">Such dir ein Thema aus. Du wählst selbst, wie groß der Schritt ist.</p>`;
       html += B.challengeWelten.map(w => zeile(w.name, "", "geh", "missionen/challenge/" + w.id)).join("");
+      html += `<h3>Eigene Challenge</h3><div class="formular reihe"><input class="eingabe" id="ch-eigen" placeholder="Was möchtest du ausprobieren?" maxlength="100"><button class="knopf" data-a="challenge-eigen">Los</button></div>`;
       const erl = S.challenges.erledigt.slice(-3).reverse();
       if (erl.length) html += `<h3>Zuletzt ausprobiert</h3><ul class="verlauf">${erl.map(c => `<li><span>${esc(datumKurz(c.datum))}</span><span>${esc(c.text)}</span></li>`).join("")}</ul>`;
       return html + "</main>";
     }
     const welt = B.challengeWelten.find(w => w.id === weltId);
     html += `<h2 class="abschnitt">${esc(welt ? welt.name : "")}</h2>`;
-    for (const [stufe, name] of [["mini", "Mini"], ["mittel", "Mittel"], ["gross", "Groß"]]) {
-      const liste = B.challenges.filter(c => c.welt === weltId && c.stufe === stufe);
-      if (!liste.length) continue;
-      html += `<h3>${name}</h3>` + liste.map(c => `<button class="challenge" data-a="challenge-waehlen" data-z="${esc(B.challenges.indexOf(c))}">${esc(c.text)}</button>`).join("");
-    }
+    html += `<p class="leise">Jede Challenge gibt es in drei Größen. Nimm die, die heute passt.</p>`;
+    I.CHALLENGES3.forEach((c, i) => {
+      if (c.welt !== weltId) return;
+      html += karte(`<h2>${esc(c.titel)}</h2>${[["mini", "Mini"], ["mittel", "Mittel"], ["gross", "Groß"]].map(([st, name]) => `<button class="stufe-knopf stufe-${st}" data-a="ch3" data-z="${i}:${st}"><span>${name}</span>${esc(c[st])}</button>`).join("")}`);
+    });
     return html + "</main>";
   }
 
@@ -1879,7 +2087,7 @@ window.NEXT_INHALT = (function () {
   function skillKarte(s) {
     const v = versucheZu(s.id).length;
     return `<button class="skill-karte" data-a="geh" data-z="skills/s/${esc(s.id)}">
-      <b>${esc(s.name)}</b><small>${esc(s.wann || "")}</small>
+      <b>${esc(s.name)}${s.team ? ` <em class="marke">vom Team</em>` : ""}</b><small>${esc(s.wann || "")}</small>
       <span class="skill-meta">${s.dauer ? esc(s.dauer) : ""}${v ? ` · ${v}× getestet` : ""}${S.skills.sos.includes(s.id) ? ` · <em>Notfall</em>` : ""}</span></button>`;
   }
 
@@ -1926,6 +2134,7 @@ window.NEXT_INHALT = (function () {
     if (s.absprache) html += `<p class="warnung">${esc(I.HINWEIS_ABSPRACHE)}</p>`;
     html += `<div class="fakten">${s.dauer ? `<span>${esc(s.dauer)}</span>` : ""}${s.material ? `<span>${esc(s.material)}</span>` : ""}${(s.ziele || []).map(z => `<span>${esc((I.ZIELE.find(x => x.id === z) || {}).name || z)}</span>`).join("")}</div>`;
     html += `<ol class="schritte">${(s.schritte || []).map(t => `<li>${esc(t)}</li>`).join("")}</ol>`;
+    html += vorlesenKnopf(s.name + ". " + (s.schritte || []).join(" "));
     html += `<button class="knopf haupt" data-a="test-start" data-z="${esc(id)}">Jetzt testen</button>`;
     html += `<div class="knopf-reihe">
       <button class="knopf ${imKoffer ? "an" : ""}" data-a="koffer" data-z="${esc(id)}">${imKoffer ? "Im Koffer" : "In meinen Koffer"}</button>
@@ -2005,6 +2214,7 @@ window.NEXT_INHALT = (function () {
     html += baumLegende();
     html += `<p class="leise">Dein Baum wird nie kleiner, auch nicht an schweren Tagen.</p>`;
     html += `<button class="knopf haupt" data-a="knospe-eigene">Eine Erfahrung eintragen</button>`;
+    html += ueberMichHtml();
     const behalten = S.post.filter(p => p.gelesen && p.behalten);
     if (behalten.length) html += `<h3>Was andere in dir sehen</h3>` + behalten.slice(-5).reverse().map(p => `<blockquote class="post">${esc(p.text)}<small>${esc(p.von || "Dein Team")}, ${esc(datumKurz(p.datum))}</small></blockquote>`).join("");
     speichern();
@@ -2032,6 +2242,7 @@ window.NEXT_INHALT = (function () {
     html += zeile("Neustart nach einem Rückschlag", "Einordnen, nächsten Schritt finden", "neustart-start", "", "stern");
     html += zeile("Warnzeichen und Stufenplan", S.hilfe.warnzeichen.length ? S.hilfe.warnzeichen.length + " Warnzeichen eingetragen" : "Noch leer", "geh", "hilfe/plan");
     html += zeile("Meine Menschen", S.hilfe.kontakte.length ? S.hilfe.kontakte.map(k => k.name).join(", ") : "Noch keine Kontakte", "geh", "hilfe/kontakte", "telefon");
+    html += zeile("Brief an mein späteres Ich", S.selbst.brief.text ? "Geschrieben" : "Für die Zeit nach der Klinik", "geh", "hilfe/brief", "post");
     html += zeile("Mein Rucksack", "Alles Wichtige auf einen Blick, sichern und mitnehmen", "geh", "hilfe/rucksack", "skills");
     return html + "</main>";
   }
@@ -2072,6 +2283,7 @@ window.NEXT_INHALT = (function () {
     html += I.STUFEN.map((st, i) => `<label class="feld stufe stufe-${i + 1}"><b>${esc(st.titel)}</b><small>${esc(st.frage)}</small>
       <textarea class="eingabe" data-f="stufe" data-z="${st.id}" rows="2">${esc(S.hilfe.stufen[st.id])}</textarea></label>`).join("");
     html += `<p class="leise">Wird beim Tippen gespeichert.</p>`;
+    html += `<h3>Meine Wenn-dann-Pläne</h3>` + wennDannHtml(true);
     return html + "</main>";
   }
 
@@ -2087,7 +2299,14 @@ window.NEXT_INHALT = (function () {
     const pb = S.schule.planB;
     if (pb.kontakt || pb.ort || pb.schritt || S.schule.etappen.length) html += karte(`<p class="etikett">Schule</p>${aktuelleEtappe() ? `<p>Nächste Etappe: ${esc(aktuelleEtappe().text)}</p>` : ""}${pb.kontakt ? `<p>Plan B: ${esc([pb.kontakt, pb.ort, pb.schritt].filter(Boolean).join(", "))}</p>` : ""}`);
     html += karte(`<p class="etikett">Meine Stärken</p><p>${S.baum.knospen.length} Knospen in deinem Baum.</p>${S.mutmacher.eigene.length ? `<p class="etikett">Meine Mutmacher</p>${S.mutmacher.eigene.map(m => `<p>„${esc(m)}“</p>`).join("")}` : ""}`);
+    if (S.hilfe.wennDann.length) html += karte(`<p class="etikett">Meine Wenn-dann-Pläne</p>${wennDannHtml(false)}`);
+    const gesehen = S.post.filter(p => p.behalten);
+    if (gesehen.length) html += karte(`<p class="etikett">Das haben andere in mir gesehen</p>${gesehen.map(p => `<p>„${esc(p.text)}“ <small>${esc(p.von || "")}</small></p>`).join("")}`);
+    if (S.zukunft.ziele.length || S.zukunft.experimente.some(e => !e.erledigt)) html += karte(`<p class="etikett">Meine Ziele und nächsten Schritte</p>${S.zukunft.ziele.map(z => `<p><b>${esc(z.titel)}</b>${z.ersterSchritt ? `<br><small>Nächster Schritt: ${esc(z.ersterSchritt)}</small>` : ""}</p>`).join("")}${S.zukunft.experimente.filter(e => !e.erledigt).map(e => `<p>Ausprobieren: ${esc(e.text)}</p>`).join("")}`);
+    if (S.selbst.sprach.length) html += karte(`<p class="etikett">Post vom Klinik-Ich</p>${sprachHtml(false)}`);
+    if (S.selbst.brief.text) html += karte(`<p class="etikett">Brief an mein späteres Ich</p><p class="brief">${esc(S.selbst.brief.text)}</p>`);
     if (S.hilfe.erkenntnisse.length) html += karte(`<p class="etikett">Was mir geholfen hat</p>${S.hilfe.erkenntnisse.slice(-6).reverse().map(e => `<p>${esc(e.text)} <small>${esc(datumKurz(e.datum))}</small></p>`).join("")}`);
+    html += `<button class="knopf" data-a="geh" data-z="hilfe/teilen">Einer Fachkraft etwas zeigen</button>`;
     html += `<h3>Sichern und mitnehmen</h3><p class="leise">Die Datei enthält alles, was du in NEXT eingetragen hast. Gib sie nur Menschen, denen du vertraust.</p>`;
     html += `<button class="knopf" data-a="sichern">Rucksack als Datei sichern</button>
       <label class="knopf datei-knopf">Rucksack-Datei laden<input type="file" accept=".json,application/json" data-f="laden" hidden></label>`;
@@ -2099,9 +2318,10 @@ window.NEXT_INHALT = (function () {
   function seiteEinstellungen() {
     let html = kopf("Einstellungen", "heute") + "<main>";
     html += `<label class="feld">Dein Name<input class="eingabe" data-f="name" value="${esc(S.profil.name)}" maxlength="30"></label>`;
-    html += `<p class="feld-titel">Aussehen</p><div class="wahl-zwei">
+    html += `<p class="feld-titel">Aussehen</p><div class="wahl-zwei wahl-drei">
       <button class="look-wahl ${S.profil.look === "ruhig" ? "aktiv" : ""}" data-a="look" data-z="ruhig"><span class="look-bild ruhig"></span>Hell</button>
-      <button class="look-wahl ${S.profil.look === "nacht" ? "aktiv" : ""}" data-a="look" data-z="nacht"><span class="look-bild nacht"></span>Dunkel</button></div>`;
+      <button class="look-wahl ${S.profil.look === "nacht" ? "aktiv" : ""}" data-a="look" data-z="nacht"><span class="look-bild nacht"></span>Dunkel</button>
+        <button class="look-wahl ${S.profil.look === "neon" ? "aktiv" : ""}" data-a="look" data-z="neon"><span class="look-bild neon"></span>Neon</button></div>`;
     html += `<label class="schalter"><input type="checkbox" data-f="mutmacher" ${S.profil.mutmacherAn ? "checked" : ""}> Mutmacher auf der Startseite</label>`;
     html += `<h3>Eigene Mutmacher</h3>${S.mutmacher.eigene.map((m, i) => `<div class="bearbeiten-zeile"><span>„${esc(m)}“</span><button class="mini-knopf" data-a="mut-weg" data-z="${i}">✕</button></div>`).join("")}
       <div class="formular reihe"><input class="eingabe" id="mut-neu" placeholder="Ein Satz, der dir guttut" maxlength="100"><button class="knopf" data-a="mut-dazu">Dazu</button></div>`;
@@ -2124,12 +2344,20 @@ window.NEXT_INHALT = (function () {
     if (teil === "schule") return fachSchule();
     if (teil === "post") return fachPost();
     if (teil === "woche") return fachWoche();
+    if (teil === "skills") return fachSkills();
+    if (teil === "impulse") return fachImpulse();
+    if (teil === "aufgabe") return fachAufgabe();
+    if (teil === "abend") return fachAbend();
     let html = kopf("Für Fachkräfte", "einstellungen") + "<main>";
     html += `<p class="einleitung">Hier stellt ihr gemeinsam mit dem Jugendlichen seine Abläufe zusammen.</p>`;
     html += zeile("Morgenroutine", S.morgen.schritte.length + " Schritte", "geh", "fach/morgen", "sonne");
     html += zeile("Schul-Treppe und Plan B", S.schule.etappen.length + " Etappen", "geh", "fach/schule", "treppe");
     html += zeile("Stärkenpost schreiben", "Eine beobachtete Stärke wertschätzen", "geh", "fach/post", "post");
     html += zeile("Skill der Woche", S.skills.skillDerWoche ? (skill(S.skills.skillDerWoche) || {}).name : "Keiner gewählt", "geh", "fach/woche", "stern");
+    html += zeile("Gruppenaufgabe", S.skills.gruppenAufgabe ? S.skills.gruppenAufgabe.text : "Keine", "geh", "fach/aufgabe", "liste");
+    html += zeile("Impulse für die Gruppe", "8 Vorschläge mit Bezug zur App", "geh", "fach/impulse", "missionen");
+    html += zeile("Skills vom Team", S.skills.team.length + " eigene", "geh", "fach/skills", "skills");
+    html += zeile("Abendroutine", S.abend.schritte.length + " Schritte", "geh", "fach/abend", "sonne");
     html += zeile("Warnzeichen und Stufenplan", "", "geh", "hilfe/plan");
     html += zeile("Kontakte", "", "geh", "hilfe/kontakte");
     html += `<h3>Test</h3><button class="knopf" data-a="beispiel">Fiktive Beispieldaten laden</button>
@@ -2151,6 +2379,14 @@ window.NEXT_INHALT = (function () {
     html += `<div class="formular"><input class="eingabe" id="ms-text" placeholder="Neuer Schritt" maxlength="60"><input class="eingabe" id="ms-mini" placeholder="Noch kleinere Variante (freiwillig)" maxlength="60">
       <label class="schalter"><input type="checkbox" id="ms-start"> Gehört zum Mini-Start</label><button class="knopf" data-a="ms-dazu">Hinzufügen</button></div>`;
     html += `<button class="knopf leise-knopf" data-a="ms-standard">Auf die Vorlage zurücksetzen</button>`;
+    return html + "</main>";
+  }
+
+  function fachAbend() {
+    let html = kopf("Abendroutine", "fach") + "<main>";
+    html += `<p class="einleitung">Kurz halten. Die Abendroutine ist freiwillig.</p>`;
+    html += S.abend.schritte.map((s, i) => `<div class="bearbeiten-zeile"><span><b>${esc(s.text)}</b></span><span class="mini-knoepfe"><button class="mini-knopf" data-a="as-hoch" data-z="${i}">↑</button><button class="mini-knopf" data-a="as-weg" data-z="${i}">✕</button></span></div>`).join("");
+    html += `<div class="formular reihe"><input class="eingabe" id="as-text" placeholder="Neuer Schritt" maxlength="60"><button class="knopf" data-a="as-dazu">Dazu</button></div>`;
     return html + "</main>";
   }
 
@@ -2208,6 +2444,9 @@ window.NEXT_INHALT = (function () {
       case "test": return flowTest();
       case "challenge": return flowChallenge();
       case "neustart": return flowNeustart();
+      case "ziel": return flowZiel();
+      case "gedanke": return flowGedanke();
+      case "zeigen": return flowZeigen();
       case "knospe": return flowKnospe();
       case "post": return flowPost();
       default: flow = null; return seiteHeute();
@@ -2239,6 +2478,7 @@ window.NEXT_INHALT = (function () {
       <div class="fortschritt">${punkte}</div>
       <p class="etikett">Schritt ${lauf.index + 1} von ${schritte.length}</p>
       <h2 class="schritt-gross">${esc(s.text)}</h2>
+      ${vorlesenKnopf(s.text)}
       ${s.mini ? `<button class="text-knopf" data-a="morgen-mini">Zu viel? Dann erst: ${esc(s.mini)}</button>` : ""}
       <button class="knopf haupt" data-a="morgen-rueck" data-z="geschafft" data-fokus>Geschafft</button>
       <div class="knopf-reihe drei">
@@ -2413,6 +2653,7 @@ window.NEXT_INHALT = (function () {
       return flowKopf(t) + `<main class="flow"><p class="etikett">Jetzt im echten Leben</p><h2>${esc(s.name)}</h2>
         ${s.absprache ? `<p class="warnung">${esc(I.HINWEIS_ABSPRACHE)}</p>` : ""}
         <ol class="schritte">${(s.schritte || []).map(x => `<li>${esc(x)}</li>`).join("")}</ol>
+        ${vorlesenKnopf((s.schritte || []).join(" "))}
         <button class="knopf haupt" data-a="test-weiter">Fertig</button></main>`;
     }
     if (f.schritt === 3) {
@@ -2439,6 +2680,7 @@ window.NEXT_INHALT = (function () {
         <p>Was befürchtest du? Was erwartest du?</p>
         <textarea class="eingabe" id="ch-vorher" rows="2" placeholder="Ich glaube, dass … (freiwillig)" maxlength="200"></textarea>
         <button class="knopf haupt" data-a="challenge-los">Los, im echten Leben</button>
+        ${f.gruppe != null && f.stufe !== "mini" ? `<button class="text-knopf" data-a="ch3" data-z="${f.gruppe}:${f.stufe === "gross" ? "mittel" : "mini"}">Eine Nummer kleiner: ${esc(I.CHALLENGES3[f.gruppe][f.stufe === "gross" ? "mittel" : "mini"])}</button>` : ""}
         <p class="leise">Wenn es zu groß wirkt, nimm lieber eine kleinere. Das ist kein Rückzieher, sondern klug.</p></main>`;
     }
     if (f.ansicht === "los") {
@@ -2522,6 +2764,381 @@ window.NEXT_INHALT = (function () {
       <p class="leise">Gehört zum Ast ${esc(a.name)}.</p>
       <button class="knopf haupt" data-a="post-behalten" data-z="ja">In meinem Baum behalten</button>
       <button class="knopf" data-a="post-behalten" data-z="nein">Gelesen, nicht behalten</button></main>`;
+  }
+
+  // ---------------------------------------------------------------- Fassung 4.1
+  // Life Quest, Zukunftskompass, Selbstwert, erweiterter Rucksack
+  // (Konzept, Punkte 7, 10, 11, 12).
+
+  // ---- Life Quest: eine große Aufgabe, immer nur der nächste Schritt.
+
+  function seiteLife(id) {
+    if (id) return seiteLifeAufgabe(id);
+    let html = kopf("Life Quest", "missionen") + "<main>";
+    html += `<p class="einleitung">Große Alltagsaufgaben in kleine Schritte teilen. Dann immer nur den nächsten.</p>`;
+    const offen = S.life.aufgaben.filter(a => !a.fertig);
+    html += offen.length ? offen.map(a => zeile(a.titel, a.schritte.filter(x => x.erledigt).length + " von " + a.schritte.length + " Schritten", "geh", "missionen/life/" + a.id, "liste")).join("")
+      : leer("Noch keine Aufgabe. Such dir unten eine aus oder leg eine eigene an.");
+    html += `<h3>Neue Aufgabe</h3><div class="chips">${I.LIFE_VORLAGEN.map((v, i) => `<button class="chip" data-a="life-vorlage" data-z="${i}">${esc(v.titel)}</button>`).join("")}</div>`;
+    html += `<div class="formular reihe"><input class="eingabe" id="life-neu" placeholder="Eigene Aufgabe" maxlength="60"><button class="knopf" data-a="life-eigene">Anlegen</button></div>`;
+    const fertig = S.life.aufgaben.filter(a => a.fertig).slice(-3).reverse();
+    if (fertig.length) html += `<h3>Geschafft</h3><ul class="verlauf">${fertig.map(a => `<li><span>${esc(datumKurz(a.fertig))}</span><span>${esc(a.titel)}</span></li>`).join("")}</ul>`;
+    return html + "</main>";
+  }
+
+  function seiteLifeAufgabe(id) {
+    const a = S.life.aufgaben.find(x => x.id === id);
+    if (!a) return kopf("Life Quest", "missionen/life") + `<main>${leer("Diese Aufgabe gibt es nicht mehr.")}</main>`;
+    const naechster = a.schritte.find(x => !x.erledigt);
+    let html = kopf(a.titel, "missionen/life") + "<main>";
+    if (naechster) {
+      html += karte(`<p class="etikett">Dein nächster Schritt</p><h2>${esc(naechster.text)}</h2>
+        <button class="knopf haupt" data-a="life-schritt" data-z="${esc(a.id)}">Geschafft</button>
+        <div class="knopf-reihe"><button class="knopf" data-a="life-kleiner" data-z="${esc(a.id)}">Kleiner machen</button><button class="knopf" data-a="geh" data-z="hilfe">Ich stecke fest</button></div>
+        <div class="formular reihe" id="life-kleiner-feld" hidden><input class="eingabe" id="life-kleiner-text" placeholder="Noch kleinerer Schritt" maxlength="80"><button class="knopf" data-a="life-kleiner-dazu" data-z="${esc(a.id)}">Davor</button></div>`, "naechster");
+    } else {
+      html += karte(`<h2>Alle Schritte erledigt.</h2><p>Das hast du selbst geschafft.</p>`);
+    }
+    html += `<ol class="treppe">${a.schritte.map(x => `<li class="${x.erledigt ? "fertig" : x === naechster ? "jetzt" : ""}"><span>${esc(x.text)}</span></li>`).join("")}</ol>`;
+    html += `<div class="formular reihe"><input class="eingabe" id="life-schritt-neu" placeholder="Schritt hinzufügen" maxlength="80"><button class="knopf" data-a="life-schritt-dazu" data-z="${esc(a.id)}">Dazu</button></div>`;
+    html += `<button class="knopf leise-knopf gefahr" data-a="life-weg" data-z="${esc(a.id)}">Aufgabe löschen</button>`;
+    return html + "</main>";
+  }
+
+  // ---- Zukunftskompass: zwei Einstiege.
+
+  function seiteZukunft(teil, param) {
+    if (teil === "erkunden") return seiteErkunden();
+    if (teil === "ziel") return seiteZiel(param);
+    let html = kopf("Zukunftskompass", "missionen") + "<main>";
+    html += `<p class="einleitung">Träume dürfen groß sein. Hier findest du heraus, was dich interessiert und welcher kleine Schritt jetzt schon geht.</p>`;
+    html += `<button class="wahl-karte" data-a="geh" data-z="missionen/zukunft/erkunden"><b>Ich weiß noch nicht, was ich möchte</b><small>Interessen, Werte und kleine Zukunftsexperimente</small></button>`;
+    html += `<button class="wahl-karte" data-a="ziel-start"><b>Ich habe ein Ziel</b><small>Das Ziel verstehen und in Etappen teilen</small></button>`;
+    if (S.zukunft.ziele.length) html += `<h3>Meine Ziele</h3>` + S.zukunft.ziele.map(z => zeile(z.titel, z.etappen.length ? z.etappen.filter(e => e.erledigt).length + " von " + z.etappen.length + " Etappen" : (z.ersterSchritt ? "Nächster Schritt: " + z.ersterSchritt : ""), "geh", "missionen/zukunft/ziel/" + z.id, "kompass")).join("");
+    html += experimenteHtml();
+    return html + "</main>";
+  }
+
+  function experimenteHtml() {
+    const offen = S.zukunft.experimente.filter(e => !e.erledigt);
+    if (!offen.length) return "";
+    return `<h3>Meine Zukunftsexperimente</h3>` + offen.map(e => `<div class="bearbeiten-zeile"><span><b>${esc(e.text)}</b></span>
+      <span class="mini-knoepfe"><button class="knopf klein-knopf" data-a="zk-exp-gemacht" data-z="${esc(e.id)}">Gemacht</button><button class="mini-knopf" data-a="zk-exp-weg" data-z="${esc(e.id)}" aria-label="Entfernen">✕</button></span></div>`).join("");
+  }
+
+  function seiteErkunden() {
+    const z = S.zukunft;
+    const gruppe = (titel, id, werte) => `<h3>${esc(titel)}</h3><div class="chips">${werte.map(w => `<button class="chip ${z[id].includes(w) ? "aktiv" : ""}" data-a="zk-chip" data-z="${id}:${esc(w)}">${esc(w)}</button>`).join("")}</div>`;
+    let html = kopf("Was passt zu mir?", "missionen/zukunft") + "<main>";
+    html += `<p class="einleitung">Tipp an, was auf dich zutrifft. Es gibt kein Richtig oder Falsch.</p>`;
+    html += gruppe("Das interessiert mich", "interessen", I.INTERESSEN.map(i => i.name));
+    html += gruppe("Das mache ich gern", "taetigkeiten", I.TAETIGKEITEN);
+    html += gruppe("Das ist mir wichtig", "werte", I.WERTE);
+    const ideen = I.INTERESSEN.filter(i => z.interessen.includes(i.name)).flatMap(i => i.experimente);
+    html += `<h3>Kleine Zukunftsexperimente</h3>`;
+    html += ideen.length ? `<p class="leise">Etwas ausprobieren sagt oft mehr als lange Nachdenken.</p>` + ideen.map(t => {
+      const drin = S.zukunft.experimente.some(e => e.text === t);
+      return `<div class="bearbeiten-zeile"><span>${esc(t)}</span><button class="knopf klein-knopf ${drin ? "an" : ""}" data-a="zk-exp-dazu" data-z="${esc(t)}" ${drin ? "disabled" : ""}>${drin ? "Vorgemerkt" : "Ausprobieren"}</button></div>`;
+    }).join("") : leer("Tipp oben an, was dich interessiert. Dann erscheinen hier Ideen.");
+    html += experimenteHtml();
+    return html + "</main>";
+  }
+
+  function seiteZiel(id) {
+    const z = S.zukunft.ziele.find(x => x.id === id);
+    if (!z) return kopf("Ziel", "missionen/zukunft") + `<main>${leer("Dieses Ziel gibt es nicht mehr.")}</main>`;
+    const feld = (titel, text) => text ? `<p class="etikett">${esc(titel)}</p><p>${esc(text)}</p>` : "";
+    let html = kopf(z.titel, "missionen/zukunft") + "<main>";
+    html += karte(`<p class="etikett">Dein nächster kleiner Schritt</p>${z.ersterSchritt
+      ? `<h2>${esc(z.ersterSchritt)}</h2><button class="knopf haupt" data-a="ziel-schritt" data-z="${esc(z.id)}">Gemacht</button>`
+      : `<p class="leise">Was wäre der nächste kleine Schritt?</p>`}
+      <div class="formular reihe"><input class="eingabe" id="ziel-schritt-neu" placeholder="${z.ersterSchritt ? "Anderer nächster Schritt" : "z. B. jemanden fragen, der das macht"}" maxlength="100"><button class="knopf" data-a="ziel-schritt-setzen" data-z="${esc(z.id)}">Setzen</button></div>`, "naechster");
+    html += feld("Was mich daran reizt", z.warum);
+    if (z.voraussetzungen.length) html += `<p class="etikett">Was man dafür braucht</p>` + z.voraussetzungen.map((v, i) => `<label class="schalter"><input type="checkbox" data-f="ziel-vor" data-z="${esc(z.id)}:${i}" ${v.ok ? "checked" : ""}> ${esc(v.text)}</label>`).join("");
+    if (z.etappen.length) html += `<p class="etikett">Etappen</p><ol class="treppe">${z.etappen.map((e, i) => `<li class="${e.erledigt ? "fertig" : ""}" data-a="ziel-etappe" data-z="${esc(z.id)}:${i}"><span>${esc(e.text)}</span></li>`).join("")}</ol><p class="leise">Tipp auf eine Etappe, wenn du sie geschafft hast.</p>`;
+    html += feld("Was schwierig werden könnte", z.hindernisse) + feld("Wer oder was mir hilft", z.unterstuetzung) + feld("Andere Wege, die auch passen", z.alternativen);
+    html += `<button class="knopf leise-knopf gefahr" data-a="ziel-weg" data-z="${esc(z.id)}">Ziel löschen</button>`;
+    return html + "</main>";
+  }
+
+  function flowZiel() {
+    const f = flow;
+    const q = I.ZIEL_FRAGEN[f.schritt];
+    const wert = f.antworten[q.id] || "";
+    return flowKopf("Ich habe ein Ziel") + `<main class="flow"><p class="etikett">${f.schritt + 1} von ${I.ZIEL_FRAGEN.length}</p>
+      <h2>${esc(q.frage)}</h2><p class="leise">${esc(q.hilfe)}</p>
+      <textarea class="eingabe" id="ziel-antwort" rows="${q.liste ? 4 : 2}" maxlength="400" placeholder="${q.liste ? "Eins pro Zeile" : ""}" data-fokus>${esc(wert)}</textarea>
+      <button class="knopf haupt" data-a="ziel-weiter">${f.schritt === I.ZIEL_FRAGEN.length - 1 ? "Fertig" : "Weiter"}</button>
+      ${q.pflicht ? "" : `<button class="text-knopf" data-a="ziel-weiter" data-z="leer">Weiß ich noch nicht</button>`}</main>`;
+  }
+
+  // ---- Selbstwert: echte Erfahrungen statt leerer Sprüche.
+
+  function ueberMichHtml() {
+    return `<h3>Über mich</h3>`
+      + zeile("Wer bin ich außer meinen Schwierigkeiten?", "Interessen, Stärken, Menschen, Werte", "geh", "baum/ich")
+      + zeile("Stimmt das wirklich?", "Einen schweren Gedanken mit echten Erfahrungen prüfen", "gedanke-start", "")
+      + zeile("Ich dachte … tatsächlich war …", "Was du erwartet hast und was passiert ist", "geh", "baum/beweise")
+      + zeile("Damals und heute", "Deine Entwicklung", "geh", "baum/entwicklung");
+  }
+
+  function seiteIch() {
+    let html = kopf("Über mich", "baum") + "<main>";
+    html += `<p class="einleitung">Du bist mehr als deine Schwierigkeiten.</p>`;
+    html += I.ICH_BEREICHE.map(b => `<h3>${esc(b.titel)}</h3>
+      <div class="chips">${S.selbst.ich[b.id].map((t, i) => `<span class="chip an">${esc(t)} <button class="chip-weg" data-a="ich-weg" data-z="${b.id}:${i}" aria-label="Entfernen">✕</button></span>`).join("")}</div>
+      <div class="formular reihe"><input class="eingabe" id="ich-${b.id}" placeholder="${esc(b.hilfe)}" maxlength="60"><button class="knopf" data-a="ich-dazu" data-z="${b.id}">Dazu</button></div>`).join("");
+    return html + "</main>";
+  }
+
+  function seiteBeweise() {
+    let html = kopf("Ich dachte … tatsächlich", "baum") + "<main>";
+    html += `<p class="einleitung">Was du vorher befürchtet hast und was dann wirklich passiert ist.</p>`;
+    const ch = S.challenges.erledigt.filter(c => c.vorher || c.nachher).slice().reverse();
+    const ge = S.selbst.gedanken.slice().reverse();
+    if (!ch.length && !ge.length) return html + leer("Noch leer. Bei einer Challenge oder bei „Stimmt das wirklich?“ sammelst du hier deine Erfahrungen.") + "</main>";
+    html += ch.map(c => karte(`<p class="etikett">${esc(datumKurz(c.datum))} · ${esc(c.text)}</p>${c.vorher ? `<p><b>Ich dachte:</b> ${esc(c.vorher)}</p>` : ""}${c.nachher ? `<p><b>Tatsächlich:</b> ${esc(c.nachher)}</p>` : ""}`)).join("");
+    html += ge.map(g => karte(`<p class="etikett">${esc(datumKurz(g.datum))} · Stimmt das wirklich?</p><p><b>Gedanke:</b> ${esc(g.gedanke)}</p>${g.neu ? `<p><b>Anders gesagt:</b> ${esc(g.neu)}</p>` : ""}`)).join("");
+    return html + "</main>";
+  }
+
+  function seiteEntwicklung() {
+    const kn = S.baum.knospen.slice().sort((a, b) => a.datum < b.datum ? -1 : 1);
+    const erste = kn[0];
+    let html = kopf("Damals und heute", "baum") + "<main>";
+    if (!erste && !S.skills.versuche.length) return html + leer("Hier siehst du später, wie du dich entwickelst. Ganz ohne Druck.") + "</main>";
+    if (erste) html += karte(`<p class="etikett">Deine erste Knospe, ${esc(datumKurz(erste.datum))}</p><p>${esc(erste.text)}</p><p class="leise">Seitdem sind ${kn.length - 1} dazugekommen.</p>`);
+    const zahlen = [
+      [S.skills.versuche.length, "Skills getestet"],
+      [S.morgen.laeufe.length, "Morgen mit der Morgen-Quest"],
+      [S.schule.etappen.filter(e => e.erledigt).length, "Schul-Etappen geschafft"],
+      [S.challenges.erledigt.length, "Challenges ausprobiert"],
+      [S.life.aufgaben.filter(a => a.fertig).length, "Alltagsaufgaben erledigt"],
+      [S.hilfe.neustarts.length, "Mal neu angefangen"]
+    ].filter(([n]) => n > 0);
+    if (zahlen.length) html += `<ul class="verlauf">${zahlen.map(([n, t]) => `<li><span>${esc(t)}</span><span><b>${n}</b></span></li>`).join("")}</ul>`;
+    html += `<p class="leise">Das ist kein Wettbewerb und keine Note. Es zeigt nur, was du schon alles ausprobiert hast.</p>`;
+    return html + "</main>";
+  }
+
+  // "Stimmt das wirklich?" Es geht nicht darum, den Gedanken wegzumachen,
+  // sondern ihn neben die eigenen Erfahrungen zu legen.
+  function flowGedanke() {
+    const f = flow;
+    const t = "Stimmt das wirklich?";
+    if (f.schritt === 0) {
+      return flowKopf(t) + `<main class="flow"><h2>Welcher Gedanke ist gerade laut?</h2>
+        <div class="chips">${I.GEDANKEN.map(g => `<button class="chip ${f.gedanke === g ? "aktiv" : ""}" data-a="gd-chip" data-z="${esc(g)}">${esc(g)}</button>`).join("")}</div>
+        <textarea class="eingabe" id="gd-text" rows="2" maxlength="160" placeholder="Oder in eigenen Worten">${esc(I.GEDANKEN.includes(f.gedanke) ? "" : (f.gedanke || ""))}</textarea>
+        <button class="knopf haupt" data-a="gd-weiter">Weiter</button></main>`;
+    }
+    if (f.schritt === 1) {
+      return flowKopf(t) + `<main class="flow"><p class="zitat">„${esc(f.gedanke)}“</p><h2>Wie sehr glaubst du das gerade?</h2>
+        ${regler("glaubeVorher", f.glaubeVorher, "Gerade").replace("ganz ruhig", "gar nicht").replace("sehr angespannt", "total")}
+        <button class="knopf haupt" data-a="gd-weiter">Weiter</button></main>`;
+    }
+    if (f.schritt === 2) {
+      return flowKopf(t) + `<main class="flow"><p class="zitat">„${esc(f.gedanke)}“</p><h2>Was spricht dafür?</h2>
+        <p class="leise">Das darf da sein. Schreib es ruhig auf.</p>
+        <textarea class="eingabe" id="gd-feld" rows="3" maxlength="300">${esc(f.dafuer || "")}</textarea>
+        <button class="knopf haupt" data-a="gd-weiter" data-z="dafuer">Weiter</button></main>`;
+    }
+    if (f.schritt === 3) {
+      const beweise = S.baum.knospen.slice(-3).reverse();
+      return flowKopf(t) + `<main class="flow"><p class="zitat">„${esc(f.gedanke)}“</p><h2>Was spricht dagegen?</h2>
+        ${beweise.length ? `<p class="leise">Aus deinem Baum:</p>${beweise.map(k => `<p class="beweis"><span class="punkt" style="background:${ast(k.ast).farbe}"></span>${esc(k.text)}</p>`).join("")}` : `<p class="leise">Denk an Momente, in denen es anders war.</p>`}
+        <textarea class="eingabe" id="gd-feld" rows="3" maxlength="300">${esc(f.dagegen || "")}</textarea>
+        <button class="knopf haupt" data-a="gd-weiter" data-z="dagegen">Weiter</button></main>`;
+    }
+    if (f.schritt === 4) {
+      return flowKopf(t) + `<main class="flow"><h2>Wie würdest du es jetzt sagen?</h2>
+        <p class="leise">Nicht schönreden, nur genauer. z. B.: Manches fällt mir schwer, aber ich habe schon … geschafft.</p>
+        <textarea class="eingabe" id="gd-feld" rows="3" maxlength="300">${esc(f.neu || "")}</textarea>
+        <button class="knopf haupt" data-a="gd-weiter" data-z="neu">Weiter</button></main>`;
+    }
+    if (f.schritt === 5) {
+      return flowKopf(t) + `<main class="flow"><p class="zitat">„${esc(f.gedanke)}“</p><h2>Und wie sehr glaubst du ihn jetzt?</h2>
+        ${regler("glaubeNachher", f.glaubeNachher != null ? f.glaubeNachher : f.glaubeVorher, "Jetzt").replace("ganz ruhig", "gar nicht").replace("sehr angespannt", "total")}
+        <button class="knopf haupt" data-a="gd-fertig">Fertig</button></main>`;
+    }
+    return `<main class="flow feier"><h2>Gut hingeschaut.</h2>
+      ${f.neu ? `<blockquote class="post gross">${esc(f.neu)}</blockquote>` : ""}
+      <p>Gedanken sind keine Tatsachen, auch wenn sie sich so anfühlen. Du findest das unter „Ich dachte … tatsächlich“ in deinem Baum wieder.</p>
+      <button class="knopf haupt" data-a="flow-ende" data-fokus>Okay</button></main>`;
+  }
+
+  // ---- Rucksack: Wenn-dann-Pläne und Brief an das spätere Ich.
+
+  function wennDannHtml(bearbeiten) {
+    const l = S.hilfe.wennDann;
+    let html = l.map((w, i) => `<div class="bearbeiten-zeile"><span><b>Wenn</b> ${esc(w.wenn)}, <b>dann</b> ${esc(w.dann)}.</span>${bearbeiten ? `<button class="mini-knopf" data-a="wd-weg" data-z="${i}" aria-label="Entfernen">✕</button>` : ""}</div>`).join("");
+    if (!bearbeiten) return html || leer("Noch keine Wenn-dann-Pläne.");
+    html += `<div class="formular"><input class="eingabe" id="wd-wenn" placeholder="Wenn …" maxlength="100"><input class="eingabe" id="wd-dann" placeholder="dann …" maxlength="100"><button class="knopf" data-a="wd-dazu">Hinzufügen</button></div>`;
+    if (!l.length) html += `<p class="leise">Beispiele zum Antippen:</p><div class="chips">${I.WENN_DANN_BEISPIELE.map((b, i) => `<button class="chip" data-a="wd-beispiel" data-z="${i}">Wenn ${esc(b.wenn)} …</button>`).join("")}</div>`;
+    return html;
+  }
+
+  function seiteBrief() {
+    const b = S.selbst.brief;
+    let html = kopf("Brief an mein späteres Ich", "hilfe") + "<main>";
+    html += `<p class="einleitung">Schreib dir selbst etwas für die Zeit nach der Klinik. Was soll dein späteres Ich nicht vergessen?</p>`;
+    html += `<textarea class="eingabe" data-f="brief" rows="8" maxlength="2000" placeholder="Liebes späteres Ich, …">${esc(b.text)}</textarea>`;
+    html += `<h3>Post vom Klinik-Ich als Sprachnachricht</h3>` + sprachHtml(true);
+    html += `<p class="leise">${b.datum ? "Zuletzt geändert: " + esc(datumKurz(b.datum)).replace(/\.$/, "") + ". " : ""}Wird beim Tippen gespeichert. Du findest den Brief in deinem Rucksack.</p>`;
+    return html + "</main>";
+  }
+
+  // ---------------------------------------------------------------- Fassung 4.2
+  // Vorlesen, Sprachnachricht, Abendroutine, Skills und Impulse vom Team,
+  // gezielt zeigen.
+
+  // ---- Vorlesen über die Sprachausgabe des Handys. Läuft auf dem Gerät,
+  // es geht nichts ins Netz.
+  const KANN_VORLESEN = typeof window.speechSynthesis !== "undefined" && typeof window.SpeechSynthesisUtterance !== "undefined";
+  function vorlesenKnopf(text) {
+    if (!KANN_VORLESEN || !text) return "";
+    return `<button class="text-knopf vorlesen" data-a="vorlesen" data-z="${esc(text)}">Vorlesen</button>`;
+  }
+  function vorlesen(text) {
+    if (!KANN_VORLESEN) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "de-DE"; u.rate = 0.92;
+    const de = speechSynthesis.getVoices().find(v => /^de/i.test(v.lang));
+    if (de) u.voice = de;
+    speechSynthesis.speak(u);
+  }
+
+  // ---- Sprachnachrichten liegen in IndexedDB, weil localStorage für Ton
+  // zu klein ist. Im Zustand steht nur, welche es gibt.
+  const KANN_AUFNEHMEN = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder && window.indexedDB);
+  function tonDb() {
+    return new Promise((ok, fehler) => {
+      const r = indexedDB.open("next-ton", 1);
+      r.onupgradeneeded = () => r.result.createObjectStore("ton");
+      r.onsuccess = () => ok(r.result);
+      r.onerror = () => fehler(r.error);
+    });
+  }
+  async function tonSchreiben(id, blob) {
+    const db = await tonDb();
+    await new Promise((ok, fehler) => { const t = db.transaction("ton", "readwrite"); t.objectStore("ton").put(blob, id); t.oncomplete = ok; t.onerror = () => fehler(t.error); });
+  }
+  async function tonLesen(id) {
+    const db = await tonDb();
+    return new Promise((ok, fehler) => { const r = db.transaction("ton").objectStore("ton").get(id); r.onsuccess = () => ok(r.result || null); r.onerror = () => fehler(r.error); });
+  }
+  async function tonLoeschen(id) {
+    const db = await tonDb();
+    await new Promise(ok => { const t = db.transaction("ton", "readwrite"); t.objectStore("ton").delete(id); t.oncomplete = ok; t.onerror = ok; });
+  }
+  function blobZuText(blob) { return new Promise(ok => { const r = new FileReader(); r.onload = () => ok(r.result); r.readAsDataURL(blob); }); }
+  async function textZuBlob(daten) { const a = await fetch(daten); return a.blob(); }
+
+  // Nach jedem Zeichnen die Abspieler mit ihrem Ton füllen.
+  function toeneEinhaengen() {
+    app().querySelectorAll("audio[data-ton]").forEach(async el => {
+      try { const b = await tonLesen(el.dataset.ton); if (b) el.src = URL.createObjectURL(b); else el.replaceWith(Object.assign(document.createElement("p"), { className: "leise", textContent: "Diese Aufnahme liegt nicht auf diesem Gerät." })); }
+      catch (e) { /* ohne Ton weiter */ }
+    });
+  }
+
+  let aufnahme = null; // { recorder, teile, start, timer }
+  function sprachHtml(bearbeiten) {
+    const liste = S.selbst.sprach;
+    let html = liste.map(t => `<div class="ton-zeile"><div><b>${esc(t.titel || "Sprachnachricht")}</b><small>${esc(datumKurz(t.datum))}${t.sekunden ? " · " + t.sekunden + " Sek." : ""}</small></div>
+      <audio controls preload="none" data-ton="${esc(t.id)}"></audio>${bearbeiten ? `<button class="mini-knopf" data-a="ton-weg" data-z="${esc(t.id)}" aria-label="Löschen">✕</button>` : ""}</div>`).join("");
+    if (!bearbeiten) return html;
+    if (!KANN_AUFNEHMEN) return html + `<p class="leise">Aufnehmen geht in diesem Browser leider nicht.</p>`;
+    html += aufnahme
+      ? `<button class="knopf notfall" data-a="ton-stopp">Aufnahme beenden</button><p class="leise">Höchstens 2 Minuten.</p>`
+      : `<button class="knopf" data-a="ton-start">Sprachnachricht aufnehmen</button><p class="leise">Die Aufnahme bleibt nur auf diesem Handy.</p>`;
+    return html;
+  }
+
+  // ---- Abendroutine: kurze Liste, kein Ablauf mit Bildschirmen.
+  function abendHeute() {
+    let t = S.abend.tage.find(x => istHeute(x.datum));
+    return t || null;
+  }
+  function seiteAbend() {
+    const t = abendHeute() || { erledigt: [], gut: "" };
+    let html = kopf("Abendroutine", "missionen") + "<main>";
+    html += `<p class="einleitung">Kurz den Tag abschließen und den Morgen leichter machen. Tipp an, was du gemacht hast.</p>`;
+    html += S.abend.schritte.map(s => `<button class="abend-schritt ${t.erledigt.includes(s.id) ? "fertig" : ""}" data-a="abend-tipp" data-z="${esc(s.id)}"><span class="haken"></span>${esc(s.text)}</button>`).join("");
+    html += `<label class="feld">Eine schöne Sache heute (freiwillig)<input class="eingabe" id="abend-gut" maxlength="120" value="${esc(t.gut || "")}" placeholder="Auch an schweren Tagen gibt es eine kleine"></label>`;
+    html += `<button class="knopf haupt" data-a="abend-fertig">Gute Nacht</button>`;
+    return html + "</main>";
+  }
+
+  // ---- Gezielt zeigen: der Jugendliche wählt, was eine Fachkraft sehen darf.
+  function teilbareEintraege() {
+    const l = [];
+    S.baum.knospen.slice().reverse().forEach(k => l.push({ id: "k:" + k.id, gruppe: "Knospen", text: k.text, unter: ast(k.ast).name + ", " + datumKurz(k.datum) }));
+    S.skills.versuche.slice().reverse().forEach(v => { const s = skill(v.skillId); l.push({ id: "v:" + v.id, gruppe: "Skill-Tests", text: (s ? s.name : "Skill") + (v.vorher != null ? `: Anspannung ${v.vorher} → ${v.nachher}` : ""), unter: [v.situation, datumKurz(v.datum), v.notiz].filter(Boolean).join(", ") }); });
+    S.challenges.erledigt.slice().reverse().forEach((c, i) => l.push({ id: "c:" + i + c.datum, gruppe: "Challenges", text: c.text, unter: [c.vorher && "Vorher: " + c.vorher, c.nachher && "Tatsächlich: " + c.nachher].filter(Boolean).join(" · ") }));
+    S.selbst.gedanken.slice().reverse().forEach(g => l.push({ id: "g:" + g.id, gruppe: "Stimmt das wirklich?", text: g.gedanke, unter: g.neu ? "Anders gesagt: " + g.neu : "" }));
+    S.hilfe.erkenntnisse.slice().reverse().forEach(e => l.push({ id: "e:" + e.id, gruppe: "Was mir geholfen hat", text: e.text, unter: datumKurz(e.datum) }));
+    S.zukunft.ziele.forEach(z => l.push({ id: "z:" + z.id, gruppe: "Ziele", text: z.titel, unter: z.ersterSchritt ? "Nächster Schritt: " + z.ersterSchritt : "" }));
+    if (S.hilfe.warnzeichen.length) l.push({ id: "w:alle", gruppe: "Mein Plan", text: "Meine Warnzeichen", unter: S.hilfe.warnzeichen.join(", ") });
+    return l;
+  }
+  let teilenAuswahl = [];
+  function seiteTeilen() {
+    const l = teilbareEintraege();
+    let html = kopf("Etwas zeigen", "hilfe/rucksack") + "<main>";
+    html += `<p class="einleitung">Du entscheidest, was jemand sehen darf. Nur das, was du hier antippst, wird angezeigt.</p>`;
+    if (!l.length) return html + leer("Noch nichts da, was du zeigen könntest.") + "</main>";
+    let gruppe = "";
+    for (const e of l) {
+      if (e.gruppe !== gruppe) { gruppe = e.gruppe; html += `<h3>${esc(gruppe)}</h3>`; }
+      html += `<label class="teilen-zeile"><input type="checkbox" data-f="teilen" data-z="${esc(e.id)}" ${teilenAuswahl.includes(e.id) ? "checked" : ""}><span><b>${esc(e.text)}</b>${e.unter ? `<small>${esc(e.unter)}</small>` : ""}</span></label>`;
+    }
+    html += `<div class="unten-fest"><button class="knopf haupt" data-a="teilen-zeigen">Auswahl anzeigen</button></div>`;
+    return html + "</main>";
+  }
+  function flowZeigen() {
+    const l = teilbareEintraege().filter(e => teilenAuswahl.includes(e.id));
+    const kannTeilen = typeof navigator.share === "function";
+    return flowKopf("Das möchte ich zeigen", "flow-ende") + `<main class="flow zeigen">
+      ${l.map(e => `<div class="zeigen-eintrag"><p class="etikett">${esc(e.gruppe)}</p><p class="gross">${esc(e.text)}</p>${e.unter ? `<p>${esc(e.unter)}</p>` : ""}</div>`).join("") || leer("Nichts ausgewählt.")}
+      ${kannTeilen && l.length ? `<button class="knopf" data-a="teilen-senden">Als Text teilen</button>` : ""}
+      <button class="knopf haupt" data-a="flow-ende">Fertig</button></main>`;
+  }
+
+  // ---- Fachkräfte: Skills fürs Team, Gruppenimpulse, Gruppenaufgabe.
+  function fachSkills() {
+    let html = kopf("Skills vom Team", "fach") + "<main>";
+    html += `<p class="einleitung">Geprüfte Skills, die ihr in der Gruppe verwendet. Sie erscheinen bei „Entdecken“ mit dem Vermerk „vom Team“.</p>`;
+    html += S.skills.team.map(s => `<div class="bearbeiten-zeile"><span><b>${esc(s.name)}</b><small>${esc(s.wann || "")}</small></span><button class="mini-knopf" data-a="team-skill-weg" data-z="${esc(s.id)}" aria-label="Löschen">✕</button></div>`).join("") || leer("Noch keine eigenen Team-Skills.");
+    html += `<h3>Neuer Skill</h3>
+      <label class="feld">Name<input class="eingabe" id="ts-name" maxlength="40"></label>
+      <label class="feld">Wann hilft er?<input class="eingabe" id="ts-wann" maxlength="100"></label>
+      <label class="feld">Dauer und Material<input class="eingabe" id="ts-dauer" maxlength="40" placeholder="z. B. 3 Minuten"><input class="eingabe" id="ts-material" maxlength="60" placeholder="z. B. Nichts"></label>
+      <p class="feld-titel">Wobei hilft er?</p><div class="chips">${I.ZIELE.map(z => `<label class="chip"><input type="checkbox" class="ts-ziel" value="${z.id}"> ${esc(z.name)}</label>`).join("")}</div>
+      <label class="feld">Schritte (einer pro Zeile)<textarea class="eingabe" id="ts-schritte" rows="4"></textarea></label>
+      <label class="schalter"><input type="checkbox" id="ts-absprache"> Starker Reiz, nur nach Absprache</label>
+      <button class="knopf haupt" data-a="team-skill-dazu">Speichern</button>`;
+    return html + "</main>";
+  }
+  function fachImpulse() {
+    let html = kopf("Impulse für die Gruppe", "fach") + "<main>";
+    html += `<p class="einleitung">Acht Vorschläge für Gruppeneinheiten, jeweils mit Bezug zur App. Entwurf ohne fachliche Prüfung.</p>`;
+    html += I.GRUPPEN_IMPULSE.map((g, i) => karte(`<p class="etikett">${esc(g.gruppe)} · ${esc(g.dauer)}</p><h2>${esc(g.titel)}</h2><p>${esc(g.ziel)}</p>
+      <ol class="schritte">${g.ablauf.map(x => `<li>${esc(x)}</li>`).join("")}</ol>
+      <p class="leise">Aufgabe danach: ${esc(g.aufgabe)}</p>
+      <button class="knopf" data-a="impuls-aufgabe" data-z="${i}">Als Gruppenaufgabe auf „Heute“ zeigen</button>`)).join("");
+    return html + "</main>";
+  }
+  function fachAufgabe() {
+    const g = S.skills.gruppenAufgabe;
+    let html = kopf("Gruppenaufgabe", "fach") + "<main>";
+    html += `<p class="einleitung">Erscheint auf der Startseite, bis der Jugendliche sie erledigt oder ihr sie entfernt.</p>`;
+    html += `<label class="feld">Aufgabe<textarea class="eingabe" id="ga-text" rows="3" maxlength="200">${esc(g ? g.text : "")}</textarea></label>
+      <label class="feld">Passender Skill (freiwillig)<select class="eingabe" id="ga-skill"><option value="">Keiner</option>${alleSkills().map(s => `<option value="${esc(s.id)}" ${g && g.skillId === s.id ? "selected" : ""}>${esc(s.name)}</option>`).join("")}</select></label>
+      <button class="knopf haupt" data-a="ga-speichern">Auf Heute zeigen</button>
+      ${g ? `<button class="knopf leise-knopf" data-a="ga-weg">Aufgabe entfernen</button>` : ""}`;
+    return html + "</main>";
   }
 
   // ---------------------------------------------------------------- Aktionen
@@ -2625,8 +3242,9 @@ window.NEXT_INHALT = (function () {
     },
     "flow-ende": () => {
       const danach = flow && flow.danach;
+      const ziel = flow && flow.danachZiel;
       flow = null;
-      if (danach === "schule") geh("missionen/schule"); else geh("heute");
+      if (danach === "schule") geh("missionen/schule"); else if (ziel) geh("missionen/zukunft/ziel/" + ziel); else geh("heute");
     },
     "steck-grund": z => { flow.ansicht = "grund"; flow.grund = z; render(); },
     "skill-kurz": z => {
@@ -2723,6 +3341,7 @@ window.NEXT_INHALT = (function () {
     },
     "test-speichern": () => {
       const s = skill(flow.skillId);
+      if (S.skills.gruppenAufgabe && S.skills.gruppenAufgabe.skillId === flow.skillId) S.skills.gruppenAufgabe = null;
       S.skills.versuche.push({ id: neueId(), skillId: flow.skillId, datum: new Date().toISOString(), situation: flow.situation, vorher: flow.vorher, nachher: flow.nachher, wirkung: flow.wirkung, ergebnisse: flow.ergebnisse, notiz: wert("test-notiz") });
       speichern();
       const half = flow.wirkung.wieder === "ja" || (flow.vorher != null && flow.nachher != null && flow.nachher < flow.vorher);
@@ -2781,8 +3400,10 @@ window.NEXT_INHALT = (function () {
     "kontakt-weg": z => { S.hilfe.kontakte = S.hilfe.kontakte.filter(k => k.id !== z); speichern(); render(); },
     "warn-dazu": () => { const t = wert("warn-neu"); if (t) { S.hilfe.warnzeichen.push(t); speichern(); render(); } },
     "warn-weg": z => { S.hilfe.warnzeichen.splice(Number(z), 1); speichern(); render(); },
-    "sichern": () => {
-      const blob = new Blob([JSON.stringify({ app: "NEXT", fassung: 4, gesichert: new Date().toISOString(), daten: S }, null, 1)], { type: "application/json" });
+    "sichern": async () => {
+      const toene = {};
+      for (const t of S.selbst.sprach) { try { const b = await tonLesen(t.id); if (b) toene[t.id] = await blobZuText(b); } catch (e) { /* ohne diesen Ton */ } }
+      const blob = new Blob([JSON.stringify({ app: "NEXT", fassung: 4, gesichert: new Date().toISOString(), daten: S, toene }, null, 1)], { type: "application/json" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = "NEXT-Rucksack-" + heuteIso() + ".json";
@@ -2831,6 +3452,188 @@ window.NEXT_INHALT = (function () {
     })
   };
 
+
+  // Aktionen der Fassung 4.1
+  Object.assign(AKTIONEN, {
+    "life-vorlage": z => {
+      const v = I.LIFE_VORLAGEN[Number(z)];
+      const a = { id: neueId(), titel: v.titel, schritte: v.schritte.map(t => ({ text: t, erledigt: false })), fertig: null };
+      S.life.aufgaben.push(a); speichern(); geh("missionen/life/" + a.id);
+    },
+    "life-eigene": () => {
+      const t = wert("life-neu");
+      if (!t) return;
+      const a = { id: neueId(), titel: t, schritte: [], fertig: null };
+      S.life.aufgaben.push(a); speichern(); geh("missionen/life/" + a.id);
+    },
+    "life-schritt": z => {
+      const a = S.life.aufgaben.find(x => x.id === z);
+      const s = a && a.schritte.find(x => !x.erledigt);
+      if (!s) return;
+      s.erledigt = true;
+      speichern();
+      if (a.schritte.every(x => x.erledigt)) {
+        a.fertig = new Date().toISOString(); speichern();
+        flow = { art: "knospe", ast: "selbst", text: "Aufgabe geschafft: " + a.titel, quelle: "life" };
+        geh("flow/knospe/" + Date.now().toString(36));
+      } else render();
+    },
+    "life-kleiner": () => { const f = document.getElementById("life-kleiner-feld"); if (f) { f.hidden = false; document.getElementById("life-kleiner-text").focus(); } },
+    "life-kleiner-dazu": z => {
+      const a = S.life.aufgaben.find(x => x.id === z);
+      const t = wert("life-kleiner-text");
+      if (!a || !t) return;
+      const i = a.schritte.findIndex(x => !x.erledigt);
+      a.schritte.splice(i < 0 ? a.schritte.length : i, 0, { text: t, erledigt: false });
+      speichern(); render();
+    },
+    "life-schritt-dazu": z => {
+      const a = S.life.aufgaben.find(x => x.id === z);
+      const t = wert("life-schritt-neu");
+      if (!a || !t) return;
+      a.schritte.push({ text: t, erledigt: false }); a.fertig = null; speichern(); render();
+    },
+    "life-weg": z => zeigeDialog(`<h2>Aufgabe löschen?</h2>`, "Löschen", () => { S.life.aufgaben = S.life.aufgaben.filter(a => a.id !== z); speichern(); geh("missionen/life"); }),
+
+    "zk-chip": z => {
+      const i = z.indexOf(":"); const gruppe = z.slice(0, i), w = z.slice(i + 1);
+      const l = S.zukunft[gruppe]; const j = l.indexOf(w);
+      if (j >= 0) l.splice(j, 1); else l.push(w);
+      speichern(); const y = window.scrollY; render(); window.scrollTo(0, y);
+    },
+    "zk-exp-dazu": z => { if (!S.zukunft.experimente.some(e => e.text === z)) S.zukunft.experimente.push({ id: neueId(), text: z, erledigt: false }); speichern(); const y = window.scrollY; render(); window.scrollTo(0, y); },
+    "zk-exp-weg": z => { S.zukunft.experimente = S.zukunft.experimente.filter(e => e.id !== z); speichern(); render(); },
+    "zk-exp-gemacht": z => {
+      const e = S.zukunft.experimente.find(x => x.id === z);
+      if (!e) return;
+      e.erledigt = new Date().toISOString(); speichern();
+      flow = { art: "knospe", ast: "neugier", text: "Zukunftsexperiment: " + e.text, quelle: "zukunft" };
+      geh("flow/knospe/" + Date.now().toString(36));
+    },
+    "ziel-start": () => starteFlow({ art: "ziel", schritt: 0, antworten: {} }),
+    "ziel-weiter": z => {
+      const q = I.ZIEL_FRAGEN[flow.schritt];
+      const t = z === "leer" ? "" : wert("ziel-antwort");
+      if (q.pflicht && !t) { document.getElementById("ziel-antwort").focus(); return; }
+      flow.antworten[q.id] = t;
+      if (flow.schritt < I.ZIEL_FRAGEN.length - 1) { flow.schritt += 1; render(); return; }
+      const a = flow.antworten;
+      const zeilen = x => String(x || "").split("\n").map(y => y.trim()).filter(Boolean);
+      const ziel = { id: neueId(), datum: new Date().toISOString(), titel: a.titel, warum: a.warum || "", voraussetzungen: zeilen(a.voraussetzungen).map(t2 => ({ text: t2, ok: false })), etappen: zeilen(a.etappen).map(t2 => ({ text: t2, erledigt: false })), ersterSchritt: a.ersterSchritt || "", hindernisse: a.hindernisse || "", unterstuetzung: a.unterstuetzung || "", alternativen: a.alternativen || "" };
+      S.zukunft.ziele.push(ziel); speichern();
+      knospeAnbieten({ ast: "zukunft", text: "Ziel geplant: " + ziel.titel + (ziel.ersterSchritt ? ". Erster Schritt: " + ziel.ersterSchritt : ""), quelle: "zukunft" });
+    },
+    "ziel-schritt": z => {
+      const ziel = S.zukunft.ziele.find(x => x.id === z);
+      if (!ziel || !ziel.ersterSchritt) return;
+      const t = ziel.ersterSchritt; ziel.ersterSchritt = ""; speichern();
+      flow = { art: "knospe", ast: "zukunft", text: ziel.titel + ": " + t, quelle: "zukunft", danachZiel: ziel.id };
+      geh("flow/knospe/" + Date.now().toString(36));
+    },
+    "ziel-schritt-setzen": z => { const ziel = S.zukunft.ziele.find(x => x.id === z); const t = wert("ziel-schritt-neu"); if (ziel && t) { ziel.ersterSchritt = t; speichern(); render(); } },
+    "ziel-etappe": z => { const [id, i] = z.split(":"); const ziel = S.zukunft.ziele.find(x => x.id === id); const e = ziel && ziel.etappen[Number(i)]; if (e) { e.erledigt = !e.erledigt; speichern(); render(); } },
+    "ziel-weg": z => zeigeDialog(`<h2>Ziel löschen?</h2>`, "Löschen", () => { S.zukunft.ziele = S.zukunft.ziele.filter(x => x.id !== z); speichern(); geh("missionen/zukunft"); }),
+
+    "ich-dazu": z => { const t = wert("ich-" + z); if (t) { S.selbst.ich[z].push(t); speichern(); const y = window.scrollY; render(); window.scrollTo(0, y); } },
+    "ich-weg": z => { const [b, i] = z.split(":"); S.selbst.ich[b].splice(Number(i), 1); speichern(); const y = window.scrollY; render(); window.scrollTo(0, y); },
+    "gedanke-start": () => starteFlow({ art: "gedanke", schritt: 0, gedanke: "", glaubeVorher: null, glaubeNachher: null }),
+    "gd-chip": z => { flow.gedanke = z; render(); },
+    "gd-weiter": z => {
+      if (flow.schritt === 0) { const t = wert("gd-text"); if (t) flow.gedanke = t; if (!flow.gedanke) { document.getElementById("gd-text").focus(); return; } }
+      if (flow.schritt === 1 && flow.glaubeVorher == null) flow.glaubeVorher = 50;
+      if (z) flow[z] = wert("gd-feld");
+      flow.schritt += 1; render();
+    },
+    "gd-fertig": () => {
+      if (flow.glaubeNachher == null) flow.glaubeNachher = flow.glaubeVorher;
+      S.selbst.gedanken.push({ id: neueId(), datum: new Date().toISOString(), gedanke: flow.gedanke, dafuer: flow.dafuer || "", dagegen: flow.dagegen || "", neu: flow.neu || "", glaubeVorher: flow.glaubeVorher, glaubeNachher: flow.glaubeNachher });
+      speichern(); flow.schritt = 6; render();
+    },
+
+    "wd-dazu": () => { const w = wert("wd-wenn").replace(/^wenn\s+/i, ""), d = wert("wd-dann").replace(/^dann\s+/i, ""); if (w && d) { S.hilfe.wennDann.push({ wenn: w, dann: d }); speichern(); render(); } },
+    "wd-beispiel": z => { const b = I.WENN_DANN_BEISPIELE[Number(z)]; document.getElementById("wd-wenn").value = b.wenn; document.getElementById("wd-dann").value = b.dann; },
+    "wd-weg": z => { S.hilfe.wennDann.splice(Number(z), 1); speichern(); render(); },
+    "challenge-eigen": () => { const t = wert("ch-eigen"); if (t) starteFlow({ art: "challenge", ansicht: "start", text: t, welt: "eigen", stufe: "eigen" }); }
+  });
+
+
+  // Aktionen der Fassung 4.2
+  Object.assign(AKTIONEN, {
+    "vorlesen": z => vorlesen(z),
+    "einr-interesse": z => { const l = S.zukunft.interessen; const i = l.indexOf(z); if (i >= 0) l.splice(i, 1); else l.push(z); speichern(); render(); },
+    "ch3": z => {
+      const [i, st] = z.split(":"); const c = I.CHALLENGES3[Number(i)];
+      if (!c) return;
+      if (flow && flow.art === "challenge") { Object.assign(flow, { text: c[st], stufe: st, gruppe: Number(i) }); render(); return; }
+      starteFlow({ art: "challenge", ansicht: "start", text: c[st], welt: c.welt, stufe: st, gruppe: Number(i) });
+    },
+    "ton-start": async () => {
+      try {
+        const strom = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const rec = new MediaRecorder(strom);
+        aufnahme = { rec, teile: [], start: Date.now(), strom };
+        rec.ondataavailable = e => { if (e.data && e.data.size) aufnahme.teile.push(e.data); };
+        rec.onstop = async () => {
+          const a = aufnahme; aufnahme = null;
+          a.strom.getTracks().forEach(t => t.stop());
+          clearTimeout(a.timer);
+          const blob = new Blob(a.teile, { type: a.rec.mimeType || "audio/webm" });
+          const id = "ton-" + neueId();
+          try { await tonSchreiben(id, blob); S.selbst.sprach.push({ id, datum: new Date().toISOString(), sekunden: Math.round((Date.now() - a.start) / 1000), titel: "Sprachnachricht" }); speichern(); }
+          catch (e) { zeigeDialog(`<h2>Speichern ging nicht</h2><p>Ist der private Modus an?</p>`); }
+          render();
+        };
+        rec.start();
+        aufnahme.timer = setTimeout(() => { if (aufnahme) aufnahme.rec.stop(); }, 120000);
+        render();
+      } catch (e) {
+        aufnahme = null;
+        zeigeDialog(`<h2>Kein Mikrofon</h2><p>NEXT darf das Mikrofon nicht benutzen. Das kannst du in den Einstellungen des Handys erlauben.</p>`);
+      }
+    },
+    "ton-stopp": () => { if (aufnahme) aufnahme.rec.stop(); },
+    "ton-weg": z => zeigeDialog(`<h2>Sprachnachricht löschen?</h2>`, "Löschen", async () => { await tonLoeschen(z).catch(() => {}); S.selbst.sprach = S.selbst.sprach.filter(t => t.id !== z); speichern(); render(); }),
+    "abend-tipp": z => {
+      let t = abendHeute();
+      if (!t) { t = { datum: new Date().toISOString(), erledigt: [], gut: "", fertig: false }; S.abend.tage.push(t); }
+      const i = t.erledigt.indexOf(z); if (i >= 0) t.erledigt.splice(i, 1); else t.erledigt.push(z);
+      t.gut = wert("abend-gut"); speichern(); const y = window.scrollY; render(); window.scrollTo(0, y);
+    },
+    "abend-fertig": () => {
+      let t = abendHeute();
+      if (!t) { t = { datum: new Date().toISOString(), erledigt: [], gut: "", fertig: false }; S.abend.tage.push(t); }
+      t.gut = wert("abend-gut"); t.fertig = true;
+      S.abend.tage = S.abend.tage.slice(-60);
+      speichern();
+      if (t.erledigt.length || t.gut) {
+        flow = { art: "knospe", ast: "fuersorge", text: t.gut ? "Schöne Sache heute: " + t.gut : "Abendroutine gemacht", quelle: "abend" };
+        geh("flow/knospe/" + Date.now().toString(36));
+      } else { zeigeDialog(`<h2>Gute Nacht.</h2><p>Leg das Handy weg.</p>`); geh("heute"); }
+    },
+    "as-hoch": z => { const i = Number(z); if (i > 0) { const l = S.abend.schritte; [l[i - 1], l[i]] = [l[i], l[i - 1]]; speichern(); render(); } },
+    "as-weg": z => { S.abend.schritte.splice(Number(z), 1); speichern(); render(); },
+    "as-dazu": () => { const t = wert("as-text"); if (t) { S.abend.schritte.push({ id: neueId(), text: t }); speichern(); render(); } },
+    "teilen-zeigen": () => { if (!teilenAuswahl.length) { zeigeDialog(`<h2>Nichts ausgewählt</h2><p>Tipp an, was du zeigen möchtest.</p>`); return; } starteFlow({ art: "zeigen" }); },
+    "teilen-senden": () => {
+      const text = teilbareEintraege().filter(e => teilenAuswahl.includes(e.id)).map(e => `${e.gruppe}: ${e.text}${e.unter ? " (" + e.unter + ")" : ""}`).join("\n");
+      navigator.share({ title: "Aus meiner NEXT-App", text }).catch(() => {});
+    },
+    "team-skill-dazu": () => {
+      const name = wert("ts-name");
+      if (!name) { document.getElementById("ts-name").focus(); return; }
+      S.skills.team.push({ id: "team-" + neueId(), name, wann: wert("ts-wann"), dauer: wert("ts-dauer"), material: wert("ts-material"), ziele: [...document.querySelectorAll(".ts-ziel:checked")].map(x => x.value), schritte: wert("ts-schritte").split("\n").map(x => x.trim()).filter(Boolean), absprache: !!document.getElementById("ts-absprache").checked, kategorie: "team" });
+      speichern(); render();
+    },
+    "team-skill-weg": z => zeigeDialog(`<h2>Team-Skill löschen?</h2>`, "Löschen", () => { S.skills.team = S.skills.team.filter(s => s.id !== z); S.skills.favoriten = S.skills.favoriten.filter(x => x !== z); S.skills.sos = S.skills.sos.filter(x => x !== z); speichern(); render(); }),
+    "impuls-aufgabe": z => { const g = I.GRUPPEN_IMPULSE[Number(z)]; S.skills.gruppenAufgabe = { text: g.aufgabe, skillId: g.titel === "Fünf Sinne" ? "54321" : "", datum: new Date().toISOString() }; speichern(); zeigeDialog(`<h2>Steht auf Heute</h2><p>${esc(g.aufgabe)}</p>`); },
+    "ga-speichern": () => { const t = wert("ga-text"); if (!t) return; S.skills.gruppenAufgabe = { text: t, skillId: wert("ga-skill"), datum: new Date().toISOString() }; speichern(); geh("fach"); },
+    "ga-weg": () => { S.skills.gruppenAufgabe = null; speichern(); geh("fach"); },
+    "ga-erledigt": () => {
+      const g = S.skills.gruppenAufgabe; S.skills.gruppenAufgabe = null; speichern();
+      if (g) { flow = { art: "knospe", ast: "selbst", text: "Aufgabe aus der Gruppe: " + g.text, quelle: "gruppe" }; geh("flow/knospe/" + Date.now().toString(36)); }
+    }
+  });
+
   // ---------------------------------------------------------------- Dialog
 
   function zeigeDialog(inhalt, okText, onOk) {
@@ -2868,6 +3671,7 @@ window.NEXT_INHALT = (function () {
     else if (f === "suche") { suche = el.value; const l = document.getElementById("skill-liste"); if (l) l.innerHTML = skillListeHtml(); }
     else if (f === "stufe") { S.hilfe.stufen[el.dataset.z] = el.value; speichern(); }
     else if (f === "planb") { S.schule.planB[el.dataset.z] = el.value; speichern(); }
+    else if (f === "brief") { S.selbst.brief.text = el.value; S.selbst.brief.datum = new Date().toISOString(); speichern(); }
     else if (f === "regler") { const v = Number(el.value); flow[el.dataset.z] = v; const r = document.getElementById("rw-" + el.dataset.z); if (r) r.textContent = v; }
   });
 
@@ -2875,6 +3679,8 @@ window.NEXT_INHALT = (function () {
     const el = e.target;
     const f = el.dataset && el.dataset.f;
     if (f === "mutmacher") { S.profil.mutmacherAn = el.checked; speichern(); }
+    if (f === "teilen") { const z = el.dataset.z; teilenAuswahl = teilenAuswahl.filter(x => x !== z); if (el.checked) teilenAuswahl.push(z); }
+    if (f === "ziel-vor") { const [id, i] = el.dataset.z.split(":"); const ziel = S.zukunft.ziele.find(x => x.id === id); if (ziel && ziel.voraussetzungen[Number(i)]) { ziel.voraussetzungen[Number(i)].ok = el.checked; speichern(); } }
     if (f === "laden" && el.files && el.files[0]) {
       const r = new FileReader();
       r.onload = () => {
@@ -2882,7 +3688,12 @@ window.NEXT_INHALT = (function () {
           const roh = JSON.parse(r.result);
           const daten = roh && roh.app === "NEXT" ? roh.daten : roh;
           if (!daten || typeof daten !== "object" || !daten.profil) throw new Error("kein Rucksack");
-          zeigeDialog(`<h2>Rucksack laden?</h2><p>Was auf diesem Gerät steht, wird durch die Datei ersetzt.</p>`, "Laden", () => { S = ergaenzen(daten); S.profil.eingerichtet = true; speichern(); geh("heute"); });
+          const toene = roh && roh.toene && typeof roh.toene === "object" ? roh.toene : {};
+          zeigeDialog(`<h2>Rucksack laden?</h2><p>Was auf diesem Gerät steht, wird durch die Datei ersetzt.</p>`, "Laden", async () => {
+            S = ergaenzen(daten); S.profil.eingerichtet = true; speichern();
+            for (const [id, d] of Object.entries(toene)) { try { await tonSchreiben(id, await textZuBlob(d)); } catch (e) { /* weiter */ } }
+            geh("heute");
+          });
         } catch (err) {
           zeigeDialog(`<h2>Das hat nicht geklappt</h2><p>Die Datei ist kein NEXT-Rucksack.</p>`);
         }
