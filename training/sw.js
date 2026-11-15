@@ -2,7 +2,7 @@
 // damit sie danach auch ohne Netz startet. Persönliche Einträge liegen
 // davon getrennt im localStorage und werden hier nie angefasst.
 // Bei jeder neuen Fassung die Nummer erhöhen, sonst behalten Handys die alte.
-const FASSUNG = 'training-v1';
+const FASSUNG = 'training-v2';
 const DATEIEN = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {
