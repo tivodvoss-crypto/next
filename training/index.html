@@ -1638,7 +1638,7 @@ body.mit-leiste .meldung {
 }
 
 .abschnitt-titel.stark {
-  color: #5c3b00;
+  color: var(--warnung-text);
   font-size: 16px;
 }
 
@@ -2080,6 +2080,154 @@ body {
 .unten-nav > .knopf[aria-current="page"] {
   color: var(--primaer-tief);
   background: rgba(12, 188, 174, 0.16);
+}
+
+/* ===== Nachweis je Aufgabe (16.11.2026) ===== */
+.nachweis-marken {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 4px;
+}
+
+.nachweis-marke {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 8px;
+  border-radius: 99px;
+  background: rgba(12, 188, 174, 0.14);
+  border: 1px solid rgba(91, 213, 200, 0.35);
+  color: var(--primaer-tief);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nachweis-marke .sym {
+  width: 17px;
+  height: 17px;
+}
+
+.nachweis-karte {
+  border-color: rgba(91, 213, 200, 0.45);
+  box-shadow: var(--schatten), 0 0 14px rgba(12, 188, 174, 0.15);
+}
+
+.kachel.klein {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.kachel.klein .sym {
+  width: 22px;
+  height: 22px;
+}
+
+.nachweis-block,
+.nachweis-wahl {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border-radius: var(--rund-klein);
+  background: rgba(1, 25, 51, 0.45);
+  border: 1px solid rgba(91, 213, 200, 0.2);
+}
+
+.nachweis-wahl .beschriftung {
+  margin-top: 0;
+}
+
+.segment.umbruch {
+  flex-wrap: wrap;
+}
+
+.segment.umbruch button {
+  flex: 1 1 30%;
+}
+
+/* Nachweiszettel: in der App als Vorschau, beim Drucken vier Stück auf A4, schwarz auf weiß. */
+.druckseite {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.nachweiszettel {
+  background: #ffffff;
+  color: #111111;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 14px;
+  border: 1px dashed #8a9aa0;
+}
+
+.nz-kopf {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px solid #111111;
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.nz-name {
+  font-style: italic;
+  font-weight: 900;
+  font-size: 18px;
+}
+
+.nz-zeile {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.nz-zeile span {
+  white-space: nowrap;
+}
+
+.nz-zeile i {
+  flex: 1;
+  border-bottom: 1px solid #111111;
+  height: 18px;
+}
+
+.nz-feld {
+  border: 1px solid #111111;
+  border-radius: 4px;
+  height: 70px;
+  padding: 4px 6px;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+.nz-fuss {
+  font-size: 11px;
+  margin: 6px 0 0;
+  color: #333333;
+}
+
+@media print {
+  @page { size: A4; margin: 10mm; }
+  html, body { background: #ffffff !important; }
+  .kopf, .prototyp, .unten-nav, .nicht-drucken, #ebene, .meldung { display: none !important; }
+  .inhalt { max-width: none; padding: 0 !important; margin: 0; }
+  .druckseite {
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 0;
+  }
+  .nachweiszettel {
+    height: 134mm;
+    border-radius: 0;
+    padding: 10mm;
+    font-size: 13pt;
+    break-inside: avoid;
+  }
+  .nz-feld { height: 40mm; }
 }
 
 </style>
@@ -14739,7 +14887,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "klinik",
   "titel": "Gehe bitte zum Bereich E4 und frage nach den Namen der dort …",
-  "text": "Gehe bitte zum Bereich E4 und frage nach den Namen der dort arbeitenden Therapeuten. Lass dir dieses Blatt vom PED unterschreiben.",
+  "text": "Gehe bitte zum Bereich E4 und frage nach den Namen der dort arbeitenden Therapeuten. Lass dir deinen Nachweiszettel vom PED unterschreiben.",
   "teilaufgaben": [
    "Therapeutennamen erfragen",
    "Bestätigung einholen"
@@ -14759,7 +14907,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Nimm dir einen Nachweiszettel mit und lass ihn im Bereich E4 vom Pflege- und Erziehungsdienst unterschreiben. Schreib die Namen in die App.",
+  "nachweis_hinweis": "Namen mit der aktuellen Besetzung von E4 abgleichen."
  },
  {
   "task_id": "t-a2",
@@ -14770,7 +14924,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "klinik",
   "titel": "Suche das Vorzimmer der Chefärztin auf und erkundige dich …",
-  "text": "Suche das Vorzimmer der Chefärztin auf und erkundige dich nach dem Namen der Sekretärin. Lass dir diesen Zettel unterschreiben!",
+  "text": "Suche das Vorzimmer der Chefärztin auf und erkundige dich nach dem Namen der Sekretärin. Lass dir deinen Nachweiszettel unterschreiben!",
   "teilaufgaben": [
    "Vorzimmer finden",
    "Namen notieren",
@@ -14791,7 +14945,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "team"
+  ],
+  "nachweis_text": "Nimm dir einen Nachweiszettel mit und lass ihn im Vorzimmer der Chefärztin unterschreiben.",
+  "nachweis_hinweis": "Bei Zweifeln kurz im Sekretariat nachfragen."
  },
  {
   "task_id": "t-a3",
@@ -14802,7 +14962,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "klinik",
   "titel": "Gehe bitte in die Anmeldung der Institutsambulanz und hole …",
-  "text": "Gehe bitte in die Anmeldung der Institutsambulanz und hole einen leeren Briefumschlag. Lass dir dieses Blatt unterschreiben.",
+  "text": "Gehe bitte in die Anmeldung der Institutsambulanz und hole einen leeren Briefumschlag. Lass dir deinen Nachweiszettel unterschreiben.",
   "teilaufgaben": [
    "Briefumschlag erbitten",
    "Bestätigung einholen"
@@ -14820,7 +14980,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "zettel"
+  ],
+  "nachweis_text": "Bring den leeren Briefumschlag mit. Lass dir außerdem den Nachweiszettel in der Anmeldung unterschreiben.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a4",
@@ -14831,7 +14997,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "klinik",
   "titel": "Suche das Büro von einem Oberarzt/einer Oberärztin auf und …",
-  "text": "Suche das Büro von einem Oberarzt/einer Oberärztin auf und notiere ihren Namen. Lass dir diesen Zettel unterschreiben!",
+  "text": "Suche das Büro von einem Oberarzt/einer Oberärztin auf und notiere ihren Namen. Lass dir deinen Nachweiszettel unterschreiben!",
   "teilaufgaben": [
    "Büro finden",
    "Namen notieren",
@@ -14852,7 +15018,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Nimm dir einen Nachweiszettel mit und lass ihn im Büro des Oberarztes oder der Oberärztin unterschreiben. Schreib den Namen in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a5",
@@ -14880,7 +15052,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "team"
+  ],
+  "nachweis_text": "Schreib die Raumnummer in die App. Deine Fachkraft prüft sie nach.",
+  "nachweis_hinweis": "Raumnummer mit dem aktuellen Raumplan abgleichen."
  },
  {
   "task_id": "t-a6",
@@ -14908,7 +15086,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort"
+  ],
+  "nachweis_text": "Schreib die drei Vornamen in die App. Deine Fachkraft kennt die richtige Lösung.",
+  "nachweis_hinweis": "Lösung vorher einmal selbst vor Ort ablesen."
  },
  {
   "task_id": "t-a7",
@@ -14936,7 +15119,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "foto"
+  ],
+  "nachweis_text": "Beschreib in der App, womit der Pavillon geschmückt ist. Du kannst auch ein Foto machen und es deiner Fachkraft zeigen.",
+  "nachweis_hinweis": "Schmuck wechselt, aktuellen Stand kennen."
  },
  {
   "task_id": "t-a8",
@@ -14964,7 +15153,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "foto"
+  ],
+  "nachweis_text": "Beschreib in der App, was das Bild aus Ton zeigt. Du kannst auch ein Foto machen und es deiner Fachkraft zeigen.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a10",
@@ -14990,7 +15185,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft dein Foto vom Übersichtsplan, ohne Menschen darauf. Ohne Foto: Nenne drei Gebäude, die auf dem Plan stehen.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a11",
@@ -15016,7 +15217,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "zettel"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft dein Foto von der Cafeteria, ohne Menschen darauf. Oder lass dir in der Cafeteria den Nachweiszettel unterschreiben.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a12",
@@ -15042,7 +15249,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft dein Foto vom Haus, nur von außen und ohne Menschen. Oder schreib auf, welche Hausnummer am Eingang steht.",
+  "nachweis_hinweis": "Hausnummer vorher einmal festhalten."
  },
  {
   "task_id": "t-a13",
@@ -15068,7 +15281,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine Fotos von beiden Fahrplänen. Ohne Foto: Schreib für jede Richtung eine Abfahrtszeit auf.",
+  "nachweis_hinweis": "Abfahrtszeiten mit der Fahrplanauskunft abgleichen."
  },
  {
   "task_id": "t-a14",
@@ -15096,7 +15315,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib den Preis in die App und lass dir in der Apotheke den Nachweiszettel stempeln.",
+  "nachweis_hinweis": "Preis nur grob prüfen, Preise schwanken."
  },
  {
   "task_id": "t-a15",
@@ -15127,7 +15352,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "foto"
+  ],
+  "nachweis_text": "Lass dir in der Gärtnerei den Nachweiszettel unterschreiben oder stempeln. Statt Selfie reicht auch ein Foto vom Eingang ohne Menschen.",
+  "nachweis_hinweis": "Selfie ist freiwillig, der Zettel reicht."
  },
  {
   "task_id": "t-a16",
@@ -15158,7 +15389,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "foto"
+  ],
+  "nachweis_text": "Lass dir im Café den Nachweiszettel unterschreiben oder stempeln. Statt Selfie reicht auch ein Foto vom Medicinum ohne Menschen.",
+  "nachweis_hinweis": "Selfie ist freiwillig, der Zettel reicht."
  },
  {
   "task_id": "t-a17",
@@ -15190,7 +15427,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Erklär deine drei Wege einer Fachkraft vom Pflege- und Erziehungsdienst. Sie bestätigt es dir dann in der App.",
+  "nachweis_hinweis": "Wege am Liniennetzplan nachvollziehen."
  },
  {
   "task_id": "t-a18",
@@ -15219,7 +15461,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Erklär deine drei Wege einer Fachkraft vom Pflege- und Erziehungsdienst. Sie bestätigt es dir dann in der App.",
+  "nachweis_hinweis": "Wege am Liniennetzplan nachvollziehen."
  },
  {
   "task_id": "t-a19",
@@ -15247,7 +15494,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": true,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": "Termin der Stadtführung mit dem aktuellen Angebot abgleichen."
  },
  {
   "task_id": "t-a20",
@@ -15279,7 +15532,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "foto"
+  ],
+  "nachweis_text": "Bring deine Busfahrkarte mit. Zusätzlich kannst du ein Foto vom Bahnhofsgebäude zeigen, ein Selfie musst du nicht machen.",
+  "nachweis_hinweis": "Datum und Uhrzeit auf der Fahrkarte prüfen."
  },
  {
   "task_id": "t-a21",
@@ -15310,7 +15569,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "foto"
+  ],
+  "nachweis_text": "Bring deine Busfahrkarte und die Speisekarte vom Imbiss mit. Ein Selfie musst du nicht machen, ein Foto vom Bahnhof reicht.",
+  "nachweis_hinweis": "Datum und Uhrzeit auf der Fahrkarte prüfen."
  },
  {
   "task_id": "t-a22",
@@ -15321,7 +15586,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "stadt",
   "titel": "Gehe bitte in die Touristeninformation Hildesheim und lass …",
-  "text": "Gehe bitte in die Touristeninformation Hildesheim und lass dir einen Stempel auf dieses Blatt geben.",
+  "text": "Gehe bitte in die Touristeninformation Hildesheim und lass dir einen Stempel auf deinen Nachweiszettel geben.",
   "teilaufgaben": [
    "Stempel einholen"
   ],
@@ -15338,7 +15603,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel"
+  ],
+  "nachweis_text": "Nimm dir einen Nachweiszettel mit und lass ihn in der Tourist-Information stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a23",
@@ -15364,7 +15634,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "foto"
+  ],
+  "nachweis_text": "Bring deine Busfahrkarte mit und zeig ein Foto vom Schul-Schild, ohne Menschen darauf. Ein Selfie musst du nicht machen.",
+  "nachweis_hinweis": "Foto nur von öffentlichem Grund, keine Schülerinnen oder Schüler im Bild."
  },
  {
   "task_id": "t-a24",
@@ -15395,7 +15671,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft dein Foto vom Spiel-Schiff, ohne Menschen darauf. Erklär ihr, was die Steingrube ist.",
+  "nachweis_hinweis": "Fehlt das Foto, nach Einzelheiten vom Ort fragen."
  },
  {
   "task_id": "t-a25",
@@ -15427,7 +15709,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "mitbringen"
+  ],
+  "nachweis_text": "Lass dir in der Stadtbücherei den Nachweiszettel stempeln und bring deine Busfahrkarte mit.",
+  "nachweis_hinweis": "Datum und Uhrzeit auf der Fahrkarte prüfen."
  },
  {
   "task_id": "t-a26",
@@ -15455,7 +15743,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine Fotos von Dom und St. Michaeliskirche, ohne Menschen darauf. Ohne Foto: Nenne zu jeder Kirche eine Einzelheit, die man nur vor Ort sieht.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a27",
@@ -15491,7 +15785,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "zettel"
+  ],
+  "nachweis_text": "Schreib die Filme, das Theaterstück und die drei Bestseller in die App. Lass dir bei Thalia den Nachweiszettel stempeln.",
+  "nachweis_hinweis": "Antworten mit dem aktuellen Programm und der Bestsellerliste abgleichen."
  },
  {
   "task_id": "t-a28",
@@ -15519,7 +15819,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Lass dir an der Information den Nachweiszettel unterschreiben. Schreib auf, wo der Plan hängt.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a29",
@@ -15547,7 +15853,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Die Fachkraft, die es dir erklärt, bestätigt es in der App. Erklär danach in eigenen Worten, wo die Infos stehen.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a30",
@@ -15575,7 +15887,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Frag eine Fachkraft auf deiner Station. Sie bestätigt dein Gespräch direkt in der App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a31",
@@ -15603,7 +15920,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Erklär einer Fachkraft den Weg zu einem der Ziele. Schreib die zwei Ziele in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a32",
@@ -15631,7 +15954,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "foto"
+  ],
+  "nachweis_text": "Schreib Linie, Richtung und Abfahrtszeit in die App. Du kannst auch ein Foto vom Aushang zeigen.",
+  "nachweis_hinweis": "Abfahrt mit der Fahrplanauskunft abgleichen."
  },
  {
   "task_id": "t-a33",
@@ -15659,7 +15988,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Erklär einer Fachkraft deinen Weg von Start bis Ziel. Schreib ihn auch kurz in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a34",
@@ -15688,7 +16023,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib den Brötchenpreis auf und lass dir in der Bäckerei den Nachweiszettel unterschreiben oder stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a35",
@@ -15716,7 +16057,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib Produkt, Fundort und Preis auf und lass dir im Geschäft den Nachweiszettel unterschreiben oder stempeln.",
+  "nachweis_hinweis": "Prüfen, ob es das vorher vereinbarte Produkt ist."
  },
  {
   "task_id": "t-a36",
@@ -15745,7 +16092,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib Pflanze und Pflegetipp auf und lass dir im Geschäft den Nachweiszettel unterschreiben oder stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a37",
@@ -15773,7 +16126,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "zettel"
+  ],
+  "nachweis_text": "Bring die Broschüre mit. Gibt es keine, lass dir in der Tourist-Information den Nachweiszettel stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a38",
@@ -15801,7 +16160,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib die zwei Voraussetzungen auf und lass dir in der Stadtbibliothek den Nachweiszettel stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a43",
@@ -15829,7 +16194,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a44",
@@ -15857,7 +16228,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Übe zuerst mit einer Fachkraft. Ruf dann vom Stationstelefon an, die Fachkraft hört über Lautsprecher mit.",
+  "nachweis_hinweis": "Anbieter vorher auswählen, keine Buchung."
  },
  {
   "task_id": "t-b1",
@@ -15885,7 +16262,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort"
+  ],
+  "nachweis_text": "Schreib die Anzahl der Lampen in die App. Deine Fachkraft kennt die richtige Zahl.",
+  "nachweis_hinweis": "Zahl vorher einmal selbst zählen."
  },
  {
   "task_id": "t-b2",
@@ -15914,7 +16296,13 @@ window.KATALOG = [
   "freigabe": "gesperrt_bis_ueberarbeitung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "team"
+  ],
+  "nachweis_text": "Lass dir auf der vereinbarten Station den Nachweiszettel unterschreiben. Schreib die Information in die App.",
+  "nachweis_hinweis": "Gesperrt bis zur Überarbeitung, erst danach einsetzen. Keine Angaben zu anderen Patientinnen oder Patienten."
  },
  {
   "task_id": "t-b3",
@@ -15942,7 +16330,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib die Öffnungszeiten auf und lass dir in der Anmeldung den Nachweiszettel unterschreiben.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b4",
@@ -15970,7 +16364,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib die Namen auf und lass dir beim Sozialdienst den Nachweiszettel unterschreiben.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b5",
@@ -15981,7 +16381,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "klinik",
   "titel": "Gehe bitte zum Bereich E3 und frage nach den Namen der dort …",
-  "text": "Gehe bitte zum Bereich E3 und frage nach den Namen der dort arbeitenden Therapeuten. Lass dir dieses Blatt vom PED unterschreiben.",
+  "text": "Gehe bitte zum Bereich E3 und frage nach den Namen der dort arbeitenden Therapeuten. Lass dir deinen Nachweiszettel vom PED unterschreiben.",
   "teilaufgaben": [],
   "einschaetzungspaare": 1,
   "antwortfelder": [
@@ -15998,7 +16398,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Nimm dir einen Nachweiszettel mit und lass ihn im Bereich E3 vom Pflege- und Erziehungsdienst unterschreiben. Schreib die Namen in die App.",
+  "nachweis_hinweis": "Namen mit der aktuellen Besetzung von E3 abgleichen."
  },
  {
   "task_id": "t-b6",
@@ -16026,7 +16432,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "team"
+  ],
+  "nachweis_text": "Schreib die Raumnummer in die App. Deine Fachkraft prüft sie nach.",
+  "nachweis_hinweis": "Raumnummer mit dem aktuellen Raumplan abgleichen."
  },
  {
   "task_id": "t-b7",
@@ -16054,7 +16466,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "team"
+  ],
+  "nachweis_text": "Schreib die Raumnummer in die App. Deine Fachkraft prüft sie nach.",
+  "nachweis_hinweis": "Raumnummer mit dem aktuellen Raumplan abgleichen."
  },
  {
   "task_id": "t-b9",
@@ -16082,7 +16500,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort"
+  ],
+  "nachweis_text": "Schreib die Anzahl der Parkbuchten in die App. Deine Fachkraft kennt die richtige Zahl.",
+  "nachweis_hinweis": "Zahl vorher einmal selbst zählen."
  },
  {
   "task_id": "t-b10",
@@ -16110,7 +16533,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "zettel"
+  ],
+  "nachweis_text": "Schreib den Namen in die App. Lass dir am Empfang im Hauptgebäude den Nachweiszettel unterschreiben.",
+  "nachweis_hinweis": "Der Name steht auch im Internet, darum auf den Zettel achten."
  },
  {
   "task_id": "t-b11",
@@ -16140,7 +16569,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine Fotos von den Fahrplänen. Ohne Foto: Schreib je Haltestelle und Richtung eine Abfahrtszeit auf.",
+  "nachweis_hinweis": "Abfahrtszeiten mit der Fahrplanauskunft abgleichen."
  },
  {
   "task_id": "t-b12",
@@ -16168,7 +16603,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": true,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b14",
@@ -16194,7 +16635,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen"
+  ],
+  "nachweis_text": "Bring die Apothekenzeitung mit.",
+  "nachweis_hinweis": "Prüfen, ob es die aktuelle Ausgabe ist."
  },
  {
   "task_id": "t-b15",
@@ -16225,7 +16671,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "foto"
+  ],
+  "nachweis_text": "Lass dir im Café den Nachweiszettel unterschreiben oder stempeln. Statt Selfie reicht auch ein Foto vom Café ohne Menschen.",
+  "nachweis_hinweis": "Selfie ist freiwillig, der Zettel reicht."
  },
  {
   "task_id": "t-b16",
@@ -16257,7 +16709,12 @@ window.KATALOG = [
   "freigabe": "gesperrt_bis_ueberarbeitung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Erklär deine drei Wege einer Fachkraft vom Pflege- und Erziehungsdienst. Sie bestätigt es dir dann in der App.",
+  "nachweis_hinweis": "Gesperrt bis zur Überarbeitung, erst danach einsetzen."
  },
  {
   "task_id": "t-b17",
@@ -16285,7 +16742,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": true,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": "Preis mit dem aktuellen Angebot abgleichen."
  },
  {
   "task_id": "t-b19",
@@ -16314,7 +16777,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "foto"
+  ],
+  "nachweis_text": "Bring deine Busfahrkarte mit. Zusätzlich kannst du ein Foto vom Bahnhofsgebäude zeigen, ein Selfie musst du nicht machen.",
+  "nachweis_hinweis": "Datum und Uhrzeit auf der Fahrkarte prüfen."
  },
  {
   "task_id": "t-b20",
@@ -16349,7 +16818,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "foto"
+  ],
+  "nachweis_text": "Bring deine Busfahrkarte und den Rossmann-Prospekt mit. Schreib Titel und Inhalt des Buchs in die App.",
+  "nachweis_hinweis": "Datum und Uhrzeit auf der Fahrkarte prüfen."
  },
  {
   "task_id": "t-b21",
@@ -16375,7 +16850,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "zettel"
+  ],
+  "nachweis_text": "Bring den Stundenplan mit. Gibt es keinen, lass dir in der Wache den Nachweiszettel stempeln.",
+  "nachweis_hinweis": "Vorher klären, ob die Wache Stundenpläne hat."
  },
  {
   "task_id": "t-b22",
@@ -16408,7 +16889,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "foto"
+  ],
+  "nachweis_text": "Schreib den Namen vom Nachbarhaus in die App. Zeig dazu ein Foto vom Knochenhauer-Amtshaus, ein Selfie musst du nicht machen.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b23",
@@ -16419,7 +16906,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "stadt",
   "titel": "Gehe bitte in die Stadtbücherei Hildesheim und lass dir einen …",
-  "text": "Gehe bitte in die Stadtbücherei Hildesheim und lass dir einen Stempel auf dieses Blatt geben.",
+  "text": "Gehe bitte in die Stadtbücherei Hildesheim und lass dir einen Stempel auf deinen Nachweiszettel geben.",
   "teilaufgaben": [],
   "einschaetzungspaare": 1,
   "antwortfelder": [],
@@ -16436,7 +16923,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel"
+  ],
+  "nachweis_text": "Nimm dir einen Nachweiszettel mit und lass ihn in der Stadtbücherei stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b24",
@@ -16465,7 +16957,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine zwei Fotos, ohne Menschen darauf. Ohne Foto: Beschreib zu jedem Ort eine Einzelheit, die man nur vor Ort sieht.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b25",
@@ -16496,7 +16994,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "foto"
+  ],
+  "nachweis_text": "Bring den Stadtplan mit. Zeig dazu ein Foto vom Huckup, ein Selfie musst du nicht machen.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b26",
@@ -16524,7 +17028,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "foto"
+  ],
+  "nachweis_text": "Bring deine Busfahrkarte mit und zeig ein Foto vom Schul-Schild, ohne Menschen darauf. Ein Selfie musst du nicht machen.",
+  "nachweis_hinweis": "Foto nur von öffentlichem Grund, keine Schülerinnen oder Schüler im Bild."
  },
  {
   "task_id": "t-b27",
@@ -16554,7 +17064,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine drei Fotos, ohne Menschen darauf. Ohne Foto: Beschreib zu jedem Ort eine Einzelheit, die man nur vor Ort sieht.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b28",
@@ -16586,7 +17102,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine Fotos von den drei Schul-Schildern, ohne Menschen darauf. Ohne Foto: Schreib auf, was auf jedem Schild steht.",
+  "nachweis_hinweis": "Selfie ist freiwillig, Foto vom Schild reicht."
  },
  {
   "task_id": "t-b29",
@@ -16614,7 +17136,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Die Fachkraft, mit der du sprichst, bestätigt es in der App. Erklär ihr die Vereinbarung in eigenen Worten.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b30",
@@ -16642,7 +17169,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "zettel"
+  ],
+  "nachweis_text": "Bring die Broschüre mit. Gibt es keine, lass dir im Bereich den Nachweiszettel unterschreiben.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b31",
@@ -16670,7 +17203,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Beschreib einer Fachkraft den Weg zur Bushaltestelle. Schreib die drei Orientierungspunkte in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b32",
@@ -16698,7 +17237,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "foto"
+  ],
+  "nachweis_text": "Schreib die Linien, Richtungen und deine Wahl in die App. Du kannst auch ein Foto vom Aushang zeigen.",
+  "nachweis_hinweis": "Angaben mit der Fahrplanauskunft abgleichen."
  },
  {
   "task_id": "t-b33",
@@ -16726,7 +17271,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib die Öffnungszeit auf und lass dir in der Apotheke den Nachweiszettel stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b34",
@@ -16754,7 +17305,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib Artikel und Fundort auf und lass dir im Supermarkt den Nachweiszettel unterschreiben oder stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b35",
@@ -16782,7 +17339,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib zwei Getränke mit Preis auf und lass dir im Café den Nachweiszettel unterschreiben oder stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b37",
@@ -16810,7 +17373,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib Ziel und Weg auf und lass dir in der Tourist-Information den Nachweiszettel stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b45",
@@ -16838,7 +17407,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c1",
@@ -16864,7 +17439,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "zettel"
+  ],
+  "nachweis_text": "Bring die Zeitschrift mit. Lass dir im Bereich E2 auch den Nachweiszettel unterschreiben.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c2",
@@ -16875,7 +17456,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "klinik",
   "titel": "Gehe bitte zum Bereich ETK-2 und frage dort nach dem Namen …",
-  "text": "Gehe bitte zum Bereich ETK-2 und frage dort nach dem Namen der dort arbeitenden Psychologin. Lass dir diesen Zettel vom PED unterschreiben.",
+  "text": "Gehe bitte zum Bereich ETK-2 und frage dort nach dem Namen der dort arbeitenden Psychologin. Lass dir deinen Nachweiszettel vom PED unterschreiben.",
   "teilaufgaben": [],
   "einschaetzungspaare": 1,
   "antwortfelder": [
@@ -16892,7 +17473,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Nimm dir einen Nachweiszettel mit und lass ihn im Bereich ETK-2 vom Pflege- und Erziehungsdienst unterschreiben. Schreib den Namen in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c3",
@@ -16903,7 +17490,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "klinik",
   "titel": "Suche das Büro/Vorzimmer von Frau Dr",
-  "text": "Suche das Büro/Vorzimmer von Frau Dr. Franck auf, notiere den Namen von der Sekretärin. Lass dir diesen Zettel unterschreiben!",
+  "text": "Suche das Büro/Vorzimmer von Frau Dr. Franck auf, notiere den Namen von der Sekretärin. Lass dir deinen Nachweiszettel unterschreiben!",
   "teilaufgaben": [],
   "einschaetzungspaare": 1,
   "antwortfelder": [
@@ -16920,7 +17507,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Nimm dir einen Nachweiszettel mit und lass ihn im Vorzimmer unterschreiben. Schreib den Namen in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c4",
@@ -16948,7 +17541,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort"
+  ],
+  "nachweis_text": "Schreib die Farbe in die App. Deine Fachkraft kennt die Lösung.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c5",
@@ -16976,7 +17574,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort"
+  ],
+  "nachweis_text": "Schreib die Anzahl der Bäume in die App. Deine Fachkraft kennt die richtige Zahl.",
+  "nachweis_hinweis": "Zahl vorher einmal selbst zählen."
  },
  {
   "task_id": "t-c6",
@@ -17004,7 +17607,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort"
+  ],
+  "nachweis_text": "Schreib die Farbe in die App. Deine Fachkraft kennt die Lösung.",
+  "nachweis_hinweis": "Beschilderung kann sich ändern, aktuell prüfen."
  },
  {
   "task_id": "t-c7",
@@ -17032,7 +17640,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "foto"
+  ],
+  "nachweis_text": "Schreib die Spielgeräte in die App. Du kannst auch ein Foto ohne Menschen zeigen.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c9",
@@ -17060,7 +17674,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": true,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": "Namen mit der aktuellen Besetzung von E3 abgleichen."
  },
  {
   "task_id": "t-c10",
@@ -17086,7 +17706,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft dein Foto von der Bücher-Telefonzelle, ohne Menschen darauf. Ohne Foto: Schreib den Titel von einem Buch auf, das darin steht.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c11",
@@ -17112,7 +17738,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft dein Foto vom Seniorenheim, nur von außen und ohne Menschen. Ohne Foto: Schreib auf, was auf dem Schild am Eingang steht.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c12",
@@ -17138,7 +17770,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft dein Foto von der Warenannahme, nur vom Weg aus und ohne Menschen. Ohne Foto: Beschreib, woran du sie erkannt hast.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c14",
@@ -17164,7 +17802,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": true,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": "Arbeitszeiten mit dem Sozialdienst abgleichen."
  },
  {
   "task_id": "t-c15",
@@ -17192,7 +17836,13 @@ window.KATALOG = [
   "freigabe": "gesperrt_bis_ueberarbeitung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine Fotos von den Fahrplänen. Ohne Foto: Schreib je Haltestelle und Richtung eine Abfahrtszeit auf.",
+  "nachweis_hinweis": "Gesperrt bis zur Überarbeitung, erst danach einsetzen."
  },
  {
   "task_id": "t-c16",
@@ -17203,7 +17853,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "umgebung",
   "titel": "Gehe an das nahegelegene Fitnessstudio Elan und lass dir …",
-  "text": "Gehe an das nahegelegene Fitnessstudio Elan und lass dir einen Flyer und einen Stempel auf dieses Blatt geben.",
+  "text": "Gehe an das nahegelegene Fitnessstudio Elan und lass dir einen Flyer und einen Stempel auf deinen Nachweiszettel geben.",
   "teilaufgaben": [],
   "einschaetzungspaare": 1,
   "antwortfelder": [],
@@ -17218,7 +17868,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "mitbringen"
+  ],
+  "nachweis_text": "Lass dir im Fitnessstudio den Nachweiszettel stempeln und bring den Flyer mit.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c17",
@@ -17244,7 +17900,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen"
+  ],
+  "nachweis_text": "Bring die Angebotsbroschüre mit.",
+  "nachweis_hinweis": "Prüfen, ob es der aktuelle Prospekt ist."
  },
  {
   "task_id": "t-c18",
@@ -17255,7 +17916,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "umgebung",
   "titel": "Hole dir in der Apotheke des Medicinums ein Ratgeberheft",
-  "text": "Hole dir in der Apotheke des Medicinums ein Ratgeberheft. Lass dir diesen Zettel abstempeln.",
+  "text": "Hole dir in der Apotheke des Medicinums ein Ratgeberheft. Lass dir deinen Nachweiszettel abstempeln.",
   "teilaufgaben": [],
   "einschaetzungspaare": 1,
   "antwortfelder": [],
@@ -17270,7 +17931,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "zettel"
+  ],
+  "nachweis_text": "Bring das Ratgeberheft mit und lass dir in der Apotheke den Nachweiszettel stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c19",
@@ -17301,7 +17968,12 @@ window.KATALOG = [
   "freigabe": "gesperrt_bis_ueberarbeitung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Erklär deine drei Wege einer Fachkraft vom Pflege- und Erziehungsdienst. Sie bestätigt es dir dann in der App.",
+  "nachweis_hinweis": "Gesperrt bis zur Überarbeitung, erst danach einsetzen."
  },
  {
   "task_id": "t-c21",
@@ -17312,7 +17984,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "klinik",
   "titel": "Suche das Büro der leitenden Psychologin auf",
-  "text": "Suche das Büro der leitenden Psychologin auf. Notiere ihren Namen. Lass dir diesen Zettel unterschreiben.",
+  "text": "Suche das Büro der leitenden Psychologin auf. Notiere ihren Namen. Lass dir deinen Nachweiszettel unterschreiben.",
   "teilaufgaben": [],
   "einschaetzungspaare": 1,
   "antwortfelder": [
@@ -17329,7 +18001,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Nimm dir einen Nachweiszettel mit und lass ihn im Büro der leitenden Psychologin unterschreiben. Schreib den Namen in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c22",
@@ -17358,7 +18036,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "foto"
+  ],
+  "nachweis_text": "Bring deine Busfahrkarte mit. Zusätzlich kannst du ein Foto vom Bahnhofsgebäude zeigen, ein Selfie musst du nicht machen.",
+  "nachweis_hinweis": "Datum und Uhrzeit auf der Fahrkarte prüfen."
  },
  {
   "task_id": "t-c23",
@@ -17387,7 +18071,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen"
+  ],
+  "nachweis_text": "Bring deine Busfahrkarte und den Rossmann-Prospekt mit. Ein Selfie musst du nicht machen.",
+  "nachweis_hinweis": "Datum und Uhrzeit auf der Fahrkarte prüfen."
  },
  {
   "task_id": "t-c24",
@@ -17415,7 +18104,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen"
+  ],
+  "nachweis_text": "Bring den Stadtplan mit.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c25",
@@ -17443,7 +18137,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft dein Foto vom Knochenhauer-Amtshaus, ohne Menschen darauf. Ohne Foto: Schreib auf, wie das Haus links daneben heißt.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c26",
@@ -17471,7 +18171,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "foto",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft dein Foto vom Schul-Schild, ohne Menschen darauf. Ohne Foto: Schreib auf, was auf dem Schild steht.",
+  "nachweis_hinweis": "Selfie ist freiwillig, Foto vom Schild reicht."
  },
  {
   "task_id": "t-c27",
@@ -17497,7 +18203,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "foto"
+  ],
+  "nachweis_text": "Bring deine Busfahrkarte mit und zeig ein Foto vom Schul-Schild, ohne Menschen darauf. Ein Selfie musst du nicht machen.",
+  "nachweis_hinweis": "Datum und Uhrzeit auf der Fahrkarte prüfen."
  },
  {
   "task_id": "t-c28",
@@ -17508,7 +18220,7 @@ window.KATALOG = [
   "zusatzthema": null,
   "kategorie": "schule",
   "titel": "Gehe bitte zum Pro Activ Center in Hildesheim, Bahnhofsstr",
-  "text": "Gehe bitte zum Pro Activ Center in Hildesheim, Bahnhofsstr. 27, und hole je einen Flyer vom PACe und vom Jobclub. Gehe bitte in die Stadtbücherei Hildesheim und lass dir einen Stempel auf dieses Blatt geben.",
+  "text": "Gehe bitte zum Pro Activ Center in Hildesheim, Bahnhofsstr. 27, und hole je einen Flyer vom PACe und vom Jobclub. Gehe bitte in die Stadtbücherei Hildesheim und lass dir einen Stempel auf deinen Nachweiszettel geben.",
   "teilaufgaben": [
    "Flyer von PACE und JobKlub besorgen",
    "Stadtbücherei-Stempel"
@@ -17528,7 +18240,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "zettel"
+  ],
+  "nachweis_text": "Bring die Flyer vom Pro-Aktiv-Center und vom JobKlub mit. Lass dir in der Stadtbücherei den Nachweiszettel stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c29",
@@ -17562,7 +18280,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "foto"
+  ],
+  "nachweis_text": "Schreib die Filme und deine Erklärung zur Steingrube in die App. Zeig dazu dein Foto von der Steingrube, ohne Menschen darauf.",
+  "nachweis_hinweis": "Filme mit dem aktuellen Kinoprogramm abgleichen."
  },
  {
   "task_id": "t-c30",
@@ -17598,7 +18322,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": true,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "foto"
+  ],
+  "nachweis_text": "Bring deine Busfahrkarte mit und zeig ein Foto vom Schul-Schild, ohne Menschen darauf. Schreib Titel und Inhalt des Buchs in die App.",
+  "nachweis_hinweis": "Datum und Uhrzeit auf der Fahrkarte prüfen."
  },
  {
   "task_id": "t-c31",
@@ -17626,7 +18356,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Die Fachkraft, die du fragst, bestätigt es in der App. Schreib die zwei Angebote auf.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c32",
@@ -17654,7 +18390,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort"
+  ],
+  "nachweis_text": "Schreib die drei Schilder und ihre Ziele in die App. Deine Fachkraft prüft sie nach.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c33",
@@ -17682,7 +18423,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Erklär einer Fachkraft den Weg zwischen deinen zwei Punkten. Schreib die Punkte in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c34",
@@ -17710,7 +18457,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "foto"
+  ],
+  "nachweis_text": "Schreib Richtung und Abfahrtszeit in die App. Du kannst auch ein Foto vom Aushang zeigen.",
+  "nachweis_hinweis": "Abfahrt mit der Fahrplanauskunft abgleichen."
  },
  {
   "task_id": "t-c36",
@@ -17738,7 +18491,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib das Porto auf und lass dir in der Post den Nachweiszettel stempeln.",
+  "nachweis_hinweis": "Porto mit dem aktuellen Preis abgleichen."
  },
  {
   "task_id": "t-c37",
@@ -17766,7 +18525,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "zettel"
+  ],
+  "nachweis_text": "Bring Infomaterial von der Stelle mit. Gibt es keins, lass dir den Nachweiszettel stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c45",
@@ -17794,7 +18559,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a40",
@@ -17824,7 +18595,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a45",
@@ -17852,7 +18629,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine Notiz mit den zwei Unterschieden und der Internetseite, auf der du sie gefunden hast.",
+  "nachweis_hinweis": "Quelle kurz öffnen und vergleichen."
  },
  {
   "task_id": "t-a50",
@@ -17880,7 +18663,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine Notiz mit Schule, Termin und der Internetseite, auf der du ihn gefunden hast.",
+  "nachweis_hinweis": "Termin auf der Schulseite prüfen."
  },
  {
   "task_id": "t-b38",
@@ -17908,7 +18697,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib Titel und Thema auf und lass dir in der Stadtbibliothek den Nachweiszettel stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b39",
@@ -17936,7 +18731,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "zettel"
+  ],
+  "nachweis_text": "Bring Material zu Schülerpraktika aus dem BiZ mit. Gibt es keins zum Mitnehmen, lass dir den Nachweiszettel stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b41",
@@ -17965,7 +18766,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c40",
@@ -17993,7 +18800,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "mitbringen"
+  ],
+  "nachweis_text": "Lass dir im BiZ den Nachweiszettel stempeln. Zeig deiner Fachkraft deine Notizen zum Beruf.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c41",
@@ -18021,7 +18834,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": "Keine persönlichen Daten im Gespräch."
  },
  {
   "task_id": "t-c42",
@@ -18049,7 +18868,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": "Darauf achten, dass kein Termin vereinbart wird."
  },
  {
   "task_id": "t-c46",
@@ -18077,7 +18902,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine Notiz mit beiden Wegen, Linien, Umstiegen und Fahrzeit.",
+  "nachweis_hinweis": "Verbindungen stichprobenartig in der Fahrplanauskunft prüfen."
  },
  {
   "task_id": "t-a39",
@@ -18105,7 +18936,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "mitbringen"
+  ],
+  "nachweis_text": "Lass dir im Pro-Aktiv-Center den Nachweiszettel stempeln. Bring einen Flyer mit, wenn es einen gibt.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a47",
@@ -18133,7 +18970,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Erklär einer Fachkraft die drei Bestandteile. Sie bestätigt es dir in der App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a49",
@@ -18161,7 +19003,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deinen Übungslebenslauf, auf Papier oder am Handy.",
+  "nachweis_hinweis": "Prüfen, dass nur erfundene Daten drinstehen."
  },
  {
   "task_id": "t-b36",
@@ -18189,7 +19036,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib Titel und Abteilung auf und lass dir in der Buchhandlung den Nachweiszettel stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b40",
@@ -18217,7 +19070,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b50",
@@ -18245,7 +19104,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Die Fachkraft spielt das Gespräch mit dir und bestätigt es in der App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c38",
@@ -18273,7 +19137,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Schreib den Titel auf und lass dir in der Stadtbibliothek den Nachweiszettel stempeln.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c48",
@@ -18301,7 +19171,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Die Fachkraft übt mit dir und bestätigt es in der App.",
+  "nachweis_hinweis": "Keine Diagnosen festhalten."
  },
  {
   "task_id": "t-c49",
@@ -18329,7 +19204,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Die Fachkraft spielt den Betrieb und bestätigt das Gespräch in der App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b13",
@@ -18355,7 +19235,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Ruf nur zusammen mit deiner Fachkraft an. Sie hört mit und bestätigt es in der App.",
+  "nachweis_hinweis": "Nur mit Einwilligung, Inhalt des Anrufs nicht in der App festhalten."
  },
  {
   "task_id": "t-b18",
@@ -18383,7 +19268,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Ruf nur zusammen mit deiner Fachkraft an. Sie hört mit und bestätigt es in der App.",
+  "nachweis_hinweis": "Keine Gesundheitsdaten in die App, die Bestätigung reicht."
  },
  {
   "task_id": "t-c20",
@@ -18409,7 +19299,13 @@ window.KATALOG = [
   "freigabe": "gesperrt_bis_ueberarbeitung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "antwort",
+   "dabei"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft die Stelle auf der Internetseite, wo die Antwort steht. Ruf dort nicht zum Üben an.",
+  "nachweis_hinweis": "Gesperrt bis zur Überarbeitung, erst danach einsetzen. Nie als Übungsanruf durchführen."
  },
  {
   "task_id": "t-a42",
@@ -18437,7 +19333,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a46",
@@ -18465,7 +19367,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine vier Stichpunkte zu den zwei Berufen.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a48",
@@ -18493,7 +19400,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "mitbringen"
+  ],
+  "nachweis_text": "Übe deine drei Sätze mit einer Fachkraft. Sie bestätigt es dir in der App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b42",
@@ -18521,7 +19434,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b46",
@@ -18549,7 +19468,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "antwort"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine Notiz mit den drei Angeboten.",
+  "nachweis_hinweis": "Ein Angebot stichprobenartig im Internet prüfen."
  },
  {
   "task_id": "t-b48",
@@ -18577,7 +19502,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Die Fachkraft spielt das Gespräch mit dir und bestätigt es in der App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b49",
@@ -18605,7 +19535,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "dabei"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft die Anzeige mit deinen drei Markierungen.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c39",
@@ -18633,7 +19569,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "mitbringen"
+  ],
+  "nachweis_text": "Lass dir am Empfang der Handwerkskammer den Nachweiszettel stempeln. Bring Infomaterial mit, wenn es welches gibt.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c50",
@@ -18661,7 +19603,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "mitbringen"
+  ],
+  "nachweis_text": "Lies deinen Entwurf einer Fachkraft vor. Sie bestätigt es dir in der App.",
+  "nachweis_hinweis": "Entwurf nicht ohne Prüfung versenden."
  },
  {
   "task_id": "t-a41",
@@ -18689,7 +19637,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-a9",
@@ -18722,7 +19676,12 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Ruf nur zusammen mit deiner Fachkraft an. Sie hört mit und bestätigt es in der App.",
+  "nachweis_hinweis": "Keine Unterlagen über die App, Übermittlungsweg vorher festlegen."
  },
  {
   "task_id": "t-b43",
@@ -18750,7 +19709,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b44",
@@ -18778,7 +19743,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-b8",
@@ -18809,7 +19780,12 @@ window.KATALOG = [
   "freigabe": "gesperrt_bis_ueberarbeitung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Ruf nur zusammen mit deiner Fachkraft an. Sie hört mit und bestätigt es in der App.",
+  "nachweis_hinweis": "Gesperrt bis zur Überarbeitung, erst danach einsetzen."
  },
  {
   "task_id": "t-c13",
@@ -18835,7 +19811,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": "Kein persönlicher Fall im Gespräch."
  },
  {
   "task_id": "t-c43",
@@ -18863,7 +19845,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c8",
@@ -18892,7 +19880,12 @@ window.KATALOG = [
   "freigabe": "gesperrt_bis_ueberarbeitung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei"
+  ],
+  "nachweis_text": "Ruf nur zusammen mit deiner Fachkraft an. Sie hört mit und bestätigt es in der App.",
+  "nachweis_hinweis": "Gesperrt bis zur Überarbeitung, erst danach einsetzen."
  },
  {
   "task_id": "t-b47",
@@ -18920,7 +19913,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "dabei"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft deine Notiz mit den zwei Beispielen und erklär sie ihr.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c35",
@@ -18948,7 +19947,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "zettel",
+   "antwort"
+  ],
+  "nachweis_text": "Lass dir im Geschäft den Nachweiszettel unterschreiben oder stempeln. Schreib auf, an wen man eine Anfrage richtet.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c44",
@@ -18976,7 +19981,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "dabei",
+   "antwort"
+  ],
+  "nachweis_text": "Ruf vom Stationstelefon an, eine Fachkraft hört über Lautsprecher mit. Schreib die Antwort in die App.",
+  "nachweis_hinweis": null
  },
  {
   "task_id": "t-c47",
@@ -19005,7 +20016,13 @@ window.KATALOG = [
   "freigabe": "fachkraft_pruefung",
   "foto": false,
   "telefon_hinterlegen": false,
-  "telefonnummer": ""
+  "telefonnummer": "",
+  "nachweis": [
+   "mitbringen",
+   "dabei"
+  ],
+  "nachweis_text": "Zeig deiner Fachkraft die Anzeige und deine Notiz mit den fünf Fähigkeiten.",
+  "nachweis_hinweis": null
  }
 ];
 
@@ -19033,8 +20050,11 @@ window.KATALOG = [
   ];
   const BELOHNUNG_STUFEN = ["vereinbart", "ziel_erreicht", "geprueft", "freigegeben", "abgeschlossen"];
   // Felder einer Katalogaufgabe, die die Jugendansicht bekommt. Alles andere bleibt beim Team.
-  const JUGEND_FELDER = ["titel", "text", "teilaufgaben", "einschaetzungspaare", "antwortfelder", "team_bestaetigung", "foto", "erlaubnis", "telefonnummer", "kategorie"]; // kategorie nur für das Symbol der Kachel
-  const KATALOG_AENDERBAR = ["titel", "text", "teilaufgaben", "antwortfelder", "stufe", "erlaubnis", "bereich", "kategorie", "zusatzthema", "freigabe", "aktiv", "telefonnummer"];
+  const JUGEND_FELDER = ["titel", "text", "teilaufgaben", "einschaetzungspaare", "antwortfelder", "team_bestaetigung", "foto", "erlaubnis", "telefonnummer", "kategorie", "nachweis", "nachweis_text"]; // kategorie nur für das Symbol der Kachel
+  const KATALOG_AENDERBAR = ["titel", "text", "teilaufgaben", "antwortfelder", "stufe", "erlaubnis", "bereich", "kategorie", "zusatzthema", "freigabe", "aktiv", "telefonnummer", "nachweis", "nachweis_text", "nachweis_hinweis"];
+  // Nachweis beim Bestätigen: was die Fachkraft gesehen hat. „anders“ = auf anderem Weg geprüft.
+  const NACHWEIS_ARTEN = ["zettel", "mitbringen", "foto", "antwort", "dabei", "team"];
+  const NACHWEIS_GEPRUEFT = NACHWEIS_ARTEN.concat(["anders"]);
   const STUFEN = ["leicht", "mittel", "anspruchsvoll"];
   const ERLAUBNIS = ["klinik", "gelaende", "ausgang"];
   const BEREICHE = ["A", "B", "C", "Zusatz"];
@@ -19325,7 +20345,7 @@ window.KATALOG = [
     if (f.bestaetigt_von) aus.bestaetigt_von_name = fachkraftName(db, f.bestaetigt_von);
     aus.verlauf = aus.verlauf.map(function (v) { return Object.assign(v, { von_name: v.von === "patient" ? "Jugendliche/r" : fachkraftName(db, v.von) }); });
     const eintrag = katalogEintrag(db, f.task_id);
-    aus.aufgabe = eintrag ? { task_id: eintrag.task_id, original_id: eintrag.original_id || null, titel: eintrag.titel, kategorie: eintrag.kategorie, bereich: eintrag.bereich, teilaufgaben: eintrag.teilaufgaben || [], antwortfelder: eintrag.antwortfelder || [], einschaetzungspaare: eintrag.einschaetzungspaare || 1, herkunft: eintrag.herkunft } : null;
+    aus.aufgabe = eintrag ? { task_id: eintrag.task_id, original_id: eintrag.original_id || null, titel: eintrag.titel, kategorie: eintrag.kategorie, bereich: eintrag.bereich, teilaufgaben: eintrag.teilaufgaben || [], antwortfelder: eintrag.antwortfelder || [], einschaetzungspaare: eintrag.einschaetzungspaare || 1, herkunft: eintrag.herkunft, nachweis: eintrag.nachweis || ["zettel"], nachweis_text: eintrag.nachweis_text || "", nachweis_hinweis: eintrag.nachweis_hinweis || null } : null;
     return aus;
   }
 
@@ -19632,11 +20652,14 @@ window.KATALOG = [
     const s = await sitzungPruefen(db, token, "fachkraft");
     const f = freigabeFinden(db, args.assignment_id);
     if (["eingereicht", "begonnen", "freigegeben", "zurueck"].indexOf(f.status) === -1) throw ServerFehler("ungueltig", "status");
+    if (NACHWEIS_GEPRUEFT.indexOf(args.nachweis) === -1) throw ServerFehler("ungueltig", "nachweis");
     f.status = "bestaetigt";
     f.bestaetigt_von = s.fachkraft_id;
     f.bestaetigt_am = jetzt();
-    verlauf(f, "bestaetigt", s.fachkraft_id);
-    protokollieren(db, s.fachkraft_id, "aufgabe_bestaetigt", f.patient_id);
+    f.nachweis_geprueft = args.nachweis;
+    f.nachweis_notiz = String(args.notiz || "").trim().slice(0, 200);
+    verlauf(f, "bestaetigt", s.fachkraft_id, { nachweis: f.nachweis_geprueft });
+    protokollieren(db, s.fachkraft_id, "aufgabe_bestaetigt", f.patient_id, { nachweis: f.nachweis_geprueft });
     zielAktualisieren(db, f.patient_id);
     speichereDb(db);
     return freigabeFuerFachkraft(db, f);
@@ -19817,6 +20840,8 @@ window.KATALOG = [
     if (a.kategorie !== undefined && KATEGORIEN.indexOf(a.kategorie) === -1) throw ServerFehler("ungueltig", "kategorie");
     if (a.freigabe !== undefined && FREIGABEN.indexOf(a.freigabe) === -1) throw ServerFehler("ungueltig", "freigabe");
     if (a.text !== undefined && !String(a.text).trim()) throw ServerFehler("ungueltig", "text");
+    if (a.nachweis !== undefined && (!Array.isArray(a.nachweis) || !a.nachweis.length || a.nachweis.some(function (n) { return NACHWEIS_ARTEN.indexOf(n) === -1; }))) throw ServerFehler("ungueltig", "nachweis");
+    if (a.nachweis_text !== undefined && !String(a.nachweis_text).trim()) throw ServerFehler("ungueltig", "nachweis_text");
     if (e.freigabe === "gesperrt_bis_ueberarbeitung" && a.freigabe !== undefined && a.freigabe !== e.freigabe && args.entsperren_bestaetigt !== true) {
       throw ServerFehler("entsperren_rueckfrage");
     }
@@ -19830,6 +20855,22 @@ window.KATALOG = [
     speichereDb(db);
     return katalogEintrag(db, e.task_id);
   };
+
+  function nachweisArten(liste) {
+    const arten = Array.isArray(liste) ? liste.filter(function (n) { return NACHWEIS_ARTEN.indexOf(n) !== -1; }) : [];
+    return arten.length ? arten.slice(0, 2) : ["zettel"];
+  }
+  function nachweisStandardText(arten) {
+    const t = {
+      zettel: "Nimm dir einen Nachweiszettel mit und lass ihn unterschreiben oder stempeln.",
+      mitbringen: "Bring etwas mit, das zeigt, dass du dort warst.",
+      foto: "Mach ein Foto auf deinem Handy und zeig es deiner Fachkraft.",
+      antwort: "Schreib deine Antwort auf, dein Team prüft sie.",
+      dabei: "Eine Fachkraft ist dabei.",
+      team: "Dein Team fragt kurz bei der Stelle nach."
+    };
+    return arten.map(function (a) { return t[a]; }).join(" ");
+  }
 
   F.eigeneAufgabeAnlegen = async function (token, args) {
     const db = ladeDb();
@@ -19863,6 +20904,9 @@ window.KATALOG = [
       freigabe: "fachkraft_pruefung",
       foto: /Foto|Selfie/i.test(text),
       telefonnummer: "",
+      nachweis: nachweisArten(args.nachweis),
+      nachweis_text: String(args.nachweis_text || "").trim().slice(0, 300) || nachweisStandardText(nachweisArten(args.nachweis)),
+      nachweis_hinweis: null,
       aktiv: true,
       angelegt_von: s.fachkraft_id,
       angelegt_am: jetzt()
@@ -20087,9 +21131,10 @@ window.KATALOG = [
     freigeben: function (patientId, taskIds, datum) { return rufe("freigeben", "fachkraft", { patient_id: patientId, task_ids: taskIds, datum: datum }); },
     zurueckziehen: function (assignmentId) { return rufe("zurueckziehen", "fachkraft", { assignment_id: assignmentId }); },
     verschieben: function (assignmentId, datum) { return rufe("verschieben", "fachkraft", { assignment_id: assignmentId, datum: datum }); },
-    bestaetigen: function (assignmentId) {
+    bestaetigen: function (assignmentId, nachweis, notiz) {
       // Die Rolle prüft der Server. Ein Gerät schickt hier sein eigenes Token mit und wird abgewiesen.
-      return rufe("bestaetigen", rolle() === "patient" ? "patient" : "fachkraft", { assignment_id: assignmentId });
+      // nachweis: welchen Nachweis die Fachkraft gesehen hat (zettel, mitbringen, foto, antwort, dabei, team, anders).
+      return rufe("bestaetigen", rolle() === "patient" ? "patient" : "fachkraft", { assignment_id: assignmentId, nachweis: nachweis, notiz: notiz || "" });
     },
     zurueckAnPatient: function (assignmentId, hinweis) { return rufe("zurueckAnPatient", "fachkraft", { assignment_id: assignmentId, hinweis: hinweis }); },
     belohnungSetzen: function (patientId, anzahl, text) { return rufe("belohnungSetzen", "fachkraft", { patient_id: patientId, anzahl: anzahl, text: text }); },
@@ -20224,8 +21269,31 @@ window.KATALOG = [
     buch: '<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/>',
     abmelden: '<path d="M14 4h4.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H14"/><path d="M10 8l-4 4 4 4M6 12h10"/>',
     suche: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
-    foto: '<rect x="3" y="6.5" width="18" height="13" rx="2"/><path d="M8.5 6.5 10 4h4l1.5 2.5"/><circle cx="12" cy="13" r="3.5"/>'
+    foto: '<rect x="3" y="6.5" width="18" height="13" rx="2"/><path d="M8.5 6.5 10 4h4l1.5 2.5"/><circle cx="12" cy="13" r="3.5"/>',
+    zettel: '<path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 11h7M9 14h4"/><path d="M9 18.5c1-1.5 2-1.5 2.5 0s1.5 1.5 2.5 0 1.5-1 2.5 0"/>',
+    tasche: '<path d="M5 8h14l-1 12.5H6z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>',
+    frage: '<circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.5a2.5 2.5 0 0 1 4.8.8c0 1.7-2.4 2-2.4 3.7"/><path d="M12 17v.01"/>',
+    auge: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
+    drucken: '<path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14.5h10V21H7z"/>'
   };
+
+  // Nachweis je Aufgabe (seit 16.11.2026): woran die Fachkraft sieht, dass die Aufgabe wirklich gemacht wurde.
+  const NACHWEISE = {
+    zettel: ["Nachweiszettel", "zettel", "Unterschrift oder Stempel auf dem Nachweiszettel"],
+    mitbringen: ["Mitbringen", "tasche", "Beleg oder Gegenstand mitgebracht"],
+    foto: ["Foto zeigen", "foto", "Foto auf dem eigenen Handy gezeigt"],
+    antwort: ["Antwort prüfen", "frage", "Antwort stimmt, vom Team geprüft"],
+    dabei: ["Fachkraft dabei", "auge", "Eine Fachkraft war dabei oder hat mitgehört"],
+    team: ["Team fragt nach", "telefon", "Team hat bei der Stelle nachgefragt"],
+    anders: ["Anders geprüft", "haken", "Auf anderem Weg geprüft"]
+  };
+
+  function nachweisMarken(arten) {
+    return (arten || []).map(function (a) {
+      const n = NACHWEISE[a];
+      return n ? `<span class="nachweis-marke">${symbol(n[1])}${esc(n[0])}</span>` : "";
+    }).join("");
+  }
 
   function symbol(name, klasse) {
     const pfad = SYMBOLE[name] || "";
@@ -20922,6 +21990,8 @@ window.KATALOG = [
     esc: esc,
     symbol: symbol,
     logo: logo,
+    NACHWEISE: NACHWEISE,
+    nachweisMarken: nachweisMarken,
     huegel: huegel,
     kategorieName: kategorieName,
     kategorieSymbol: kategorieSymbol,
@@ -21038,7 +22108,7 @@ window.KATALOG = [
   }
 
   function wer(f) {
-    if (f.status === "bestaetigt" && f.bestaetigt_von_name) return `bestätigt von ${f.bestaetigt_von_name}, ${A.zeitpunkt(f.bestaetigt_am)}`;
+    if (f.status === "bestaetigt" && f.bestaetigt_von_name) return `bestätigt von ${f.bestaetigt_von_name}, ${A.zeitpunkt(f.bestaetigt_am)}${f.nachweis_geprueft && A.NACHWEISE[f.nachweis_geprueft] ? ", Nachweis: " + A.NACHWEISE[f.nachweis_geprueft][0] + (f.nachweis_notiz ? " (" + f.nachweis_notiz + ")" : "") : ""}`;
     const letzte = (f.verlauf || [])[f.verlauf.length - 1];
     if (!letzte) return "";
     const was = { freigegeben: "freigegeben", zurueckgezogen: "zurückgezogen", verschoben: "verschoben", zurueck: "zurückgegeben", eingereicht: "eingereicht", begonnen: "begonnen", verschoben_hierher: "hierher verschoben" }[letzte.aktion] || letzte.aktion;
@@ -21106,12 +22176,33 @@ window.KATALOG = [
 
   // ---------- Zugangsseite ----------
 
+  // Welchen Nachweis die Fachkraft vor dem Bestätigen gesehen hat, je Freigabe.
+  const nachweisWahl = {};
+  function nachweisWahlHtml(f) {
+    const a = f.aufgabe || {};
+    const arten = (a.nachweis || ["zettel"]).concat(["anders"]);
+    const id = esc(f.assignment_id);
+    return `<div class="nachweis-wahl" data-t="nachweis-wahl-${id}">` +
+      `<p class="beschriftung">Nachweis: ${esc(a.nachweis_text || "")}</p>` +
+      (a.nachweis_hinweis ? `<p class="klein">${esc(a.nachweis_hinweis)}</p>` : "") +
+      `<p class="klein">Was hast du gesehen?</p><div class="segment klein-segment" role="group" aria-label="Gesehener Nachweis">` +
+      arten.map(function (n) {
+        const t = A.NACHWEISE[n] || [n, "haken"];
+        return `<button type="button" data-a="nachweis-waehlen" data-id="${id}" data-wert="${esc(n)}" data-t="nachweis-${id}-${esc(n)}" aria-pressed="${nachweisWahl[f.assignment_id] === n}">${esc(t[0])}</button>`;
+      }).join("") + `</div></div>`;
+  }
+  A.bei("nachweis-waehlen", function (el) {
+    nachweisWahl[el.dataset.id] = el.dataset.wert;
+    document.querySelectorAll(`[data-a="nachweis-waehlen"][data-id="${el.dataset.id}"]`).forEach(function (k) { k.setAttribute("aria-pressed", String(k.dataset.wert === el.dataset.wert)); });
+  });
+
   function bestaetigungKarte(f) {
     const a = f.aufgabe || {};
     return `<div class="karte wartet-karte" data-t="wartet-${esc(f.assignment_id)}">` +
       `<p class="klein">${a.original_id ? `<span class="id">${esc(a.original_id)}</span> · ` : ""}eingereicht ${esc(A.zeitpunkt(f.eingereicht_am))}</p>` +
       `<h3>${esc(a.titel || "Aufgabe")}</h3>` +
       werteHtml(f) +
+      nachweisWahlHtml(f) +
       `<div class="knopfreihe">` +
       `<button type="button" class="knopf leise" data-a="zurueck-an" data-id="${esc(f.assignment_id)}" data-t="zurueck-an-${esc(f.assignment_id)}">Zurück an Jugendlichen</button>` +
       `<button type="button" class="knopf haupt" data-a="bestaetigen" data-id="${esc(f.assignment_id)}" data-t="bestaetigen-${esc(f.assignment_id)}">${A.symbol("haken")}Bestätigen</button>` +
@@ -21228,7 +22319,15 @@ window.KATALOG = [
   });
 
   A.bei("bestaetigen", async function (el) {
-    await api.bestaetigen(el.dataset.id);
+    const nachweis = nachweisWahl[el.dataset.id];
+    if (!nachweis) { A.meldung("Bitte zuerst antippen, welchen Nachweis du gesehen hast."); return; }
+    let notiz = "";
+    if (nachweis === "anders") {
+      notiz = await A.dialog({ titel: "Anders geprüft", text: "Wie hast du dich vergewissert? Kurz notieren, das steht im Verlauf.", eingabe: { typ: "text", beschriftung: "Kurze Notiz" }, ja: "Bestätigen" });
+      if (notiz === null) return;
+    }
+    await api.bestaetigen(el.dataset.id, nachweis, notiz);
+    delete nachweisWahl[el.dataset.id];
     A.meldung("Bestätigt.");
     await A.neuZeichnen();
   });
@@ -21370,7 +22469,9 @@ window.KATALOG = [
     if ((k.teilaufgaben || []).length) details.push(`<p><strong>Teilaufgaben</strong></p><ol class="teil-liste">${k.teilaufgaben.map(function (t) { return `<li>${esc(t)}</li>`; }).join("")}</ol>`);
     if (k.einschaetzungspaare > 1) details.push(`<p class="klein">${k.einschaetzungspaare} getrennte Einschätzungen vorher und nachher.</p>`);
     if ((k.antwortfelder || []).length) details.push(`<p><strong>Antwortfelder</strong>${esc(k.antwortfelder.join(" · "))}</p>`);
-    if (k.team_bestaetigung) details.push(`<p class="klein">Unterschrift oder Stempel ersetzt die Bestätigung durch das Team.</p>`);
+    details.push(`<div class="nachweis-block" data-t="nachweis-${esc(id)}"><p><strong>Nachweis</strong>${esc(k.nachweis_text || "")}</p><div class="nachweis-marken">${A.nachweisMarken(k.nachweis)}</div>` +
+      (k.nachweis_hinweis ? `<p class="klein">${esc(k.nachweis_hinweis)}</p>` : "") + `</div>`);
+    if ((k.nachweis || []).indexOf("zettel") !== -1) details.push(`<p class="klein">Vor dem Losgehen einen Nachweiszettel mitgeben.</p>`);
     if (k.foto) details.push(`<p class="klein">Foto-Aufgabe: Foto bleibt auf dem Handy, kein Hochladen.</p>`);
     if (k.zielort) details.push(`<p><strong>Zielort</strong>${esc(k.zielort)}</p>`);
     if (k.pruefhinweis) details.push(`<p class="pruefhinweis" data-t="pruefhinweis-${esc(id)}"><strong>Prüfhinweis an Fachpersonal</strong>${esc(k.pruefhinweis)}</p>`);
@@ -21557,6 +22658,10 @@ window.KATALOG = [
   A.route("eigene-neu", function (params) {
     const pid = params[0];
     if (!eigenes) eigenes = { kategorie: "klinik", stufe: null, antwortfeld: false };
+    if (!eigenes.nachweis) eigenes.nachweis = ["zettel"];
+    const nachweisKnoepfe = ["zettel", "mitbringen", "foto", "antwort", "dabei", "team"].map(function (n) {
+      return `<button type="button" data-a="eigen-nachweis" data-wert="${n}" data-t="eigen-nachweis-${n}" aria-pressed="${eigenes.nachweis.indexOf(n) !== -1}">${esc(A.NACHWEISE[n][0])}</button>`;
+    }).join("");
     const kat = A.KATEGORIEN.map(function (k) { return `<option value="${esc(k[0])}"${k[0] === eigenes.kategorie ? " selected" : ""}>${esc(k[1])}</option>`; }).join("");
     const stufen = A.STUFEN.map(function (s) { return `<button type="button" data-a="eigen-stufe" data-stufe="${esc(s[0])}" data-t="eigen-stufe-${esc(s[0])}" aria-pressed="${eigenes.stufe === s[0]}">${esc(s[1])}</button>`; }).join("");
     return zurueckKnopf("auswahl/" + pid, "Zurück zur Auswahl") +
@@ -21570,12 +22675,21 @@ window.KATALOG = [
       `<p class="beschriftung">Antwortfeld</p><div class="segment" role="group" aria-label="Antwortfeld">` +
       `<button type="button" data-a="eigen-antwort" data-wert="ja" data-t="eigen-antwort-ja" aria-pressed="${eigenes.antwortfeld}">Ja</button>` +
       `<button type="button" data-a="eigen-antwort" data-wert="nein" data-t="eigen-antwort-nein" aria-pressed="${!eigenes.antwortfeld}">Nein</button></div>` +
+      `<p class="beschriftung">Nachweis (höchstens zwei)</p><div class="segment klein-segment umbruch" role="group" aria-label="Nachweis">${nachweisKnoepfe}</div>` +
+      `<div class="feld"><label for="eigen-nachweis-text">So zeigt der Jugendliche es (freiwillig, sonst Standardtext)</label><input id="eigen-nachweis-text" data-t="eigen-nachweis-text" maxlength="300"></div>` +
       `<button type="submit" class="knopf haupt breit" data-a="eigen-speichern" data-t="eigen-speichern">Speichern und auswählen</button>` +
       `</form>`;
   });
   A.bei("eigen-stufe", function (el) {
     eigenes.stufe = eigenes.stufe === el.dataset.stufe ? null : el.dataset.stufe;
     document.querySelectorAll('[data-a="eigen-stufe"]').forEach(function (k) { k.setAttribute("aria-pressed", String(k.dataset.stufe === eigenes.stufe)); });
+  });
+  A.bei("eigen-nachweis", function (el) {
+    const n = el.dataset.wert;
+    const i = eigenes.nachweis.indexOf(n);
+    if (i !== -1) { if (eigenes.nachweis.length > 1) eigenes.nachweis.splice(i, 1); }
+    else { eigenes.nachweis.push(n); if (eigenes.nachweis.length > 2) eigenes.nachweis.shift(); }
+    document.querySelectorAll('[data-a="eigen-nachweis"]').forEach(function (k) { k.setAttribute("aria-pressed", String(eigenes.nachweis.indexOf(k.dataset.wert) !== -1)); });
   });
   A.bei("eigen-antwort", function (el) {
     eigenes.antwortfeld = el.dataset.wert === "ja";
@@ -21593,7 +22707,9 @@ window.KATALOG = [
       teilaufgaben: wert("eigen-teile").split("\n").map(function (s) { return s.trim(); }).filter(Boolean),
       antwortfeld: eigenes.antwortfeld,
       stufe: eigenes.stufe,
-      kategorie: kategorie
+      kategorie: kategorie,
+      nachweis: eigenes.nachweis.slice(),
+      nachweis_text: wert("eigen-nachweis-text").trim()
     });
     if (auswahl.pid !== pid) auswahl = leereAuswahl(pid);
     auswahl.tab = "block";
@@ -21760,6 +22876,18 @@ window.KATALOG = [
       `<div class="feld"><label for="k-text">Text für Jugendliche</label><textarea id="k-text" data-t="k-text" rows="5">${esc(k.text)}</textarea></div>` +
       `<button type="button" class="knopf haupt breit" data-a="katalog-text-speichern" data-id="${tid}" data-t="k-text-speichern">Text speichern</button>` +
       `<p class="klein">Die Quellfassung bleibt erhalten. Jede Änderung wird mit Name und Zeit gespeichert.</p></details>`;
+    const nArten = k.nachweis || [];
+    html += `<div class="karte" data-t="eintrag-nachweis"><h2>Nachweis</h2><p data-t="eintrag-nachweis-text">${esc(k.nachweis_text || "")}</p>` +
+      `<div class="nachweis-marken">${A.nachweisMarken(nArten)}</div>` +
+      (k.nachweis_hinweis ? `<p class="klein"><strong>Beim Prüfen:</strong> ${esc(k.nachweis_hinweis)}</p>` : "") +
+      `<details><summary>Nachweis ändern</summary>` +
+      `<div class="segment klein-segment umbruch" role="group" aria-label="Nachweisarten">` +
+      ["zettel", "mitbringen", "foto", "antwort", "dabei", "team"].map(function (n) {
+        return `<button type="button" data-a="katalog-nachweis-art" data-id="${tid}" data-wert="${n}" data-t="k-nachweis-${n}" aria-pressed="${nArten.indexOf(n) !== -1}">${esc(A.NACHWEISE[n][0])}</button>`;
+      }).join("") + `</div>` +
+      `<div class="feld"><label for="k-nachweis-text">Text für Jugendliche</label><textarea id="k-nachweis-text" data-t="k-nachweis-text" rows="2" maxlength="300">${esc(k.nachweis_text || "")}</textarea></div>` +
+      `<div class="feld"><label for="k-nachweis-hinweis">Hinweis fürs Prüfen (nur Fachkräfte)</label><input id="k-nachweis-hinweis" data-t="k-nachweis-hinweis" maxlength="200" value="${esc(k.nachweis_hinweis || "")}"></div>` +
+      `<button type="button" class="knopf breit" data-a="katalog-nachweis-text" data-id="${tid}" data-t="k-nachweis-speichern">Nachweis speichern</button></details></div>`;
     if (k.kategorie === "telefon" || k.telefon_hinterlegen) {
       html += `<form class="karte"><h2>Telefonnummer</h2>` +
         (k.telefon_hinterlegen && !k.telefonnummer ? `<p class="hinweis warnung">Aktuelle Telefonnummer vor der Freigabe hinterlegen.</p>` : "") +
@@ -21812,6 +22940,21 @@ window.KATALOG = [
     if (!text || !titel) { A.meldung("Titel und Text dürfen nicht leer sein."); return; }
     return katalogSpeichern(el.dataset.id, { titel: titel, text: text });
   });
+  A.bei("katalog-nachweis-art", async function (el) {
+    const r = await api.katalogEintrag(el.dataset.id);
+    const arten = (r.eintrag.nachweis || []).slice();
+    const i = arten.indexOf(el.dataset.wert);
+    if (i !== -1) arten.splice(i, 1); else arten.push(el.dataset.wert);
+    if (!arten.length) { A.meldung("Mindestens ein Nachweis muss bleiben."); return; }
+    if (arten.indexOf("foto") !== -1 && arten.length < 2) { A.meldung("Foto nur zusammen mit einem zweiten Nachweis, weil niemand ein Foto machen muss."); return; }
+    return katalogSpeichern(el.dataset.id, { nachweis: arten });
+  });
+  A.bei("katalog-nachweis-text", function (el) {
+    const text = document.querySelector('[data-t="k-nachweis-text"]').value.trim();
+    const hinweis = document.querySelector('[data-t="k-nachweis-hinweis"]').value.trim();
+    if (!text) { A.meldung("Der Text für Jugendliche darf nicht leer sein."); return; }
+    return katalogSpeichern(el.dataset.id, { nachweis_text: text, nachweis_hinweis: hinweis || null });
+  });
   A.bei("katalog-telefon", function (el) {
     return katalogSpeichern(el.dataset.id, { telefonnummer: document.querySelector('[data-t="k-telefon"]').value.trim() });
   });
@@ -21826,9 +22969,31 @@ window.KATALOG = [
     return katalogSpeichern(el.dataset.id, { freigabe: "fachkraft_pruefung" }, true);
   });
 
+  // ---------- Nachweiszettel zum Ausdrucken ----------
+  // Ersetzt die alten Aufgabenblätter: ein neutraler Zettel ohne Namen, vier Stück auf einer A4-Seite.
+  function zettelHtml() {
+    return `<div class="nachweiszettel">` +
+      `<div class="nz-kopf"><span class="nz-name">UpNext</span><span>Nachweiszettel</span></div>` +
+      `<div class="nz-zeile"><span>Aufgabe (Nummer)</span><i></i></div>` +
+      `<div class="nz-zeile"><span>Kürzel</span><i></i></div>` +
+      `<div class="nz-zeile zwei"><span>Datum</span><i></i><span>Uhrzeit</span><i></i></div>` +
+      `<div class="nz-zeile"><span>Stelle / Geschäft</span><i></i></div>` +
+      `<div class="nz-feld"><span>Unterschrift oder Stempel</span></div>` +
+      `<p class="nz-fuss">Bestätigt nur, dass die Person hier war. Bitte keine weiteren Angaben.</p></div>`;
+  }
+  A.route("nachweiszettel", function () {
+    return `<div class="nicht-drucken"><h1>Nachweiszettel</h1>` +
+      `<p class="unterzeile">Die alten Aufgabenblätter gibt es mit der App nicht mehr. Bei Aufgaben mit Nachweiszettel nimmt der Jugendliche einen dieser Zettel mit und lässt ihn unterschreiben oder stempeln. Ohne Namen, nur das Kürzel.</p>` +
+      `<button type="button" class="knopf haupt breit" data-a="zettel-drucken" data-t="zettel-drucken">${A.symbol("drucken")}Vier Zettel auf A4 drucken</button>` +
+      `<p class="klein">Tipp: einen kleinen Stapel auf der Station bereitlegen.</p></div>` +
+      `<div class="druckseite" data-t="zettel-vorschau">${zettelHtml()}${zettelHtml()}${zettelHtml()}${zettelHtml()}</div>`;
+  });
+  A.bei("zettel-drucken", function () { window.print(); });
+
   A.navigation("fachkraft", [
     { route: "uebersicht", text: "Jugendliche", symbol: "personen", auch: ["zugang", "zugang-neu", "auswahl", "eigene-neu", "belohnung", "einladung"] },
-    { route: "katalog", text: "Aufgabenkatalog", symbol: "buch", auch: ["katalog-eintrag"] }
+    { route: "katalog", text: "Aufgabenkatalog", symbol: "buch", auch: ["katalog-eintrag"] },
+    { route: "nachweiszettel", text: "Nachweiszettel", symbol: "zettel" }
   ]);
 })();
 
@@ -22030,8 +23195,15 @@ window.KATALOG = [
       html += `<p><strong>Schritt für Schritt</strong></p><ol class="teil-liste" data-t="teilaufgaben">${a.teilaufgaben.map(function (t) { return `<li>${esc(t)}</li>`; }).join("")}</ol>`;
     }
     html += `</div>`;
-    if (a.foto) html += `<div class="hinweis sand" data-t="foto-hinweis">${A.symbol("foto")} Foto bleibt nur auf deinem Handy. Zeig es höchstens dem Team. Keine Personen fotografieren.</div>`;
-    if (a.team_bestaetigung) html += `<div class="hinweis sand" data-t="team-hinweis">Das Team bestätigt das bei dir.</div>`;
+    // Nachweis: so zeigt der Jugendliche, dass er es gemacht hat (es gibt kein Papierblatt mehr).
+    const arten = a.nachweis || [];
+    html += `<div class="karte nachweis-karte" data-t="nachweis">` +
+      `<div class="karten-kopf"><span class="kachel klein">${A.symbol(arten.indexOf("zettel") !== -1 ? "zettel" : "haken")}</span><h2>So zeigst du, dass du es gemacht hast</h2></div>` +
+      `<p data-t="nachweis-text">${esc(a.nachweis_text || "Dein Team sagt dir, wie du es zeigen kannst.")}</p>` +
+      (arten.length ? `<div class="nachweis-marken">${A.nachweisMarken(arten)}</div>` : "") +
+      (arten.indexOf("zettel") !== -1 ? `<p class="klein">Den Nachweiszettel bekommst du auf der Station. Nimm ihn mit, bevor du losgehst.</p>` : "") +
+      `</div>`;
+    if (a.foto || arten.indexOf("foto") !== -1) html += `<div class="hinweis sand" data-t="foto-hinweis">${A.symbol("foto")} Foto bleibt nur auf deinem Handy. Zeig es höchstens dem Team. Keine Personen fotografieren.</div>`;
 
     if (f.status === "eingereicht" || f.status === "bestaetigt") {
       html += `<div class="karte ${f.status === "bestaetigt" ? "mint" : ""}" data-t="eingereicht-karte">`;
