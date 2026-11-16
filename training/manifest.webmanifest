@@ -1,13 +1,13 @@
 {
-  "name": "Schritt für Schritt",
-  "short_name": "Schritt",
-  "description": "Sozialkompetenztraining, Prototyp",
+  "name": "UpNext",
+  "short_name": "UpNext",
+  "description": "Dein Training für Alltag und Miteinander, Prototyp",
   "lang": "de",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f8f5ed",
-  "theme_color": "#f8f5ed",
+  "background_color": "#011933",
+  "theme_color": "#011933",
   "icons": [
     {
       "src": "icon-192.png",

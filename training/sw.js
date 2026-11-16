@@ -1,7 +1,7 @@
-// Offline-Speicher für Schritt für Schritt: legt die App-Datei beim ersten Öffnen im Handy ab,
+// Offline-Speicher für UpNext: legt die App-Datei beim ersten Öffnen im Handy ab,
 // damit sie ohne Netz startet. Aufgaben und Daten kommen vom Server, nicht aus diesem Speicher.
 // Bei jeder neuen Fassung die Nummer erhöhen, sonst behalten Handys die alte.
-const FASSUNG = 'training-v3';
+const FASSUNG = 'training-v4';
 const DATEIEN = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {

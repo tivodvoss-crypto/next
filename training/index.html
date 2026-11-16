@@ -3,39 +3,41 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f8f5ed">
+<meta name="theme-color" content="#011933">
 <meta name="color-scheme" content="light only">
-<meta name="description" content="Schritt für Schritt, Sozialkompetenz-Training, Prototyp mit nachgespieltem Server, ohne Klinikfreigabe">
-<title>Schritt für Schritt</title>
+<meta name="description" content="UpNext, Sozialkompetenz-Training, Prototyp mit nachgespieltem Server, ohne Klinikfreigabe">
+<title>UpNext</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <style>
-/* Schritt für Schritt, Gestaltung „Mint & Sand“ (Stand 15.11.2026).
-   Immer hell, keine automatische Dunkel-Umschaltung. Ruhig und freundlich für Jugendliche von 12 bis 17
-   und für Fachkräfte. Keine Spielwelt, keine Verläufe, kaum Bewegung, große Tippflächen (mindestens 48 px),
-   Systemschrift, Kontraste nach WCAG AA. */
+/* Schritt für Schritt, Gestaltung „Navy & Türkis“ nach Jackys Farbvorgabe (UpNext, Stand 16.11.2026).
+   Immer dunkel: tiefes Nachtblau als Grund, Petrol für Flächen, leuchtendes Türkis für Knöpfe und Fortschritt,
+   helle Schrift. Leichter Glow nur an wichtigen Elementen. Große Tippflächen (mindestens 48 px),
+   Systemschrift, Kontraste nach WCAG AA. Die Variablennamen stammen aus der hellen Fassung und sind geblieben. */
 
 :root {
-  --sand: #f8f5ed;
-  --sand-dunkel: #efeadd;
-  --mint: #d5eee5;
-  --mint-tief: #aac9ba;
-  --primaer: #2f7062;
-  --primaer-tief: #245a4e;
-  --karte: #ffffff;
-  --text: #1f2d29;
-  --leise: #4e5d57;
-  --linie: #e3ddcf;
-  --linie-stark: #cfc7b5;
-  --warnung-grund: #fbefd5;
-  --warnung-text: #6a4600;
-  --fehler: #a3283a;
-  --fehler-grund: #fbe9ec;
-  --meldung-grund: #1f2d29;
-  --schatten: 0 1px 2px rgba(31, 45, 41, 0.06), 0 2px 8px rgba(31, 45, 41, 0.05);
+  --sand: #011933;
+  --sand-dunkel: #00253d;
+  --mint: #01506c;
+  --mint-tief: #5bd5c8;
+  --primaer: #0cbcae;
+  --primaer-tief: #5bd5c8;
+  --karte: #013a4f;
+  --text: #f4f7fb;
+  --leise: #a9c4cc;
+  --linie: #1d5068;
+  --linie-stark: #406e7b;
+  --warnung-grund: #3a2e0c;
+  --warnung-text: #f6c66b;
+  --fehler: #ff8fa0;
+  --fehler-grund: #3d1424;
+  --meldung-grund: #011225;
+  --auf-primaer: #011933;
+  --glow: 0 0 18px rgba(12, 188, 174, 0.35);
+  --schatten: 0 1px 2px rgba(1, 18, 37, 0.5), 0 4px 14px rgba(1, 18, 37, 0.45);
   --rund: 16px;
   --rund-klein: 12px;
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 * {
@@ -330,7 +332,8 @@ p {
 
 .knopf.haupt {
   background: var(--primaer);
-  color: #ffffff;
+  color: var(--auf-primaer);
+  box-shadow: var(--glow);
   border-color: var(--primaer);
 }
 
@@ -507,7 +510,7 @@ p {
 
 .marke.block {
   background: var(--primaer);
-  color: #ffffff;
+  color: var(--auf-primaer);
 }
 
 .marke.mint,
@@ -534,7 +537,7 @@ p {
 
 .marke.bestaetigt {
   background: var(--primaer);
-  color: #ffffff;
+  color: var(--auf-primaer);
 }
 
 .marke.offen {
@@ -549,7 +552,7 @@ p {
 
 .marke.gesperrt {
   background: var(--fehler);
-  color: #ffffff;
+  color: var(--auf-primaer);
 }
 
 .marken {
@@ -636,7 +639,7 @@ p {
 .haken-kreis.voll {
   background: var(--primaer);
   border-color: var(--primaer);
-  color: #ffffff;
+  color: var(--auf-primaer);
 }
 
 .zeile.statisch {
@@ -915,7 +918,7 @@ details[open] > summary::before {
 
 .kategorie[aria-pressed="true"] .sym-rund {
   background: var(--primaer);
-  color: #ffffff;
+  color: var(--auf-primaer);
 }
 
 .aufgabe-karte {
@@ -992,7 +995,7 @@ details[open] > summary::before {
 
 .auswahl-knopf[aria-pressed="true"] {
   background: var(--primaer);
-  color: #ffffff;
+  color: var(--auf-primaer);
 }
 
 .auswahl-knopf:disabled {
@@ -1249,7 +1252,7 @@ details[open] > summary::before {
 
 .schritt.fertig .nummer {
   background: var(--primaer);
-  color: #ffffff;
+  color: var(--auf-primaer);
 }
 
 .schritt .knopf,
@@ -1289,7 +1292,7 @@ details[open] > summary::before {
 
 .skala button[aria-pressed="true"] {
   background: var(--primaer);
-  color: #ffffff;
+  color: var(--auf-primaer);
   border-color: var(--primaer);
 }
 
@@ -1345,7 +1348,7 @@ details[open] > summary::before {
   position: fixed;
   inset: 0;
   z-index: 30;
-  background: rgba(31, 45, 41, 0.45);
+  background: rgba(1, 18, 37, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1379,7 +1382,8 @@ details[open] > summary::before {
   transform: translateX(-50%);
   z-index: 40;
   background: var(--meldung-grund);
-  color: #ffffff;
+  color: var(--text);
+  border: 1px solid var(--primaer);
   padding: 12px 18px;
   border-radius: var(--rund-klein);
   max-width: calc(100vw - 32px);
@@ -1531,7 +1535,7 @@ body.mit-leiste .meldung {
 
 .marke.ziel {
   background: var(--primaer);
-  color: #ffffff;
+  color: var(--auf-primaer);
 }
 
 .marke.leise-marke {
@@ -1784,7 +1788,7 @@ body.mit-leiste .meldung {
   margin-top: -6px;
   border-radius: 50%;
   border: 2px solid var(--linie-stark);
-  background: #ffffff;
+  background: var(--karte);
 }
 
 .stufen-kette li.erledigt::before {
@@ -1842,11 +1846,247 @@ body.mit-leiste .meldung {
   max-width: calc(100vw - 236px);
 }
 
+/* ===== UpNext-Look nach Jackys Entwürfen (16.11.2026): Glow, Hügel mit Weg, Wortmarke, Kacheln ===== */
+
+body {
+  background:
+    radial-gradient(120% 60% at 100% 0%, rgba(12, 188, 174, 0.16), transparent 60%),
+    radial-gradient(90% 50% at 0% 100%, rgba(2, 106, 118, 0.35), transparent 70%),
+    var(--sand);
+}
+
+.kopf {
+  background: rgba(1, 25, 51, 0.88);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  display: block;
+  overflow: visible;
+}
+
+.logo.klein {
+  width: 104px;
+  height: auto;
+}
+
+.logo.gross {
+  width: min(78vw, 300px);
+  height: auto;
+  margin: 0 auto;
+  filter: drop-shadow(0 0 14px rgba(12, 188, 174, 0.35));
+}
+
+.marke-start {
+  text-align: center;
+  margin: 8px 0 0;
+}
+
+.claim {
+  margin: 10px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0.92;
+}
+
+.start-titel {
+  text-align: center;
+  margin-top: 4px;
+}
+
+.start-unterzeile {
+  text-align: center;
+}
+
+/* Hügel mit Weg */
+.huegel {
+  display: block;
+  width: calc(100% + 32px);
+  height: auto;
+  aspect-ratio: 3 / 1;
+  margin: 0 -16px 4px;
+}
+
+.huegel .weg-linie {
+  fill: none;
+  stroke: #f4f7fb;
+  stroke-width: 2.4;
+  stroke-dasharray: 7 7;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+
+.huegel .pin {
+  fill: #f4f7fb;
+}
+
+.huegel .pin-loch {
+  fill: var(--sand);
+}
+
+.huegel .etappe {
+  fill: var(--sand);
+  stroke: var(--primaer);
+  stroke-width: 3;
+}
+
+.huegel .etappe.an {
+  fill: var(--primaer-tief);
+  filter: drop-shadow(0 0 6px rgba(91, 213, 200, 0.9));
+}
+
+.huegel .fahne circle {
+  fill: rgba(12, 188, 174, 0.18);
+  stroke: var(--primaer-tief);
+  stroke-width: 2.4;
+  filter: drop-shadow(0 0 8px rgba(12, 188, 174, 0.8));
+}
+
+.huegel .fahne path {
+  fill: var(--primaer-tief);
+  stroke: var(--primaer-tief);
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.huegel .fahne-strich {
+  stroke: var(--primaer-tief);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+/* „Hi!“ wie ein Pinselstrich */
+.hallo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 2px;
+}
+
+.hallo h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.hi {
+  flex-shrink: 0;
+  display: inline-block;
+  padding: 6px 16px 8px 12px;
+  background: linear-gradient(100deg, #0cbcae, #5bd5c8);
+  color: var(--auf-primaer);
+  font-size: 26px;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  border-radius: 14px 6px 16px 5px;
+  transform: rotate(-6deg);
+  box-shadow: var(--glow);
+}
+
+.unterzeile.datum {
+  margin: 8px 0 4px;
+}
+
+/* Karten wie Glas */
+.karte {
+  background: rgba(1, 58, 79, 0.78);
+  border-color: rgba(91, 213, 200, 0.18);
+}
+
+/* Hauptknopf als Pille mit Verlauf */
+.knopf.haupt {
+  background: linear-gradient(100deg, #0cbcae, #5bd5c8);
+  border-color: transparent;
+  border-radius: 99px;
+}
+
+/* Kacheln mit Kategorie-Symbol */
+.kachel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(140deg, #5bd5c8, #0cbcae);
+  color: var(--auf-primaer);
+  box-shadow: 0 0 12px rgba(12, 188, 174, 0.25);
+}
+
+.kachel .sym {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2;
+}
+
+.kachel.fertig .sym {
+  stroke-width: 2.8;
+}
+
+.naechste {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  column-gap: 14px;
+  align-items: start;
+  border: 1px solid rgba(91, 213, 200, 0.28);
+}
+
+.naechste > .kachel {
+  grid-row: span 2;
+}
+
+.naechste > .knopf {
+  grid-column: 1 / -1;
+}
+
+/* Fortschritt: Zahl links, Bruch rechts, leuchtende Leiste */
+.fortschritt-zahl {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 18px;
+}
+
+.fortschritt-zahl .bruch {
+  color: var(--primaer-tief);
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.leiste {
+  background: rgba(1, 25, 51, 0.7);
+  border: 1px solid rgba(91, 213, 200, 0.2);
+}
+
+.leiste > i,
+.leiste.voll > i {
+  background: linear-gradient(90deg, #0cbcae, #5bd5c8);
+  box-shadow: 0 0 10px rgba(12, 188, 174, 0.6);
+}
+
+.unten-nav {
+  background: rgba(1, 37, 61, 0.94);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.unten-nav > .knopf[aria-current="page"] {
+  color: var(--primaer-tief);
+  background: rgba(12, 188, 174, 0.16);
+}
+
 </style>
 </head>
 <body>
 <div id="app"></div>
-<noscript>Schritt für Schritt braucht JavaScript.</noscript>
+<noscript>UpNext braucht JavaScript.</noscript>
 <script>
 /* bibliotheken.js: fest eingebettete Fremdbibliotheken, unverändert übernommen.
  *
@@ -18793,7 +19033,7 @@ window.KATALOG = [
   ];
   const BELOHNUNG_STUFEN = ["vereinbart", "ziel_erreicht", "geprueft", "freigegeben", "abgeschlossen"];
   // Felder einer Katalogaufgabe, die die Jugendansicht bekommt. Alles andere bleibt beim Team.
-  const JUGEND_FELDER = ["titel", "text", "teilaufgaben", "einschaetzungspaare", "antwortfelder", "team_bestaetigung", "foto", "erlaubnis", "telefonnummer"];
+  const JUGEND_FELDER = ["titel", "text", "teilaufgaben", "einschaetzungspaare", "antwortfelder", "team_bestaetigung", "foto", "erlaubnis", "telefonnummer", "kategorie"]; // kategorie nur für das Symbol der Kachel
   const KATALOG_AENDERBAR = ["titel", "text", "teilaufgaben", "antwortfelder", "stufe", "erlaubnis", "bereich", "kategorie", "zusatzthema", "freigabe", "aktiv", "telefonnummer"];
   const STUFEN = ["leicht", "mittel", "anspruchsvoll"];
   const ERLAUBNIS = ["klinik", "gelaende", "ausgang"];
@@ -19917,7 +20157,7 @@ window.KATALOG = [
 (function () {
   "use strict";
 
-  // Grundgerüst der App „Schritt für Schritt“ (Fassung training-v3): Routen, Aktionen, Dialoge,
+  // Grundgerüst der App „UpNext“ (früher „Schritt für Schritt“) (Fassung training-v3): Routen, Aktionen, Dialoge,
   // Meldungen, Rollenwahl, Fachkraft-Anmeldung mit Sperre nach 15 Minuten, QR-Anzeige und Scanner.
   // Fachdaten kommen ausschließlich über api.js.
 
@@ -19990,6 +20230,39 @@ window.KATALOG = [
   function symbol(name, klasse) {
     const pfad = SYMBOLE[name] || "";
     return `<svg class="sym${klasse ? " " + klasse : ""}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${pfad}</svg>`;
+  }
+
+  // Wortmarke „UpNext“ nach Jackys Entwurf: „Up“ hell, „Next“ türkis, zwei Pfeile, Schwung darunter.
+  function logo(klasse) {
+    return `<svg class="logo${klasse ? " " + klasse : ""}" viewBox="0 0 240 64" role="img" aria-label="UpNext">` +
+      `<defs><linearGradient id="logo-verlauf" x1="0" x2="1"><stop offset="0" stop-color="#0cbcae"/><stop offset="1" stop-color="#5bd5c8"/></linearGradient></defs>` +
+      `<text x="2" y="44" textLength="186" lengthAdjust="spacingAndGlyphs" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="46" font-weight="900" font-style="italic">` +
+      `<tspan fill="#f4f7fb">Up</tspan><tspan fill="url(#logo-verlauf)">Next</tspan></text>` +
+      `<path d="M196 14l13 13-13 13M214 14l13 13-13 13" fill="none" stroke="url(#logo-verlauf)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>` +
+      `<path d="M34 60C80 48 140 46 186 50 140 50 84 54 34 62z" fill="url(#logo-verlauf)"/></svg>`;
+  }
+
+  // Hügel mit gestricheltem Weg: Start-Pin, Etappenpunkte, Fahne am Ziel. „geschafft“ von „gesamt“ Punkten leuchten.
+  function huegel(geschafft, gesamt) {
+    const n = 3;
+    const voll = gesamt > 0 ? Math.round(Math.min(1, geschafft / gesamt) * n) : 0;
+    const punkte = [[118, 64], [196, 50]].concat([[262, 46]]);
+    let p = "";
+    for (let i = 0; i < n; i++) {
+      const [x, y] = punkte[i];
+      const an = i < voll;
+      p += `<circle cx="${x}" cy="${y}" r="${an ? 7 : 6}" class="${an ? "etappe an" : "etappe"}"/>`;
+    }
+    return `<svg class="huegel" viewBox="0 0 360 120" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid slice">` +
+      `<defs><linearGradient id="huegel-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0cbcae" stop-opacity="0.55"/><stop offset="1" stop-color="#026a76" stop-opacity="0"/></linearGradient>` +
+      `<linearGradient id="huegel-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#026a76" stop-opacity="0.9"/><stop offset="1" stop-color="#011933" stop-opacity="0"/></linearGradient></defs>` +
+      `<path d="M0 92C60 70 110 78 170 86S290 52 360 62V120H0z" fill="url(#huegel-a)"/>` +
+      `<path d="M0 104C80 88 150 104 220 98S320 84 360 92V120H0z" fill="url(#huegel-b)"/>` +
+      `<path d="M44 72C80 74 96 64 118 64S170 54 196 50 240 40 262 46 300 60 318 58" class="weg-linie"/>` +
+      `<path d="M44 74c-6-8-10-13-10-18a10 10 0 0 1 20 0c0 5-4 10-10 18z" class="pin"/><circle cx="44" cy="56" r="3.6" class="pin-loch"/>` +
+      p +
+      `<g class="fahne"><circle cx="320" cy="34" r="17"/><path d="M314 44V24M314 25h11l-3 4 3 4h-11"/></g>` +
+      `<path d="M320 56v-4" class="fahne-strich"/></svg>`;
   }
 
   function esc(text) {
@@ -20378,8 +20651,10 @@ window.KATALOG = [
 
   function startHtml() {
     const geraete = api.geraete();
-    return `<h1>Willkommen bei Schritt für Schritt</h1>` +
-      `<p class="unterzeile">Kleine Aufgaben im echten Leben, Schritt für Schritt.</p>` +
+    return `<div class="marke-start">${logo("gross")}<p class="claim">Dein Training für<br>Alltag und Miteinander</p></div>` +
+      huegel(0, 0) +
+      `<h1 class="start-titel">Bereit für deinen nächsten Schritt?</h1>` +
+      `<p class="unterzeile start-unterzeile">Übe alltagsnahe Aufgaben und werde sicherer im Umgang mit anderen.</p>` +
       `<button type="button" class="knopf haupt breit gross" data-a="rolle-patient" data-t="rolle-jugend">` +
       `<span class="titel">${geraete.length ? "Weiter zu meinem Training" : "Ich mache das Training"}</span>` +
       `<span class="klein">${geraete.length ? "Dieses Gerät ist schon verbunden." : "Du scannst einmal den Code, den du vom Team bekommst."}</span></button>` +
@@ -20480,7 +20755,7 @@ window.KATALOG = [
   function start() {
     const app = document.getElementById("app");
     app.innerHTML =
-      `<header class="kopf"><span class="kopf-name"><span class="punkte" aria-hidden="true"><i></i><i></i><i></i></span>Schritt für Schritt</span><span class="kopf-rolle" data-t="kopf-rolle"></span></header>` +
+      `<header class="kopf"><span class="kopf-name">${logo("klein")}</span><span class="kopf-rolle" data-t="kopf-rolle"></span></header>` +
       `<div class="prototyp" data-t="prototyp-hinweis">Prototyp mit nachgespieltem Server, nur erfundene Daten, keine Freigabe für den Klinikbetrieb.</div>` +
       `<main class="inhalt" id="inhalt" tabindex="-1"></main>` +
       `<nav class="unten-nav" id="unten-nav" aria-label="Hauptbereiche"></nav>` +
@@ -20646,6 +20921,8 @@ window.KATALOG = [
     zeitpunkt: zeitpunkt,
     esc: esc,
     symbol: symbol,
+    logo: logo,
+    huegel: huegel,
     kategorieName: kategorieName,
     kategorieSymbol: kategorieSymbol,
     stufeName: stufeName,
@@ -21612,6 +21889,12 @@ window.KATALOG = [
     return entwurf[f.assignment_id];
   }
 
+  // Türkise Kachel mit dem Symbol der Kategorie, bei bestätigten Aufgaben ein Haken.
+  function kachel(f, fertig) {
+    const k = f.aufgabe ? f.aufgabe.kategorie : "";
+    return `<span class="kachel${fertig ? " fertig" : ""}" title="${esc(A.kategorieName(k))}">${A.symbol(fertig ? "haken" : A.kategorieSymbol(k))}</span>`;
+  }
+
   function aktualisierenKnopf() {
     return `<button type="button" class="knopf leise breit" data-a="aktualisieren" data-t="aktualisieren">${A.symbol("aktualisieren")}Aktualisieren</button>`;
   }
@@ -21631,7 +21914,9 @@ window.KATALOG = [
     const naechste = fuerDich.find(function (f) { return f.status === "zurueck"; }) || fuerDich[0] || null;
     const bestaetigtHeute = heutige.filter(function (f) { return f.status === "bestaetigt"; }).length;
 
-    let html = `<h1>Hallo!</h1><p class="unterzeile">${esc(A.datumText(tag))}</p>` + offlineHinweis(d);
+    let html = A.huegel(bestaetigtHeute, heutige.length) +
+      `<div class="hallo"><span class="hi" aria-hidden="true">Hi!</span><h1>Hier sind deine Aufgaben für heute</h1></div>` +
+      `<p class="unterzeile datum">${esc(A.datumText(tag))}</p>` + offlineHinweis(d);
 
     html += `<section class="karte" data-t="bereich-aufgaben" aria-labelledby="titel-aufgaben">` +
       `<div class="karten-kopf"><span class="sym-rund">${A.symbol("liste")}</span><h2 id="titel-aufgaben">Deine Aufgaben heute</h2></div>`;
@@ -21639,7 +21924,7 @@ window.KATALOG = [
       html += `<p class="leise" data-t="keine-aufgaben">Für heute hast du noch keine Aufgaben. Wenn dein Team dir welche gibt, siehst du sie hier. Tippe dann auf „Aktualisieren“.</p>`;
     } else {
       if (naechste) {
-        html += `<div class="naechste" data-t="naechste">` +
+        html += `<div class="naechste" data-t="naechste">` + kachel(naechste, false) +
           `<p class="etikett">${naechste.status === "zurueck" ? "Zurück an dich" : naechste.status === "begonnen" ? "Angefangen" : "Als Nächstes"}</p>` +
           `<h3>${esc(naechste.aufgabe.titel)}</h3>` +
           `<button type="button" class="knopf haupt breit" data-a="aufgabe-oeffnen" data-id="${esc(naechste.assignment_id)}" data-t="naechste-oeffnen">Aufgabe ansehen${A.symbol("pfeil")}</button></div>`;
@@ -21651,7 +21936,7 @@ window.KATALOG = [
         html += `<ul class="liste">` + rest.map(function (f) {
           const fertig = f.status === "bestaetigt";
           return `<li><button type="button" class="zeile" data-a="aufgabe-oeffnen" data-id="${esc(f.assignment_id)}" data-t="heute-${esc(f.assignment_id)}">` +
-            `<span class="haken-kreis${fertig ? " voll" : ""}">${A.symbol("haken")}</span>` +
+            kachel(f, fertig) +
             `<span class="zeile-text"><span class="titel">${esc(f.aufgabe.titel)}</span><span class="marken eng">${marke(f.status)}</span></span>` +
             `<span class="pfeil">${A.symbol("pfeil")}</span></button></li>`;
         }).join("") + `</ul>`;
@@ -21660,7 +21945,7 @@ window.KATALOG = [
     if (offeneFrueher.length) {
       html += `<p class="abschnitt-titel">Noch offen</p><ul class="liste">` + offeneFrueher.map(function (f) {
         return `<li><button type="button" class="zeile" data-a="aufgabe-oeffnen" data-id="${esc(f.assignment_id)}" data-t="offen-${esc(f.assignment_id)}">` +
-          `<span class="haken-kreis">${A.symbol("haken")}</span><span class="zeile-text"><span class="titel">${esc(f.aufgabe.titel)}</span><span class="klein">von ${esc(A.datumKurz(f.datum))}</span></span>` +
+          kachel(f, false) + `<span class="zeile-text"><span class="titel">${esc(f.aufgabe.titel)}</span><span class="klein">von ${esc(A.datumKurz(f.datum))}</span></span>` +
           `<span class="pfeil">${A.symbol("pfeil")}</span></button></li>`;
       }).join("") + `</ul><p class="klein">Das ist nicht schlimm. Du kannst sie machen, wenn es passt.</p>`;
     }
@@ -21672,7 +21957,7 @@ window.KATALOG = [
       `<div class="karten-kopf"><span class="sym-rund">${A.symbol("weg")}</span><h2 id="titel-fortschritt">Dein Fortschritt</h2></div>`;
     if (heutige.length) {
       const anteil = Math.round((bestaetigtHeute / heutige.length) * 100);
-      html += `<p class="fortschritt-zahl" data-t="fortschritt-text">${bestaetigtHeute} von ${heutige.length} geschafft</p>` +
+      html += `<p class="fortschritt-zahl"><span data-t="fortschritt-text">${bestaetigtHeute} von ${heutige.length} geschafft</span><span class="bruch" aria-hidden="true">${bestaetigtHeute} / ${heutige.length}</span></p>` +
         `<div class="leiste${bestaetigtHeute === heutige.length ? " voll" : ""}" role="progressbar" aria-label="Heute bestätigt" aria-valuemin="0" aria-valuemax="${heutige.length}" aria-valuenow="${bestaetigtHeute}" data-t="fortschritt-leiste"><i style="width:${anteil}%"></i></div>`;
     }
     if (gesamt > 0) {
