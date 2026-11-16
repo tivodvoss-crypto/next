@@ -1,14 +1,14 @@
-// Offline-Speicher für Schritt für Schritt: legt die App beim ersten Öffnen im Handy ab,
-// damit sie danach auch ohne Netz startet. Persönliche Einträge liegen
-// davon getrennt im localStorage und werden hier nie angefasst.
+// Offline-Speicher für Schritt für Schritt: legt die App-Datei beim ersten Öffnen im Handy ab,
+// damit sie ohne Netz startet. Aufgaben und Daten kommen vom Server, nicht aus diesem Speicher.
 // Bei jeder neuen Fassung die Nummer erhöhen, sonst behalten Handys die alte.
-const FASSUNG = 'training-v2';
+const FASSUNG = 'training-v3';
 const DATEIEN = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(FASSUNG).then((c) => c.addAll(DATEIEN)).then(() => self.skipWaiting()));
 });
 
+// Nur eigene Speicher mit dem Präfix 'training-' aufräumen, nie fremde.
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
